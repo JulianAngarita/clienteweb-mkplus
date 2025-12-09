@@ -70,12 +70,12 @@ export const NAVIGATION_MENUS = {
       descripcion: 'Crea, edita y gestiona paquetes de servicios o mantenimiento.',
       config: true
     },
-    {
-      label: 'Paquetes',
-      path: '/admin/presentacion-modelos',
-      descripcion: 'Paquetes disponibles en la oferta comercial',
-      config: false
-    },
+    // {
+    //   label: 'Paquetes',
+    //   path: '/admin/presentacion-modelos',
+    //   descripcion: 'Paquetes disponibles en la oferta comercial',
+    //   config: false
+    // },
     {
       label: 'Redimir',
       path: '/admin/redimir',
