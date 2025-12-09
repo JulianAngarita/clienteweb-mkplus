@@ -23,29 +23,29 @@ export const NAVIGATION_MENUS = {
     { label: 'Resumen Pedido', path: '/tienda/resumen-pedido' },
   ],
   admin: [
-    {
-      label: 'Acuerdo',
-      path: '/admin/acuerdo',
-      descripcion: 'Gestión de acuerdos comerciales y condiciones entre concesionarios.', config: true
-    },
-    {
-      label: 'Carga Reporte Retail',
-      path: '/admin/carga-reporte-retail',
-      descripcion: 'Sube y administra reportes de ventas y desempeño retail.',
-      config: true
-    },
-    {
-      label: 'Comisiones',
-      path: '/admin/comisiones',
-      descripcion: 'Control y configuración de las comisiones generadas por los servicios.',
-      config: true
-    },
-    {
-      label: 'Complementarios',
-      path: '/admin/complementarios',
-      descripcion: 'Administra los servicios o productos complementarios disponibles.',
-      config: true
-    },
+    // {
+    //   label: 'Acuerdo',
+    //   path: '/admin/acuerdo',
+    //   descripcion: 'Gestión de acuerdos comerciales y condiciones entre concesionarios.', config: true
+    // },
+    // {
+    //   label: 'Carga Reporte Retail',
+    //   path: '/admin/carga-reporte-retail',
+    //   descripcion: 'Sube y administra reportes de ventas y desempeño retail.',
+    //   config: true
+    // },
+    // {
+    //   label: 'Comisiones',
+    //   path: '/admin/comisiones',
+    //   descripcion: 'Control y configuración de las comisiones generadas por los servicios.',
+    //   config: true
+    // },
+    // {
+    //   label: 'Complementarios',
+    //   path: '/admin/complementarios',
+    //   descripcion: 'Administra los servicios o productos complementarios disponibles.',
+    //   config: true
+    // },
     {
       label: 'Concesiones',
       path: '/admin/concesiones',
