@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  api: 'https://backend-plus.onrender.com/',
+  api: 'https://backend-plus.onrender.com',
   frontend: 'https://clienteweb-mkplus.netlify.app/',
   bucket: 'ivuo-dev',
   paths: {
