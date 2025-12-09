@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth-guard';
+import { rolGuardGuard } from './core/guards/rol-guard-guard';
 
 export const routes: Routes = [
     {
@@ -13,7 +14,7 @@ export const routes: Routes = [
     },
     {
         path: 'admin',
-        canActivate: [authGuard],
+        canActivate: [authGuard, rolGuardGuard],
         loadChildren: () => import('./features/administrador/administrador.routes').then(m => m.ADMIN_ROUTES)
     },
     {
