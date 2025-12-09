@@ -1,0 +1,54 @@
+<div class="container py-5 mt-5">
+  <div class="text-center mb-5">
+    <h3 class="fw-bold text-dark">Panel Principal de Administración</h3>
+    <p class="text-muted">Selecciona una sección para continuar</p>
+  </div>
+
+  <!-- 🔹 Secciones normales -->
+  <div class="mb-4">
+    <h5 class="fw-semibold text-secondary mb-3">
+      <i class="bi bi-grid-3x3-gap me-2"></i> Secciones Generales
+    </h5>
+
+    <div class="row g-4">
+      @for (item of generales; track $index) {
+        <div class="col-6 col-md-4 col-xl-3">
+          <div
+            class="card h-100 border-1 shadow rounded-4 hover-shadow text-center p-3"
+            style="cursor: pointer;"
+            (click)="navigate(item.path)"
+          >
+            <div class="card-body">
+              <h5 class="fw-semibold mb-2 text-dark">{{ item.label }}</h5>
+              <p class="text-muted small mb-0">{{ item.descripcion }}</p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- 🔧 Secciones de configuración -->
+  <div class="mt-5">
+    <h5 class="fw-semibold text-secondary mb-3">
+      <i class="bi bi-gear-fill me-2"></i> Configuración del Sistema
+    </h5>
+
+    <div class="row g-4">
+      @for (item of configuraciones; track $index) {
+        <div class="col-6 col-md-4 col-xl-3">
+          <div
+            class="card h-100 border-1 shadow rounded-4 hover-shadow text-center p-3"
+            style="cursor: pointer;"
+            (click)="navigate(item.path)"
+          >
+            <div class="card-body">
+              <h5 class="fw-semibold mb-2 text-dark">{{ item.label }}</h5>
+              <p class="text-muted small mb-0">{{ item.descripcion }}</p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

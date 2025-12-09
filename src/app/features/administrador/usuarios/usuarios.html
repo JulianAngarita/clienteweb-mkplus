@@ -1,0 +1,200 @@
+<app-loading-screen [messageInput]="'Cargando...'" [loading]="cargando"></app-loading-screen>
+<div class="container py-5 mt-5">
+
+  <!-- HEADER -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+    <div>
+      <h3 class="fw-bold text-dark mb-1">Usuarios</h3>
+      <p class="text-muted mb-0">
+        Gestión y administración de usuarios registrados en la plataforma.
+      </p>
+    </div>
+
+    <button class="btn boton-principal-kia mt-3" (click)="crear()">
+      Nuevo usuario
+    </button>
+  </div>
+
+  <!-- CARD DE FILTRO -->
+  <div class="card border-0 rounded-3 mb-4 shadow-sm">
+    <div class="card-body d-flex flex-wrap align-items-center gap-3">
+
+      <h6 class="fw-semibold mb-0">Filtrar por:</h6>
+
+      <!-- Correo  -->
+      <div class="flex-grow-1" style="min-width:220px;">
+        <input
+          class="form-control rounded-pill px-3"
+          placeholder="Correo électronico"
+          [(ngModel)]="filtro.email"
+          name="textoFiltro"
+        />
+      </div>
+
+      <!-- Correo  -->
+      <div class="flex-grow-1" style="min-width:220px;">
+        <input
+          class="form-control rounded-pill px-3"
+          placeholder="Nombre"
+          [(ngModel)]="filtro.nombre.nombres"
+          name="textoFiltro"
+        />
+      </div>
+
+      <!-- Correo  -->
+      <div class="flex-grow-1" style="min-width:220px;">
+        <input
+          class="form-control rounded-pill px-3"
+          placeholder="Apellidos"
+          [(ngModel)]="filtro.nombre.apellidos"
+          name="textoFiltro"
+        />
+      </div>
+
+      <!-- Correo  -->
+      <div class="flex-grow-1" style="min-width:220px;">
+        <input
+          class="form-control rounded-pill px-3"
+          placeholder="Número identificación"
+          [(ngModel)]="filtro.identificacion.numero"
+          name="textoFiltro"
+        />
+      </div>
+
+      <div class="dropdown" style="min-width:400px;">
+          <button
+              class="btn btn-light border rounded-pill w-100 text-start px-3 d-flex justify-content-between align-items-center"
+              type="button"
+              data-bs-toggle="dropdown"
+              data-bs-auto-close="false" 
+          >
+              <span>
+              @if (filtro.concesiones.length === 0) {
+                  Todas las concesiones
+              } @else {
+                  {{ filtro.concesiones.length }} seleccionadas
+              }
+              </span>
+              <i class="fa-solid fa-chevron-down"></i>
+          </button>
+
+          <ul class="dropdown-menu w-100 p-2" style="max-height: 250px; overflow-y: auto;">
+              @for (c of listaConcesionarios; track c) {
+              <li>
+                  <label
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      (click)="$event.stopPropagation()"
+                  >
+                      <input
+                          type="checkbox"
+                          class="form-check-input"
+                          [checked]="filtro.concesiones.includes(c.value)"
+                          (change)="toggleConcesion(c.value)"
+                      />
+
+                      {{ c.text }}
+                  </label>
+              </li>
+              }
+          </ul>
+      </div>
+
+
+      <button class="btn btn-outline-dark rounded-pill px-4" (click)="consultar()">
+        Buscar
+      </button>
+
+    </div>
+  </div>
+
+  <!-- TABLA -->
+  <div class="card border-0 shadow-sm rounded-4">
+    <div class="table-responsive">
+
+      <table class="table align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th class="fw-semibold">Nombre</th>
+            <th class="fw-semibold">Correo</th>
+            <th class="fw-semibold">Cargo</th>
+            <th class="fw-semibold">Rol</th>
+            <th class="fw-semibold text-center">Talleres</th>
+            <th class="fw-semibold text-center">Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          @for (usuario of usuarios; track usuario._id) {
+            <tr>
+
+              <td>{{ usuario?.nombre?.nombres }} {{ usuario?.nombre?.apellidos }}</td>
+              <td>{{ usuario?.email }}</td>
+              <td>{{ usuario?.cargo }}</td>
+              <td>{{ usuario?.rol }}</td>
+
+              <td class="text-center">
+                <span class="badge bg-light text-dark border rounded-pill px-3 py-2">
+                  {{ (usuario?.concesiones || []).length }}
+                </span>
+              </td>
+
+              <td class="text-center">
+                <div class="d-flex justify-content-center gap-2">
+
+                  <button
+                    class="btn btn-outline-dark rounded-pill px-3 d-inline-flex align-items-center gap-2"
+                    (click)="actualizar(usuario)"
+                  >
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    Editar
+                  </button>
+
+                  <button
+                    class="btn btn-outline-secondary rounded-pill px-3 d-inline-flex align-items-center gap-2"
+                    (click)="eliminarUsuario(usuario)"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                    Eliminar
+                  </button>
+
+                </div>
+              </td>
+
+            </tr>
+          }
+
+          @empty {
+            <tr>
+              <td colspan="6" class="text-center py-4 text-muted">
+                No hay usuarios registrados actualmente.
+              </td>
+            </tr>
+          }
+
+        </tbody>
+      </table>
+
+    </div>
+
+    <!-- FOOTER PAGINACIÓN -->
+    <div class="card-footer d-flex justify-content-between align-items-center">
+      <div class="text-muted">
+        Mostrando {{ usuarios.length }} usuario(s)
+      </div>
+
+      <ngb-pagination
+          [collectionSize]="total" 
+          [pageSize]="filtro.limite"
+          [maxSize]="10"
+          (pageChange)="cambiarPagina( $event )"
+          [(page)]="pagina" 
+          aria-label="Default pagination">
+      </ngb-pagination>
+    </div>
+  </div>
+
+  
+
+ 
+</div>

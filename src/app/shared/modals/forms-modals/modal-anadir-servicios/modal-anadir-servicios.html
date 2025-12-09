@@ -1,0 +1,127 @@
+
+<div class="modal-header">
+    <h5 class="modal-title">
+        Elegir Servicios
+    </h5>
+    <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+    <app-loading-screen [messageInput]="'Cargando...'" [loading]="cargando"></app-loading-screen>
+
+    <!-- FORMULARIO FILTROS -->
+    <form [formGroup]="formFiltro">
+        <div class="row g-3">
+
+            <!-- MODELO (formGroup hijo) -->
+            <div formGroupName="modelo" class="row g-3">
+
+                <div class="col-md-3">
+                    <label class="form-label">Modelo</label>
+                    <input class="form-control" formControlName="codigo">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Versión</label>
+                    <input class="form-control" formControlName="version">
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Nombre</label>
+                <input class="form-control" formControlName="nombre">
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Descripción</label>
+                <input class="form-control" formControlName="descripcion">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Tipo</label>
+                <select class="form-select" formControlName="tipo">
+                    <option value="">Seleccione</option>
+                    @for (op of operacionesListadoOpciones; track $index) {
+                    <option [value]="op.value">{{ op.text }}</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-4 d-flex align-items-end">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" formControlName="activo">
+                    <label class="form-check-label fw-bold">Activos</label>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+    <!-- TABLA -->
+    <div class="table-responsive mt-3">
+        <table class="table table-bordered table-sm text-center align-middle">
+            <thead>
+                <tr>
+                    <th rowspan="2">NOMBRE</th>
+                    <th rowspan="2">DESCRIPCIÓN</th>
+                    <th rowspan="2">TIPO</th>
+                    <th colspan="2">MODELO</th>
+                    <th colspan="2">FRECUENCIA</th>
+                    <th colspan="2">VIGENCIA</th>
+                    <th rowspan="2">ACCIONES</th>
+                </tr>
+                <tr>
+                    <th>CÓDIGO</th>
+                    <th>VERSIONES</th>
+                    <th>KILOMETRAJE</th>
+                    <th>MESES</th>
+                    <th>KILOMETRAJE</th>
+                    <th>MESES</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (servicios.length > 0) {
+                @for (item of servicios; track item._id) {
+                <tr>
+                    <td>{{ item.nombre }}</td>
+                    <td>{{ item.descripcion }}</td>
+                    <td>{{ item.tipo }}</td>
+                    <td>{{ item.modelo.codigo }}</td>
+
+                    <td>
+                        @for (v of item.modelo.version; track $index) {
+                        <span class="badge bg-secondary me-1">{{ v }}</span>
+                        }
+                    </td>
+
+                    <td>{{ item.frecuencia.kilometraje }}</td>
+                    <td>{{ item.frecuencia.meses }}</td>
+                    <td>{{ item.vigencia.kilometraje }}</td>
+                    <td>{{ item.vigencia.meses }}</td>
+
+                    <td>
+                        <button class="btn btn-outline-success btn-sm" (click)="elegirServicio(item._id ?? '')">
+                            <i class="fa fa-check"></i>
+                        </button>
+                    </td>
+                </tr>
+                }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- PAGINACIÓN -->
+    <ngb-pagination [collectionSize]="total" [pageSize]="filtro.limite" [maxSize]="10"
+        (pageChange)="cambiarPagina( $event )" [(page)]="pagina" aria-label="Default pagination">
+    </ngb-pagination>
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn boton-secondary-kia" (click)="activeModal.close(false)">
+        Cancelar
+    </button>
+</div>

@@ -1,0 +1,252 @@
+<app-loading-screen [messageInput]="'Cargando...'" [loading]="cargando"></app-loading-screen>
+<div class="container-fluid p-5 mt-5">
+
+    <!-- Título -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">Edición de Mantenimiento {{ servicio.nombre }}</h1>
+
+        <button class="btn btn-outline-dark" (click)="volver()">
+            <i class="fa fa-arrow-left"></i> Volver
+        </button>
+    </div>
+
+    <!-- DATOS DEL SERVICIO -->
+    <h4 class="mb-3">Datos del Servicio</h4>
+
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" [(ngModel)]="servicio.nombre">
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Descripción</label>
+            <input type="text" class="form-control" [(ngModel)]="servicio.descripcion">
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <label class="form-label">Cantidad</label>
+            <input type="number" class="form-control" [(ngModel)]="servicio.cantidad">
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <label class="form-label">Tipo</label>
+            <select class="form-select" [(ngModel)]="servicio.tipo">
+                @for (item of tipoOperacionesOpciones; track $index) {
+                <option [value]="item.value"> {{item.text}} </option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-2 mb-3 d-flex align-items-end">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" [(ngModel)]="servicio.tarifaManoObraUnificada">
+                <label class="form-check-label">Tarifa Mano de Obra</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODELO -->
+    <h4 class="mb-3">Modelo al que Aplica</h4>
+
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Código del Modelo</label>
+            <input type="text" class="form-control" [(ngModel)]="servicio.modelo.codigo">
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Descripción</label>
+            <input type="text" class="form-control" [(ngModel)]="servicio.modelo.descripcion">
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Agregar versión</label>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Versión" [(ngModel)]="versionTemp">
+                <button class="btn btn-outline-dark" (click)="agregarVersion()">+</button>
+            </div>
+        </div>
+    </div>
+
+    <h5>Versiones</h5>
+    <div class="d-flex flex-wrap gap-2 mb-4">
+        @for (v of servicio.modelo.version; track $index) {
+        <span class="badge bg-light text-dark d-flex align-items-center p-2">
+            {{ v }}
+            <button class="btn-close ms-2" style="font-size: 0.6rem;" (click)="eliminarVersion($index)"></button>
+        </span>
+        }
+    </div>
+
+    <!-- VIGENCIA -->
+    <h4 class="mb-3">Vigencia</h4>
+
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Kilometraje</label>
+            <input type="number" class="form-control" [(ngModel)]="servicio.vigencia.kilometraje">
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Meses</label>
+            <input type="number" class="form-control" [(ngModel)]="servicio.vigencia.meses">
+        </div>
+
+        <div class="col-md-3 mb-3 d-flex align-items-center">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox"
+                    [(ngModel)]="servicio.vigencia.autorizadoPorImportadora">
+                <label class="form-check-label">Autorización</label>
+            </div>
+            <i class="bi bi-info-circle ms-2" title="Si se activa, no se tendrán en cuenta las vigencias"></i>
+        </div>
+    </div>
+
+    <!-- FRECUENCIA -->
+    <h4 class="mb-3">Frecuencia</h4>
+
+    <div class="row mb-5">
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Kilometraje</label>
+            <input type="number" class="form-control" [(ngModel)]="servicio.frecuencia.kilometraje">
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Meses</label>
+            <input type="number" class="form-control" [(ngModel)]="servicio.frecuencia.meses">
+        </div>
+
+        <div class="col-md-3 mb-3 d-flex align-items-center">
+            <div class="form-check form-switch">
+                <input type="checkbox" class="form-check-input" [(ngModel)]="servicio.activo">
+                <label class="form-check-label">Estado del Servicio</label>
+            </div>
+            <i class="bi bi-info-circle ms-2"></i>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+
+        <!-- Precio Repuestos -->
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm p-3">
+                <h5 class="fw-bold mb-3">Precio Repuestos</h5>
+
+                <p>
+                    Concesionario: {{ 
+                        servicio.preciosRepuestos.concesionario | currency:'$ ':'symbol':'0.0' 
+                    }}
+                </p>
+                <p>
+                    Concesionario Después de Descuento: {{ 
+                        servicio.preciosRepuestos.concesionarioDespuesDescuento | currency:'$ ':'symbol':'0.0'
+                    }}
+                </p>
+
+                <p>
+                    Descuento: {{ servicio.preciosRepuestos.publico }} %</p>
+
+                <p>
+                    Precio Público: {{ 
+                        servicio.preciosRepuestos.publico | currency:'$ ':'symbol':'0.0'
+                    }}
+                </p>
+                <p>
+                    Público Después de Descuento: {{ 
+                        servicio.preciosRepuestos.publicoDespuesDescuento | currency:'$ ':'symbol':'0.0'
+                    }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Mano de Obra -->
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm p-3">
+                <h5 class="fw-bold mb-3">Precios Mano de Obra</h5>
+
+                <p>Horas: {{ servicio.preciosManoObra.horas }}</p>
+                <p>Valor de las Horas: {{ servicio.preciosManoObra.valorHoras | currency:'$ ':'symbol':'0.0' }}</p>
+                <p>Valor de las Horas Después del Factor: {{ servicio.preciosManoObra.valorHorasDespuesFactor | currency:'$ ':'symbol':'0.0' }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="d-flex gap-2 mt-4">
+
+        <button class="btn boton-secondary-kia" (click)="agregarOperacion()">
+            Agregar operación
+        </button>
+
+        <button class="btn boton-principal-kia" (click)="actualizarServicio()">
+            Actualizar
+        </button>
+
+    </div>
+
+    @if (operaciones.length > 0) {
+        <div class="card mt-4">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+
+                <thead class="text-center">
+                    <tr>
+                        <th>NOMBRE</th>
+                        <th>CODIGO</th>
+                        <th>HORAS</th>
+                        <th colspan="4">APLICA PARA</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                    <tr class="text-center small text-muted">
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>AIRE</th>
+                        <th>COMBUSTIBLE</th>
+                        <th>TRANSMISION</th>
+                        <th>CILINDRADA</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (item of operaciones; track $index) {
+                    <tr>
+                        <td>{{ item.nombre }}</td>
+                        <td>{{ item.codigo }}</td>
+                        <td class="text-center">{{ item.horas }}</td>
+
+                        <!-- APLICA PARA -->
+                        <td class="text-center">
+                            {{ item.aplicaPara.aireAcondicionado || 'APLICA PARA TODOS' }}
+                        </td>
+
+                        <td class="text-center">
+                            {{ item.aplicaPara.tipoCombustible }}
+                        </td>
+
+                        <td class="text-center">
+                            {{ item.aplicaPara.transmision || 'APLICA PARA TODOS' }}
+                        </td>
+
+                        <td class="text-center">
+                            {{ item.aplicaPara.cilindrada }}
+                        </td>
+
+                        <!-- ACCIONES -->
+                        <td class="text-center">
+                        <button class="btn btn-light" (click)="eliminarOperacion($index)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+
+                </table>
+            </div>
+        </div>
+        }
+
+</div>

@@ -1,0 +1,14 @@
+.login-bg {
+  background: url('https://owners.kia.com/content/dam/kia/us/owners/image/kop-home/hp_hero_big.jpg')
+    no-repeat center center/cover;
+}
+
+.card {
+  backdrop-filter: blur(6px);
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+button[disabled] {
+  opacity: 0.8;
+  cursor: not-allowed;
+}

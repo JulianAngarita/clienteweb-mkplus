@@ -1,0 +1,164 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    <i class="bi bi-file-earmark text-danger"></i>
+    Carga repuestos CSV
+  </h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="cerrar()"></button>
+</div>
+
+<div class="modal-body">
+
+  <!-- Selección CSV -->
+  <div class="card p-3 mb-3">
+    <p>Por favor elija un documento (CSV)</p>
+
+    <div class="input-group">
+      <label class="input-group-text" for="inputCsv">
+        <i class="bi bi-file-earmark"></i>
+      </label>
+
+      <input
+        id="inputCsv"
+        type="file"
+        accept=".csv"
+        (change)="handleFile($event)"
+        class="form-control"
+      />
+
+      <span class="input-group-text">
+        {{ nombreArchivo() || 'Elige .csv' }}
+      </span>
+    </div>
+
+    <button
+    class="btn btn-sm btn-info mt-2"
+        (click)="verInstrucciones.set(!verInstrucciones())">
+        <i class="bi bi-info-circle"></i>
+        {{ verInstrucciones() ? 'Ocultar instrucciones' : 'Instrucciones' }}
+    </button>
+  </div>
+
+  <ngb-progressbar
+    type="info"
+    [value]="totalRegistrosProcesados()"
+    [max]="totalRegistros()"
+    height="12px"
+    class="mb-3">
+  </ngb-progressbar>
+
+  <!-- Instrucciones -->
+   @if (verInstrucciones()) {
+    <div class="card p-3 mb-3">
+        <strong>Encabezados Archivo .csv</strong>
+        <p>
+        El archivo debe ser .csv, separado por comas (,) y su estructura debe ser la siguiente:
+        </p>
+
+        <div class="table-responsive mt-2 mb-3">
+        <table class="table table-striped table-bordered table-sm text-center">
+            <thead>
+            <tr>
+                <th>modelo</th>
+                <th>pnc</th>
+                <th>referencia</th>
+                <th>descripcion</th>
+                <th>activo</th>
+                <th>iva</th>
+                <th>aireAcondicionado</th>
+                <th>cilindrada</th>
+                <th>tipoCombustible</th>
+                <th>transmision</th>
+                <th>publico</th>
+                <th>concesionario</th>
+                <th>margenPublico</th>
+                <th>margenConcesionario</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>JA</td>
+                <td>198000</td>
+                <td>198000123</td>
+                <td>Pastilla</td>
+                <td>1: Activo, 0: Inactivo</td>
+                <td>1: Se le calcula IVA, 0: No se le calcula IVA</td>
+                <td>Descripción abajo</td>
+                <td>Max 2 dígitos</td>
+                <td>Descripción abajo</td>
+                <td>Descripción abajo</td>
+                <td>Precio público sin símbolos</td>
+                <td>Precio concesionario sin símbolos</td>
+                <td>Valor entero</td>
+                <td>Valor entero</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <!-- Listas dinámicas -->
+        @for (i of indicaciones; track $index) {
+            <p>
+                <strong>{{ i.variable }}</strong><br>
+                <span>{{ i.descripcion }}</span>
+            </p>
+
+            <ul>
+                @for (c of i.claves; track $index) {
+                <li>
+                    <strong>{{ c.value }}:</strong> {{ c.text }}
+                </li>
+                }
+            </ul>
+        }
+    </div>
+   }
+
+
+  <!-- Tabla preview CSV -->
+
+  @if (repuestos() && repuestos.length > 0) {
+      <div lass="table-responsive mb-3">
+        <table class="table table-bordered table-striped table-sm">
+        <thead>
+            <tr>
+            @for (h of headers(); track $index) {
+                <th>{{ h }}</th>
+            }
+            </tr>
+        </thead>
+
+        <tbody>
+            @for (r of repuestos() | slice : 0 : 5; track $index) {
+            <tr>
+                @for (h of headers(); track $index) {
+                    <td>
+                        {{ r[h] }}
+                    </td>
+                }
+            </tr>
+            }
+
+        </tbody>
+        </table>
+    </div>
+  }
+
+
+</div>
+
+<div class="modal-footer">
+  <button
+    class="btn boton-secondary-kia btn-sm"
+    (click)="cerrar()"
+    >
+    Cancelar
+  </button>
+
+  <button
+    class="btn boton-principal-kia btn-sm"
+    (click)="iniciarCarga.set(true)"
+    >
+    Cargar
+  </button>
+</div>

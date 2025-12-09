@@ -1,0 +1,163 @@
+<app-loading-screen [messageInput]="'Cargando...'" [loading]="cargando"></app-loading-screen>
+<div class="container py-5 mt-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+        <div>
+        <h3 class="fw-bold text-dark mb-1">Operaciones</h3>
+        <p class="text-muted mb-0">
+            Gestión y control de operaciones registradas en la plataforma.
+        </p>
+        </div>
+
+        <button
+            class="btn boton-principal-kia mt-3"
+            (click)="crear()"
+        >
+            Nueva operación
+        </button>
+    </div>
+
+    <div class="card border-0 rounded-3 mb-4 shadow-sm">
+
+        <div class="card-body d-flex flex-wrap align-items-center gap-3">
+
+            <h6 class="fw-semibold mb-0">Filtrar por:</h6>
+            <div class="flex-grow-1" style="min-width:220px;">
+                <input
+                    class="form-control rounded-pill px-3"
+                    placeholder="Código"
+                    [(ngModel)]="filtroOperaciones.codigo"
+                />
+            </div>
+            <div class="flex-grow-1" style="min-width:220px;">
+                <input
+                    class="form-control rounded-pill px-3"
+                    placeholder="Nombre"
+                    [(ngModel)]="filtroOperaciones.nombre"
+                />
+            </div>
+            <div class="flex-grow-1" style="min-width:220px;">
+                <input
+                    class="form-control rounded-pill px-3"
+                    placeholder="Descripción"
+                    [(ngModel)]="filtroOperaciones.aplicaPara.cilindrada"
+                />
+            </div>
+            <div class="flex-grow-1" style="min-width:220px;">
+                <select
+                    class="form-control rounded-pill px-3"
+                    placeholder="Aire Acondicionado"
+                    [(ngModel)]="filtroOperaciones.aplicaPara.aireAcondicionado"
+                >
+                    <option value="">Aire Acondicionado</option>
+                    @for (opt of tipoAireAcondicionadoOpciones; track opt.value) {
+                        <option [value]="opt.value">{{ opt.text }}</option>
+                    }
+                </select>
+            </div>
+            <div class="flex-grow-1" style="min-width:220px;">
+                <div class="form-check form-switch d-flex align-items-center gap-2">
+                    <select
+                        class="form-control rounded-pill px-3"
+                        [(ngModel)]="filtroOperaciones.aplicaPara.tipoCombustible"
+                        placeholder="Tipo Combustible"
+                    >
+                        <option value="">Combustible</option>
+                        @for (opt of tipoCombustibleOpciones; track opt.value) {
+                        <option [value]="opt.value">{{ opt.text }}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="flex-grow-1" style="min-width:220px;">
+                <div class="form-check form-switch d-flex align-items-center gap-2">
+                    <select
+                        class="form-control rounded-pill px-3"
+                        [(ngModel)]="filtroOperaciones.aplicaPara.transmision"
+                        placeholder="Tipo Combustible"
+                    >
+                        <option value="">Transmisión</option>
+                        @for (opt of tipoTransmisionOpciones; track opt.value) {
+                        <option [value]="opt.value">{{ opt.text }}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="flex-grow-1" style="min-width: 220px;">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="filtroOperaciones.activo">
+                    <label class="form-check-label">Activa</label>
+                </div>
+            </div>
+            <button class="btn btn-outline-dark rounded-pill px-4" (click)="consultaOperaciones()">
+                Buscar
+            </button>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered text-center align-middle">
+
+        <thead class="table-light">
+        <tr>
+            <th rowspan="2">NOMBRE</th>
+            <th rowspan="2">CÓDIGO</th>
+            <th rowspan="2">HORAS</th>
+            <th colspan="4">APLICA PARA</th>
+            <th rowspan="2">ACCIONES</th>
+        </tr>
+
+        <tr>
+            <th>AIRE</th>
+            <th>COMBUSTIBLE</th>
+            <th>TRANSMISIÓN</th>
+            <th>CILINDRADA</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        @if (operaciones.length > 0) {
+            @for (op of operaciones; track op._id) {
+                <tr>
+                    <td>{{ op.nombre }}</td>
+                    <td>{{ op.codigo }}</td>
+                    <td>{{ op.horas }}</td>
+                    <td>{{ op.aplicaPara.aireAcondicionado }}</td>
+                    <td>{{ op.aplicaPara.tipoCombustible }}</td>
+                    <td>{{ op.aplicaPara.transmision }}</td>
+                    <td>{{ op.aplicaPara.cilindrada }}</td>
+
+                    <td>
+                        <div class="d-flex justify-content-between">
+                            <button
+                                class="btn btn-outline-dark rounded-pill px-3 me-2 d-inline-flex align-items-center gap-1"
+                                (click)="editar(op)"
+                            >
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <button
+                                class="btn btn-outline-secondary rounded-pill px-3 me-2 d-inline-flex align-items-center gap-1"
+                                (click)="eliminar(op)"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                }
+
+            } @else {
+                <tr>
+                    <td colspan="8" class="text-center py-3">
+                        No hay operaciones registradas
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+        </table>
+    </div>
+
+    <ngb-pagination [collectionSize]="total" [pageSize]="filtroOperaciones.limite" [maxSize]="10"
+        (pageChange)="cambiarPagina( $event )" [(page)]="pagina" aria-label="Default pagination">
+    </ngb-pagination>
+</div>

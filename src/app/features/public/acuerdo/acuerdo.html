@@ -1,0 +1,1000 @@
+<app-loading-screen [messageInput]="'Cargando...'" [loading]="cargando"></app-loading-screen>
+<div class="container mt-5 py-5">
+    <!-- <img src="assets/img/logos/logo-kia-blanco-fondo-oscuro.png" class="kia-logo"> -->
+    <div class="mb-4 px-2">
+        <div class="row">
+            <div class="col-12 mb-3">
+                <h1 class="display-6 fw-light kia-bold mb-2">Acuerdo de Mantenimiento Prepagado</h1>
+                <div class="text-capitalize">Kia Manteniniemto Prepagado</div>
+                <div class="mt-1">{{ solicitud.concesionario.nombre }}</div>
+            </div>
+        </div>
+
+        <div class="row gy-3">
+            <div class="col-md-12">
+                <div class="card p-4 border-0 mb-4">
+                    <h5 class="fw-bold">Datos del Cliente</h5>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <p><strong>Nombre:</strong> {{cliente.nombre.nombres}} {{cliente.nombre.apellidos}}
+                            </p>
+                            <p><strong>Email:</strong> {{cliente.email}}</p>
+                            <p><strong>Fijo:</strong> {{cliente.telefonos.fijo}}</p>
+                            <p><strong>Tipo de Documento:</strong> {{cliente.identificacion.tipo}} </p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <p><strong>Dirección:</strong>
+                                {{cliente.direccion.callePrincipal}}
+                                {{cliente.direccion.calleSecundaria}}
+                                {{cliente.direccion.numero}}
+                                {{cliente.direccion.departamento}}
+                                {{cliente.direccion.ciudad}}
+                            </p>
+                            <p><strong>Celular:</strong> {{cliente.telefonos.celular}}</p>
+                            <p><strong>Otros:</strong> {{cliente.telefonos.otros}} </p>
+                            <p><strong>Número de Documento:</strong> {{cliente.identificacion.numero}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <!-- Reemplaza por tu componente real de vehículo -->
+                <div class="card p-4 border-0 mb-4">
+                    <h5 class="fw-bold">Datos del vehículo</h5>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <p> <strong>Placa:</strong> {{vehiculo.placa}} </p>
+                            <p> <strong>Versión:</strong> {{vehiculo.version}} </p>
+                            <p> <strong>Código modelo:</strong> {{vehiculo.modelo.codigo}} </p>
+                            <p> <strong>Año del modelo:</strong> {{vehiculo.modelo.anoModelo}} </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p> <strong>VIN:</strong> {{vehiculo.vin}} </p>
+                            <p> <strong>Descripción:</strong> {{vehiculo.descripcionVersion}} </p>
+                            <p> <strong>Nombre:</strong> {{vehiculo.modelo.nombre}} </p>
+                            <p> <strong>Origen:</strong> {{vehiculo.modelo.origen}} </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="mb-2">
+                    <h5>Listado de Rutinas</h5>
+                </div>
+                <table class="table table-sm table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Rutina</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let r of rutinas">
+                            <td>{{ r.nombre }}</td>
+                            <td>{{ r.descripcion }}</td>
+                        </tr>
+                        <tr *ngIf="rutinas.length === 0">
+                            <td colspan="2" class="text-center">No hay rutinas registradas</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-12">
+                <h5>Fecha de Activación</h5>
+                <small class=" d-block mb-2">*La fecha de actualización se mostrará cuando la
+                    solicitud sea activada.</small>
+                <div class="fs-5 fw-semibold">Activo desde: {{ fechaActivacion }}</div>
+            </div>
+
+            <div class="col-md-12">
+                <h5>Valor</h5>
+                <div class="small ">IVA: {{ solicitud.valor.iva | currency:'$ ':'symbol':'0.0'}}</div>
+                <div class="fs-5">{{ solicitud.valor.valorTotal | currency:'$ ':'symbol':'0.0'}}</div>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-12">
+                <h5>ESTIMADO CLIENTE:</h5>
+                <p class="text-justify">
+                    Este acuerdo permanecerá vigente hasta que el odómetro de su vehículo supere un kilometraje
+                    de <strong>{{ vigenciaKilometraje }}</strong> Km,
+                    o cuando todos los servicios acordados en este documento hayan sido prestados (lo que
+                    primero ocurra). El cliente reconoce que los servicios establecidos en este acuerdo
+                    únicamente deben ser realizados en la red de concesionarios autorizados por el representante
+                    de Kia en Colombia (ver). El cliente y el concesionario enunciados reconocen y aceptan el
+                    contenido de este documento como Acuerdo de Mantenimiento Prepagado.
+                </p>
+                <p class="text-justify">
+                    Si el cliente requiere alguna extensión en cobertura del plan, incluso hasta los 150.000 Km,
+                    puede solicitarlo al concesionario donde adquirió este plan de mantenimiento.
+                </p>
+            </div>
+        </div>
+
+        <!-- Secciones largas de términos: se mantienen como texto estático con interpolaciones donde aplica -->
+        <div class="row mt-3">
+            <div class="col-12">
+                <h5>2. Definiciones</h5>
+                <p>Las siguientes definiciones aplican a las palabras de uso frecuente en este documento:</p>
+                <ul>
+                    <li><u>Acuerdo.</u> Refiere al contenido de este documento que establece los términos,
+                        políticas y condiciones del plan de mantenimiento prepagado de vehículos, que usted ha
+                        adquirido con un concesionario autorizado KIA.</li>
+
+                    <li><u>Usted – Su.</u> Refiere al cliente.</li>
+
+                    <li><u>Nosotros – Nuestra.</u> Refiere a quien prestará los servicios descritos en este
+                        Acuerdo. En primera instancia al concesionario identificado en este documento; en
+                        segunda, la red de concesionarios como eventuales prestadores del servicio; y en
+                        tercera, al distribuidor de la marca KIA en el país.</li>
+
+                    <li><u>Plan de Mantenimiento Prepagado.</u> Refiere a los servicios adquiridos por usted
+                        para su vehículo descrito en este documento. Existen dos tipos de planes; el primero
+                        aplica para la mano de obra, repuestos y materiales requeridos en las Rutinas de
+                        Mantenimiento Preventivo de la marca (según lo establezca el Manual de Garantía y
+                        Mantenimiento vigente al momento de la venta), el segundo es un Plan Complementario, es
+                        decir puede incluir lo que usted estime necesario y a su conveniencia.</li>
+
+                    <li><u>Rutina(s) de Mantenimiento Preventivo.</u> Refiere a los procedimientos programados
+                        para el mantenimiento de su vehículo.</li>
+
+                    <li><u>Vehículo.</u> Refiere al automotor identificado en este documento.</li>
+
+                    <li><u>Manual de Garantía y Mantenimiento.</u> Refiere al documento suministrado en la
+                        entrega del vehículo que describe las recomendaciones, condiciones, alcance de garantía
+                        y mantenimiento del vehículo.</li>
+
+                    <li><u>Manual del Propietario.</u> Refiere al documento que indica las instrucciones,
+                        condiciones y recomendaciones de uso del vehículo.</li>
+
+                    <li><u>Acción Comercial.</u> Refiere al plan de mantenimiento que está incluido al momento
+                        de la compra de su vehículo. Este plan de mantenimiento puede que no incluya todas las
+                        rutinas (mano de obra), repuestos e insumos que se relacionan en el Manual de Garantía y
+                        Mantenimiento. El cambio de repuestos o mano de obra que se relaciona en el manual de
+                        garantía y no se relacione en la acción comercial será cubierto por el cliente.</li>
+                </ul>
+
+
+                <h5 class="mt-3">3. Términos Generales</h5>
+
+                <h6 class="mt-2">3.1 Alcance del servicio</h6>
+                <p class="text-justify"><strong>a) Plan Rutinas de Mantenimiento Preventivo:</strong> Los
+                    servicios convenidos en este acuerdo se rigen por el Manual de Garantía y Mantenimiento
+                    vigente; es así, que incluye la ejecución de las rutinas de mantenimiento preventivo
+                    cubiertas por este plan y establecidas por la fábrica en los kilometrajes y periodos de
+                    tiempo definidos en dicho Manual. Este es suministrado en el momento de la entrega de su
+                    vehículo nuevo.</p>
+
+                <p class="text-justify"><strong>Nota:</strong> En los casos de ventas de planes de mantenimiento
+                    como acciones comerciales, el plan de mantenimiento incluirá los repuestos, mano de obra e
+                    insumos informados al cliente al momento de la compra. Los repuestos, mano de obra o insumos
+                    que no estén incluidos en la acción comercial y se relacionen en las rutinas de
+                    mantenimiento del manual de garantía serán cubiertos por el cliente.</p>
+
+                <p class="text-justify"><strong>b) Plan Complementario:</strong> Incluye lo que el cliente
+                    estime necesario y a su conveniencia, como repuestos o mano de obra para servicios de
+                    mecánica especializada, descritos en este documento. Este acuerdo de mantenimiento prepagado
+                    para el vehículo identificado es entre usted y el concesionario autorizado por el
+                    representante de KIA en Colombia: <strong>{{ solicitud.concesionario.nombre }}</strong>.
+                    Este acuerdo no es una póliza de seguros, y nada debe ser interpretado como un acuerdo de
+                    cobertura de seguro, ni podrá identificarse de ninguna manera, ni en ningún evento como el
+                    Manual de Garantía y Mantenimiento.</p>
+
+                <!-- Conserva el resto del texto largo. Para ahorrar espacio aquí, y mantener claridad, puedes seguir añadiendo las secciones estáticas como en React. -->
+
+                <h6 class="mt-3">3.2 Redención del Acuerdo</h6>
+                <p>Para hacer efectivos los servicios adquiridos, usted deberá:</p>
+                <ul>
+                    <li>Dirigirse a cualquiera de los concesionarios autorizados por la marca Kia para Colombia
+                        (Ver Concesionarios) y presentar la tarjeta de Mantenimiento Prepagado suministrada al
+                        momento de adquirir el plan. En caso de no contar con ella, puede presentar la tarjeta
+                        de propiedad y/o documento de identificación del propietario, mientras que haga la
+                        solicitud de la reposición del plástico, si así lo requiere.</li>
+                    <li>En caso de ocurrir, los eventuales retornos o garantías de servicio relacionados a
+                        Mantenimientos Prepagados, serán atendidos únicamente por el concesionario que realizó
+                        el trabajo. No puede hacerse un reclamo por garantía de los trabajos realizados en un
+                        servicio incluido de Mantenimiento Prepagado en un concesionario distinto al que lo
+                        ejecutó.</li>
+                </ul>
+
+                <!-- Continúa con las demás secciones (3.3 a 3.13) manteniendo interpolaciones similares cuando sea necesario -->
+
+                <h6 class="mt-3">Servicios y Beneficios Complementarios</h6>
+                <p class="text-justify">La calidad, experiencia, tipo o valores de los servicios/beneficios
+                    mencionados a continuación, dependen exclusivamente del concesionario enunciado, donde usted
+                    adquirió este plan de mantenimiento prepagado. Puede o no incluir servicios y beneficios
+                    complementarios. Dichos servicios y beneficios complementarios, si los hubiere, deben ser
+                    redimidos única y exclusivamente en el concesionario mencionado. Metrokia S.A. Importadora,
+                    no es responsable. Cualquier novedad o evento que ponga en riesgo su buena experiencia del
+                    servicio, puede comunicarse a la línea de servicio nacional 305-734-1290 o enviar un correo
+                    electrónico a servicioalclienteimportadora@kia.com.co</p>
+
+                <!-- 3. Términos Generales -->
+                <div class="row my-4">
+                    <div class="col-12">
+                        <h2>3. Términos Generales</h2>
+                    </div>
+                </div>
+
+                <!-- 3.1 Alcance del servicio -->
+                <div class="row my-4">
+                    <div class="col-12">
+                        <h3>3.1 Alcance del servicio</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="list-unstyled">
+                            <li class="my-3">
+                                <p class="text-justify">
+                                    <strong>a) Plan Rutinas de Mantenimiento Preventivo:</strong> Los servicios
+                                    convenidos en este acuerdo se rigen por el Manual de Garantía y
+                                    Mantenimiento vigente; es así, que incluye la ejecución de las rutinas de
+                                    mantenimiento preventivo cubiertas por este plan y establecidas por la
+                                    fábrica en los kilometrajes y periodos de tiempo definidos en dicho Manual.
+                                    Este es suministrado en el momento de la entrega de su vehículo nuevo.
+                                </p>
+                                <p class="text-justify">
+                                    El servicio incluye Mano de Obra, insumos y Repuestos identificados como
+                                    Cambio (C) en el Manual de Garantía y Mantenimiento vigente; requeridos
+                                    exclusivamente para las rutinas cubiertas por el plan adquirido. El
+                                    concesionario donde usted adquirió este plan de Mantenimiento Prepagado,
+                                    enunciado en este documento, puede o no incluir servicios y beneficios
+                                    complementarios exclusivos del mismo. Dichos servicios y beneficios
+                                    complementarios, si los hubiere, son redimibles única y exclusivamente en el
+                                    concesionario mencionado. Usted puede encontrar dichos servicios y
+                                    beneficios en el presente acuerdo al final del documento.
+                                </p>
+                            </li>
+
+                            <li class="my-3">
+                                <p class="text-justify">
+                                    <strong>Nota:</strong> En los casos de ventas de planes de mantenimiento
+                                    como acciones comerciales, el plan de mantenimiento incluirá los repuestos,
+                                    mano de obra e insumos informados al cliente al momento de la compra. Los
+                                    repuestos, mano de obra o insumos que no estén incluidos en la acción
+                                    comercial y se relacionen en las rutinas de mantenimiento del manual de
+                                    garantía serán cubiertos por el cliente.
+                                </p>
+                            </li>
+
+                            <li class="my-3">
+                                <p class="text-justify">
+                                    <strong>b) Plan Complementario:</strong> Incluye lo que el cliente estime
+                                    necesario y a su conveniencia, como repuestos o mano de obra para servicios
+                                    de mecánica especializada, descritos en este documento.
+                                </p>
+                                <p class="text-justify">
+                                    Este acuerdo de mantenimiento prepagado para el vehículo identificado es
+                                    entre usted y el concesionario autorizado por el representante de KIA en
+                                    Colombia: {{ solicitud.concesionario.nombre }}. Este acuerdo no es una
+                                    póliza de seguros, y nada debe ser interpretado como un acuerdo de cobertura
+                                    de seguro, ni podrá identificarse de ninguna manera, ni en ningún evento
+                                    como el Manual de Garantía y Mantenimiento.
+                                </p>
+                            </li>
+
+                            <li class="my-3">
+                                <p class="text-justify">
+                                    <strong>c)</strong> Su vehículo eventualmente puede requerir servicios
+                                    adicionales que no están previstos en este Acuerdo.
+                                    Por favor, consulte el <strong>Manual del Propietario</strong> y el
+                                    <strong>Manual de Garantía</strong> y <strong>Mantenimiento del
+                                        vehículo</strong> para conocerlos.
+                                </p>
+                            </li>
+
+                            <li class="my-3">
+                                <p class="text-justify">
+                                    <strong>d)</strong> Este Acuerdo es válido sólo para el vehículo
+                                    identificado.
+                                </p>
+                            </li>
+
+                            <li class="my-3">
+                                <p class="text-justify">
+                                    <strong>e)</strong> Los servicios prestados en el plan de mantenimiento en
+                                    virtud de este Acuerdo sólo están disponibles en la red de concesionarios
+                                    autorizados por el representante de la marca KIA en Colombia
+                                    <a href="https://www.kia.com.co/concesionariosarea=All&caracteristicas=All&festivos=All"
+                                        target="_blank">Ver Concesionarios</a>
+                                </p>
+                            </li>
+
+                            <li class="my-3">
+                                <p class="text-justify">
+                                    <strong>f)</strong> Sus servicios se prestarán usando la línea de Repuestos
+                                    Genuinos Kia.
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 3.2 Redención del acuerdo -->
+                <div class="row my-4">
+                    <div class="col-12">
+                        <h3>3.2 Redención del Acuerdo</h3>
+                    </div>
+                </div>
+
+                <div class="row my-4">
+                    <div class="col-12">
+                        <p>Para hacer efectivos los servicios adquiridos, usted deberá:</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="list-unstyled">
+                            <li class="my-1">
+                                <p class="text-justify">
+                                    <strong>a)</strong> Dirigirse a cualquiera de los concesionarios autorizados
+                                    por la marca Kia para Colombia
+                                    (<a href="https://www.kia.com.co/concesionariosarea=All&caracteristicas=All&festivos=All"
+                                        target="_blank">Ver Concesionarios</a>) y presentar la tarjeta de
+                                    Mantenimiento Prepagado suministrada al momento de adquirir el plan. En caso
+                                    de no contar con ella, puede presentar la tarjeta de propiedad y/o documento
+                                    de identificación del propietario, mientras que haga la solicitud de la
+                                    reposición del plástico, si así lo requiere.
+                                </p>
+                            </li>
+
+                            <li class="my-3">
+                                <p class="text-justify">
+                                    <strong>b)</strong> En caso de ocurrir, los eventuales retornos o garantías
+                                    de servicio relacionados a Mantenimientos Prepagados <strong>serán atendidos
+                                        únicamente por el concesionario que realizó el trabajo. No puede hacerse
+                                        un reclamo por garantía de los trabajos realizados en un servicio
+                                        incluido de Mantenimiento Prepagado en un concesionario distinto al que
+                                        lo ejecutó.</strong>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 3.3 Peticiones -->
+                <div class="row my-4">
+                    <div class="col-12">
+                        <h3>3.3. Peticiones</h3>
+                    </div>
+                </div>
+
+                <div class="row my-3">
+                    <div class="col-12">
+                        <p class="text-justify">
+                            Ante una eventual novedad, inconformidad o petición relacionada con los servicios
+                            objeto del presente acuerdo, usted deberá acudir en primera instancia al
+                            concesionario que le activó este mantenimiento prepagado; en caso de no ser atendida
+                            su solicitud en el término que la ley dispone para ello, puede acudir directamente a
+                            la importadora a través de este
+                            <a target="_blank" href="https://www.kia.com.co/pqrs">vínculo</a>,
+                            o través del correo electrónico
+                            <a
+                                href="mailto:servicioalclienteimportadora@kia.com.co">servicioalclienteimportadora@kia.com.co</a>
+                            a efecto de que trámite su solicitud.
+                        </p>
+
+                        <p class="text-justify">
+                            Igualmente, usted podrá acudir ante la importadora de la marca KIA en Colombia, en
+                            los siguientes casos:
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row my-3">
+                    <div class="col-12">
+                        <ul class="list-unstyled">
+                            <li class="my-3">
+                                <p class="text-justify">
+                                    <strong>a)</strong> Cuando el concesionario donde usted adquirió este Plan
+                                    de Mantenimiento Prepagado, concluya por alguna razón su operación con la
+                                    marca. En este evento usted será redireccionado a un concesionario
+                                    alternativo para continuar con sus servicios según su conveniencia.
+                                </p>
+                            </li>
+
+                            <li class="my-3">
+                                <p class="text-justify">
+                                    <strong>b)</strong> Cuando alguno de los concesionarios de la red autorizada
+                                    no atienda o cumpla las condiciones establecidas en este Acuerdo, lo cual
+                                    deberá estar debidamente soportado por el cliente.
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row my-4">
+                    <div class="col-12 mb-4 mt-2">
+                        <h3>3.4. Terminación del acuerdo</h3>
+                    </div>
+
+                    <div class="col-12 mb-2 mt-2">
+                        <p>
+                            Este acuerdo podrá ser terminado por parte del concesionario cuando:
+                        </p>
+                    </div>
+
+                    <div class="col-12 mb-4 mt-2">
+                        <ul class="list-unstyled">
+                            <li class="mb-3 mt-3">
+                                <p style="text-align: justify;">
+                                    <strong>a)</strong> Se identifique o le sea reportado el incumplimiento del
+                                    presente acuerdo por falta de pago del mismo.
+                                </p>
+                            </li>
+                            <li class="mb-3 mt-3">
+                                <p style="text-align: justify;">
+                                    <strong>b)</strong> Se identifique falsedad en la presentación de los
+                                    documentos necesarios para hacer efectivo el plan adquirido por el cliente.
+                                </p>
+                            </li>
+                            <li class="mb-3 mt-3">
+                                <p style="text-align: justify;">
+                                    <strong>c)</strong> Incumplimiento a los términos de garantía, establecidos
+                                    en el Manual de Garantía y Mantenimiento.
+                                </p>
+                            </li>
+                            <li class="mb-3 mt-3">
+                                <p style="text-align: justify;">
+                                    <strong>d)</strong> Se evidencie que el vehículo objeto del plan de
+                                    mantenimiento prepagado, ha sido modificado en los términos de exclusión
+                                    referidos en el <strong>Manual de Garantía y Mantenimiento.</strong> Este
+                                    evento genera la cancelación del Acuerdo sin devolución del saldo
+                                    anticipado.
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row my-4">
+                    <div class="col-12 mb-4 mt-4">
+                        <h3>3.5. Exclusiones</h3>
+                    </div>
+
+                    <div class="col-12 mb-4 mt-4">
+                        <p style="text-align: justify;">
+                            Este Acuerdo <strong>no</strong> incluye los repuestos y mano de obra que se
+                            relacionan a continuación, y por tanto generan un cobro adicional por el valor
+                            vigente a la fecha que sean requeridos:
+                        </p>
+                    </div>
+
+                    <div class="col-12 mb-4 mt-4">
+                        <ul class="list-unstyled">
+                            <li class="mb-3 mt-3">
+                                <p style="text-align: justify;">
+                                    <strong>a)</strong> El reemplazo o reparación de elementos de desgaste como
+                                    embrague, pastillas de frenos, batería o llantas, no contenidos en el Plan
+                                    Complementario de este Acuerdo.
+                                </p>
+                            </li>
+                            <li class="mb-3 mt-3">
+                                <p style="text-align: justify;">
+                                    <strong>b)</strong> Elementos de mantenimiento correctivo por daños, o
+                                    cambios por falla de componentes, o que el concesionario identifique como
+                                    requeridos para cambio o reparación sugerida.
+                                    <strong>Ejemplos: </strong>Cambio del Filtro de Aire Acondicionado en una
+                                    rutina donde no está previsto para cambio, pero por desgaste acelerado, así
+                                    lo requiere.
+                                    Reparaciones de motor, caja o similares, terminales de dirección,
+                                    amortiguadores, etc, <strong>no contenidos o incluidos</strong> en el Plan
+                                    Complementario de este Acuerdo.
+                                </p>
+                            </li>
+                            <li class="mb-3 mt-3">
+                                <p style="text-align: justify;">
+                                    <strong>c)</strong> Otros elementos u operaciones no relacionadas en las
+                                    rutinas de mantenimiento preventivo o cualquier artículo que no esté
+                                    especificado en este Acuerdo para el plan de mantenimiento prepagado
+                                    adquirido debidamente identificado.
+                                </p>
+                            </li>
+                            <li class="mb-3 mt-3">
+                                <p style="text-align: justify;">
+                                    <strong>d)</strong> Cualquier costo que el cliente pueda incurrir por daños
+                                    indirectos, secundarios o gastos personales.
+                                </p>
+                            </li>
+                            <li class="mb-3 mt-3">
+                                <p style="text-align: justify;">
+                                    <strong>e)</strong> La responsabilidad por daños a la propiedad, lesiones o
+                                    muerte de cualquier persona que surja de la operación, mantenimiento,
+                                    transporte, almacenamiento o uso del vehículo o no relacionado con los
+                                    servicios de mantenimiento o coberturas.
+                                </p>
+                            </li>
+                            <li class="mb-3 mt-3">
+                                <p style="text-align: justify;">
+                                    <strong>f)</strong> Cualquiera de las rutinas de mantenimiento preventivo de
+                                    kilometrajes superiores a las previstas en este Acuerdo de mantenimiento
+                                    prepagado.
+                                </p>
+                            </li>
+                            <li class="mb-3 mt-3">
+                                <p style="text-align: justify;">
+                                    <strong>g)</strong> y las demás descritas en el Manual de Garantia y
+                                    Mantenimiento.
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row my-4">
+                    <div class="col-12 mb-4 mt-4">
+                        <h3>3.6. Caducidad de los servicios</h3>
+                    </div>
+
+                    <div class="col-12 mb-4 mt-4">
+                        <p style="text-align: justify;">
+                            De acuerdo al Manual de Garantía y Mantenimiento de la marca, las revisiones de
+                            mantenimiento preventivo deben realizarse cada 5.000 km o 6 meses, lo que primero
+                            ocurra. Con base en esta premisa, los mantenimientos incluidos en este acuerdo
+                            cuentan con rangos de vigencia para la redención de las rutinas de mantenimiento,
+                            como se muestra en cada uno de los mantenimientos descritos.
+                        </p>
+                        <p style="text-align: justify;">
+                            En caso que el cliente asista fuera de los plazos establecidos a alguna de las
+                            rutinas de mantenimiento, perderá su derecho a dicha rutina. Lo anterior sin
+                            perjuicio de su derecho a las revisiones subsiguientes, si las hubiere. No aplican
+                            devoluciones o transferencias de saldos bajo esta circunstancia.
+                        </p>
+                        <p style="text-align: justify;">
+                            La rutina de mantenimiento que se ejecutará, será la subsiguiente a la caducada más
+                            las labores y recambios complementarios contemplados para la rutina que caducó y que
+                            la nueva rutina no contempla, siempre que esta se encuentra incluida en el plan
+                            adquirido.
+                        </p>
+                        <p style="text-align: justify;">
+                            Cada rutina incluida en el plan se realizará una sola vez por vehículo, según su
+                            kilometraje o el tiempo transcurrido. De esta manera, usted no podrá ingresar su
+                            vehiculo más de una vez para realizar el mismo mantenimiento ya sea en el mismo
+                            concesionario o en uno diferente.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row my-4">
+                    <div class="col-12 mb-4 mt-4">
+                        <h3>3.7. Valor y forma de pago</h3>
+                    </div>
+
+                    <div class="col-12 mb-4 mt-4">
+                        <ul class="list-unstyled">
+
+                            <li class="mb-3 mt-3">
+                                <p style="text-align: justify;">
+                                    <strong>a)</strong> Valor. Este Acuerdo de Mantenimiento Prepagado tendrá un
+                                    valor comercial, descrito en este documento,
+                                    establecido por la importadora de la marca KIA para Colombia y vigente a la
+                                    fecha de compra del respectivo plan.
+                                    Una vez haya sido adquirido el plan por el cliente y hasta el momento que
+                                    finalice su vigencia, los valores de dichas
+                                    rutinas quedarán congelados para el cliente. El valor total del plan
+                                    adquirido incluye un costo administrativo por
+                                    valor de ({{solicitud.valor.comision+solicitud.valor.ivaComision | currency:'$ ':'symbol':'0.0'}}).
+                                    El valor a debitar de saldo diferido por cada rutina de mantenimiento, o
+                                    repuestos/servicios si adquirió un Plan Complementario,
+                                    exclusivamente para este acuerdo, y según la oferta vigente a la fecha son
+                                    los que se muestran en el resumen de Planes Incluidos
+                                    al inicio de este documento.
+                                </p>
+                            </li>
+
+                            <li class="mb-3 mt-3">
+                                <p style="text-align: justify;">
+                                    <strong>b)</strong> Forma de Pago. Usted puede realizar el pago de las
+                                    siguientes formas:
+                                </p>
+
+                                <p style="text-align: justify;">
+                                    <strong>b.1).</strong> Contado: En el momento de la compra del vehiculo,
+                                    usted pagará el valor total del plan de su elección directamente al
+                                    concesionario donde lo adquiere.
+                                </p>
+
+                                <p style="text-align: justify;">
+                                    <strong>b.2).</strong> Inclusión en la finaciación del vehículo: A la compra
+                                    del vehiculo, usted incluirá el valor del plan de Mantenimiento Prepagado en
+                                    la misma financiación del vehículo, en tanto las entidades financieras
+                                    aliadas al concesionario le puedan brindar esta opción.
+                                </p>
+
+                                <p style="text-align: justify;">
+                                    <strong>b.3).</strong> Financiación independiente del plan: A la compra del
+                                    vehiculo, usted financiará exclusivamente el plan de Mantenimiento Prepagado
+                                    de manera independiente, en tanto las entidades financieras aliadas al
+                                    concesionario le puedan brindar esta opción.
+                                </p>
+                            </li>
+
+                            <div class="row my-4">
+
+                                <div class="col-12 mb-2 mt-2">
+                                    <p style="text-align: justify;">
+                                        Toda vez que la financiación se realiza a través de alguna entidad
+                                        financiera; ni el concesionario, ni la importadora de la marca KIA para
+                                        Colombia, tendrán ingerencia alguna en los términos de la misma, razón
+                                        por la que la aprobación del crédito, tasas, plazo y cualquier petición
+                                        que surja deberá ser atendida y resuelta por la entidad financiera
+                                        aliada al concesionario de su elección.
+                                    </p>
+                                </div>
+
+                                <div class="col-12 mb-2 mt-2">
+                                    <p style="text-align: justify;">
+                                        <strong>Nota:</strong> Si este plan de mantenimiento corresponde a una
+                                        acción comercial la información de valor y forma de pago no aplica.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="row my-4">
+
+                    <!-- 3.8 Cesión del plan -->
+                    <div class="col-12 mb-4 mt-4">
+                        <h3>3.8. Cesión del plan</h3>
+                    </div>
+
+                    <div class="col-12 mb-4 mt-4">
+                        <p style="text-align: justify;">
+                            El plan de Mantenimiento Prepagado estará asociado al VIN del vehículo, NO
+                            directamente al documento de identificación del propietario.
+                        </p>
+                        <p style="text-align: justify;">
+                            Si se presenta el cambio de propietario del vehiculo, usted podrá ceder el valor
+                            pagado o el saldo vigente a la fecha en favor de un tercero. Cada vez que usted
+                            asiste a redimir una rutina de mantenimiento, nuestros Asesores de Servicio
+                            realizarán la validación de datos del tercero asociado al VIN del vehículo según la
+                            tarjeta de propiedad, que en caso de identificar que el vehículo pertenece a un
+                            nuevo propietario, realizarán la respectiva actualización de datos en el sistema.
+                        </p>
+                    </div>
+
+                    <!-- 3.9 Cancelación fortuita y Abono -->
+                    <div class="col-12 mb-4 mt-4">
+                        <h3>3.9. Cancelación fortuita y Abono a producto KIA</h3>
+                    </div>
+
+                    <div class="col-12 mb-4 mt-4">
+
+                        <ul>
+                            <!-- a) Cancelación fortuita -->
+                            <li>
+                                <p style="text-align: justify;">
+                                    <strong>a) Cancelación fortuita:</strong> Se realizará la devolución al
+                                    cliente del saldo por redimir a la
+                                    fecha de solicitud de cancelación, menos un cargo variable según el plan
+                                    adquirido, por concepto de
+                                    Servicios Administrativos, exclusivamente bajo las siguientes
+                                    circunstancias:
+                                </p>
+
+                                <ul class="mt-3 mb-3">
+                                    <li>• Pérdida total del vehículo en caso de accidente.</li>
+                                    <li>• Hurto total del vehículo.</li>
+                                </ul>
+
+                                <p style="text-align: justify;">
+                                    En cualquiera de los dos casos anteriores, usted y/o quien legalmente esté
+                                    facultado para ello,
+                                    deberá radicar comunicación formal al concesionario en el cual adquirió el
+                                    plan, expresando el motivo
+                                    de cancelación del mismo y la solicitud de devolución del saldo; la
+                                    circunstancia alegada debe quedar
+                                    debidamente soportada con los documentos a que haya lugar. Una vez radicada
+                                    la solicitud en debida
+                                    forma, el concesionario procederá a realizar la devolución en un término
+                                    máximo de treinta (30) días
+                                    hábiles, al número de cuenta por usted informado en su solicitud de
+                                    devolución.
+                                </p>
+
+                                <p><strong>Cargo de Servicios Administrativos:</strong></p>
+
+                                <ul>
+                                    <li><strong>Planes 10K y 15K:</strong> 10% del saldo requerido a devolución.
+                                    </li>
+                                    <li><strong>Planes 20K y 25K:</strong> 8% del saldo requerido a devolución.
+                                    </li>
+                                    <li><strong>Planes 30K y 35K:</strong> 6% del saldo requerido a devolución.
+                                    </li>
+                                    <li><strong>Planes 40K y 45K:</strong> 4% del saldo requerido a devolución.
+                                    </li>
+                                    <li><strong>Planes 50K:</strong> 2% del saldo requerido a devolución.</li>
+                                </ul>
+                            </li>
+
+                            <!-- b) Abono a producto KIA -->
+                            <li>
+                                <p style="text-align: justify;" class="mt-2">
+                                    <strong>b) Abono a producto KIA:</strong> En caso de renovar su automotor
+                                    por uno nuevo de marca Kia,
+                                    usted puede solicitar la transferencia de su saldo vigente a la fecha, a un
+                                    nuevo plan de Mantenimiento
+                                    Prepagado o a la compra del nuevo vehículo Kia. Esta transferencia no es
+                                    aplicable para vehículos usados.
+                                </p>
+
+                                <p style="text-align: justify;">
+                                    En caso de reventa del automotor sin intención de cesión, usted podrá
+                                    solicitar al concesionario en el
+                                    cual adquirió el plan de mantenimiento prepagado, la terminación anticipada
+                                    del mismo, abonando el saldo
+                                    a la fecha de la solicitud únicamente a la compra de un vehiculo nuevo marca
+                                    Kia o al pago del deducible
+                                    a compañia de seguros en caso de que así lo requiera.
+                                </p>
+
+                                <p style="text-align: justify;">
+                                    En este evento usted deberá radicar la solicitud formal al concesionario,
+                                    quien en el término maximo de
+                                    quince (15) días hábiles informará el procedimiento a seguir para realizar
+                                    dicho abono.
+                                </p>
+                            </li>
+
+                            <!-- Repetición literal que aparece en el original -->
+                            <li>
+                                <p style="text-align: justify;">
+                                    <strong>b) Abono a producto KIA:</strong> No aplica a la devolución del
+                                    dinero.
+                                </p>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <!-- 3.10 Solución de controversias -->
+                    <div class="col-12 mb-4 mt-4">
+                        <h3>3.10. Solución de controversias</h3>
+                    </div>
+
+                    <div class="col-12 mb-4 mt-4">
+                        <p style="text-align: justify;">
+                            Las Partes convienen que en el evento en que surja alguna diferencia, por razón o
+                            con ocasión del presente acuerdo,
+                            que no puedan solucionarse directamente dentro de un término de quince (15) días
+                            hábiles siguientes a la presentación
+                            del inconveniente , será resuelta por un centro de conciliación cuyo domicilio será
+                            en primera instancia, la ciudad
+                            donde se adquirió el plan, y en segunda instancia, la ciudad de Bogotá, si por este
+                            medio no se logra acuerdo estarán
+                            en libertad de acudir a la justicia ordinaria.
+                        </p>
+                    </div>
+
+                    <!-- 3.11 Mérito Ejecutivo -->
+                    <div class="col-12 mb-4 mt-4">
+                        <h3>3.11. Merito Ejecutivo</h3>
+                    </div>
+
+                    <div class="col-12 mb-4 mt-4">
+                        <p style="text-align: justify;">
+                            Las partes convienen que el presente acuerdo, presta mérito ejecutivo para el
+                            cumplimiento forzoso de las obligaciones
+                            en el mismo según lo dispuesto en el Codigo general del proceso y/o demás normas
+                            concordantes, por contener obligaciones
+                            claras, expresas y exigibles.
+                        </p>
+                    </div>
+
+                    <!-- 3.12 Uso de Datos Personales -->
+                    <div class="col-12 mb-4 mt-4">
+                        <h3>3.12. Uso de Datos Personales</h3>
+                    </div>
+
+                    <div class="col-12 mb-4 mt-4">
+                        <p style="text-align: justify;">
+                            Consulte la política de tratamiento de datos personales
+                            <a target="_blank"
+                                href="https://www.kia.com.co/politicas-de-tratamiento-de-datos-personales">
+                                https://www.kia.com.co/politicas-de-tratamiento-de-datos-personales
+                            </a>
+                        </p>
+
+                        <p style="text-align: justify;">
+                            Con la firma del presente acuerdo, dando cumplimiento a lo establecido en la Ley
+                            1581 de 2012 y el Decreto 1377 de 2013
+                            el CLIENTE AUTORIZA al CONCESIONARIO y al DISTRIBUIDOR DE LA MARCA la recolección y
+                            manejo de sus datos personales,
+                            los cuales tendrán como fin el almacenamiento, uso, circulación, transmisión,
+                            transferencia, cesion, directamente o a
+                            través de sus terceros aliados, con finalidad comercial y para la correcta
+                            prestación de los servicios. No obstante,
+                            lo anterior, EL CLIENTE podrá solicitar al CONCESIONARIO y al DISTRIBUIDOR DE LA
+                            MARCA la actualización, rectificación
+                            o supresión de sus datos personales del registro en bases de datos del CONCESINARIO
+                            y el DISTRIBUIDOR DE LA MARCA enviando
+                            un correo electrónico a
+                            <a target="_blank"
+                                href="mailto:proteccióndedatos@kia.com.co">proteccióndedatos@kia.com.co</a>
+                        </p>
+
+                        <p style="text-align: justify;">
+                            PARÁGRAFO: Los datos de carácter personal que sean proporcionados al CONCESIONARIO y
+                            al DISTRIBUIDOR DE LA MARCA, serán
+                            recogidos y conservados en una base de datos y podrán ser objeto de tratamiento por
+                            parte del CONCESIONARIO y el
+                            DISTRIBUIDOR DE LA MARCA, terceros aliados o designados por EL CONCESIONARIO y el
+                            DISTRIBUIDOR DE LA MARCA. Dicha base
+                            de datos se conserva y administra bajo responsabilidad del CONCESIONARIO y el
+                            DISTRIBUIDOR DE LA MARCA, terceros aliados
+                            o designados por EL CONCESIONARIO y el DISTRIBUIDOR DE LA MARCA. La base de datos
+                            cuenta con las medidas de seguridad
+                            necesarias para la conservación adecuada de los datos. Para fines estadísticos y de
+                            medición de satisfacción del cliente
+                            se autoriza expresamente la transferencia y/o transmisión Nacional e internacional
+                            de los datos personales bajo niveles
+                            adecuados de protección, seguridad y confidencialidad.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+
+            <!-- 3.13 Prevención lavado de activos -->
+            <div class="col-12 mb-4 mt-4">
+                <h3>3.13. Prevención lavado de activos</h3>
+            </div>
+
+            <div class="col-12 mb-4 mt-4">
+                <p style="text-align: justify;">
+                    LAS PARTES declaran que tanto los recursos utilizados en la ejecución del presente acuerdo,
+                    como sus ingresos, provienen de actividades
+                    lícitas, que no se encuentran con registros negativos en listados de prevención de lavado de
+                    activos nacionales o internacionales,
+                    ni incurren en ninguna de las dos categorías de lavado de activos (conversión o movimiento)
+                    y que en consecuencia se obligan a responder
+                    frente a la otra por todos los perjuicios que se llegaren a causar como consecuencia de esta
+                    afirmación. Conforme a lo anterior,
+                    será justa causa de terminación del contrato la inclusión, de la otra parte, sus socios, sus
+                    administradores, o los subcontratistas en
+                    los listados de la OFAC o de cualquier otra autoridad local, extranjera o internacional como
+                    sospechoso de actividades de lavado de activos.
+                    En igual sentido, el cliente responderá ante el CONCESIONARIO o algún tercero afectado por
+                    los perjuicios causados.
+                </p>
+
+                <p style="text-align: justify;">
+                    PARÁGRAFO: Para todos los efectos el "lavado de dinero" es el conjunto de procedimientos
+                    usados para cambiar la identidad del
+                    dinero obtenido ilegalmente, a fin de que aparente haber sido obtenido de fuentes legítimas.
+                    Estos procedimientos incluyen
+                    disimular la procedencia y propiedad verdadera de los fondos.
+                </p>
+
+                <p style="text-align: justify;">
+                    Las partes se obligan a mantener y aplicar en sus transacciones y negocios los
+                    procedimientos, herramientas, sistemas y métodos
+                    eficaces para evitar que sea sujeto de lavado de activos, y se mantendrán indemnes entre sí
+                    de todo perjuicio causado por tal
+                    situación. Las partes se obligan a notificar por escrito a la otra parte y de forma
+                    inmediata, cualquier acto o sospecha de
+                    corrupción, soborno, lavado de activos o financiación del terrorismo, que se presente o se
+                    pudiere presentar en la negociación,
+                    celebración o ejecución del presente acuerdo.
+                </p>
+            </div>
+
+            <!-- Servicios y Beneficios Complementarios -->
+            <div class="col-12 mb-4 mt-4">
+                <h3>
+                    Servicios y Beneficios Complementarios para Mantenimientos Prepagados exclusivos del
+                    concesionario: {{ solicitud.concesionario.nombre }}
+                </h3>
+
+                <p style="text-align: justify;">
+                    La calidad, experiencia, tipo o valores de los servicios/beneficios mencionados a
+                    continuación, dependen exclusivamente del
+                    concesionario enunciado, donde usted adquirió este plan de mantenimiento prepagado. Puede o
+                    no incluir servicios y beneficios
+                    complementarios. Dichos servicios y beneficios complementarios, si los hubiere, deben ser
+                    redimidos única y exclusivamente en el
+                    concesionario mencionado. Metrokia S.A. Importadora, no es responsable. Cualquier novedad o
+                    evento que ponga en riesgo su buena
+                    experiencia del servicio, puede comunicarse a la línea de servicio nacional 305-734-1290 o
+                    enviar un correo electrónico a
+                    servicioalclienteimportadora@kia.com.co
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+      <div class="mt-4">
+    <div class="card shadow-sm">
+      <div class="card-header fw-bold">
+        Firma del cliente
+      </div>
+
+      <div class="card-body">
+
+        <div class="row">
+
+          <div class="col-md-6 text-center">
+
+            <h5>Firma del Cliente</h5>
+
+            @if (datosFirmaConsultados?.firmas?.cliente) {
+              <img
+                [src]="datosFirmaConsultados.firmas.cliente"
+                class="img-fluid border rounded"
+                style="max-width: 300px; height: auto;"
+              />
+            } @else {
+              <canvas
+                #firmaCanvas
+                width="300"
+                height="200"
+                class="border rounded w-100"
+                style="background-color: rgba(34,36,38,.15);">
+              </canvas>
+
+              <div class="mt-2">
+                <button class="btn btn-secondary me-2" (click)="limpiarFirma()">Limpiar</button>
+                <button class="btn btn-primary" (click)="guardarFirma()">Guardar</button>
+              </div>
+            }
+
+            <p class="mt-2">
+              {{ cliente.nombre.nombres }} {{ cliente.nombre.apellidos }} <br>
+              {{ cliente.identificacion.tipo }} {{ cliente.identificacion.numero }}
+            </p>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- TEXTO LARGO -->
+    <div class="mt-4 p-3 small" style="text-align: justify;">
+    El cliente reconoce que los servicios requeridos en este pedido únicamente serán realizados en la 
+    red de concesionarios autorizados de Kia Motors en Colombia. El cliente y el concesionario 
+    enunciados reconocen y aceptan el contenido de este pedido para que la importadora, 
+    Metrokia S.A., realice la activación de Mantenimiento Prepagado para el vehículo descrito 
+    anteriormente:
+
+    Poíítica de Uso de datos personales Con la firma del presente documento, dando cumplimiento a lo 
+    establecido en la Ley 1581 de 2012 y el Decreto 1377 de 2013 el CLIENTE AUTORIZA al CONCESIONARIO y 
+    al DISTRIBUIDOR DE LA MARCA EN EL PAÍS, la recolección y manejo de sus datos personales, los cuales 
+    tendrán como fin el almacenamiento, uso, circulación, transmisión, directamente o a través de sus 
+    terceros aliados, con finalidad comercial y para la correcta prestación de los servicios. 
+    No obstante, lo anterior, EL CLIENTE podrá solicitar al CONCESIONARIO y al DISTRIBUIDOR DE LA 
+    MARCA EN EL PAÍS la actualización, rectificación o supresión de sus datos personales del 
+    registro en bases de datos del CONCESIONARIO y al DISTRIBUIDOR DE LA MARCA EN EL PAÍS enviando un 
+    correo electrónico a callcentercrm@kia.com.co PARÁGRAFO: Los datos de carácter personal que sean 
+    proporcionados al CONCESIONARIO y al DISTRIBUIDOR DE LA MARCA EN EL PAÍS, serán recogidos y 
+    conservados en una base de datos y podrán ser objeto de tratamiento por parte del CONCESIONARIO y el 
+    DISTRIBUIDOR DE LA MARCA EN EL PAÍS, terceros aliados o designados por EL CONCESIONARIO. 
+    Dicha base de datos se conserva y administra bajo responsabilidad del CONCESIONARIO y el 
+    DISTRIBUIDOR DE LA MARCA EN EL PAÍS, terceros aliados o designados por EL CONCESIONARIO y el 
+    DISTRIBUIDOR DE LA MARCA EN EL PAÍS. La base de datos cuenta con las medidas de seguridad necesarias 
+    para la conservación adecuada de los datos. Para fines estadísticos y de medición de satisfacción del 
+    cliente se autoriza expresamente la transferencia y/o transmisión Nacional e internacional de los datos 
+    personales bajo niveles adecuados de protección, seguridad y confidencialidad. Para más información 
+    consulte en POLÍTICA DE PRIVACIDAD Y PROTECCIÓN DE DATOS
+    </div>
+
+  </div>
+</div>

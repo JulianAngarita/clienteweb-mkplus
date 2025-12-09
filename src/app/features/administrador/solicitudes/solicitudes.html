@@ -1,0 +1,189 @@
+<app-loading-screen [messageInput]="'Cargando...'" [loading]="cargando"></app-loading-screen>
+<div class="container my-5 py-5" style="min-height:70vh">
+
+  <h1 class="display-4 mt-4 mb-4 d-flex justify-content-between">
+    Solicitudes
+
+    <a routerLink="/admin/nueva-solicitud/id"
+       class="btn boton-secondary-kia">
+      Nueva solicitud
+    </a>
+  </h1>
+
+  <!-- FILTRO -->
+    <div class="card mt-2">
+        <div class="card-body">
+            <h5>Filtrar por</h5>
+                        <div class="row">
+                
+                <!-- CONCESIONARIO -->
+                <div class="col-md-4">
+                @if (rol === 'ADMINISTRADOR SISTEMA' || rol === 'IMPORTADORA') {
+                    <input
+                        class="form-control"
+                        placeholder="Concesionario"
+                        [(ngModel)]="filtroSolicitudes.solicitud.concesionario"
+                        name="concesionario"
+                    />
+                } @else {
+                    <select
+                        class="form-select"
+                        multiple
+                        [(ngModel)]="filtroSolicitudes.solicitud.concesionario"
+                        name="concesionario"
+                    >
+                    @for (o of opcionesConcesiones; track o.value) {
+                        <option [value]="o.value">{{ o.text }}</option>
+                    }
+                    </select>
+                }
+                </div>
+
+                <!-- NUMERO -->
+                <div class="col-md-4">
+                <input
+                    class="form-control"
+                    placeholder="Número de solicitud"
+                    [(ngModel)]="filtroSolicitudes.solicitud.numero"
+                    name="numero"
+                >
+                </div>
+
+                <!-- VIN -->
+                <div class="col-md-4">
+                <input
+                    class="form-control"
+                    placeholder="VIN"
+                    [(ngModel)]="filtroSolicitudes.solicitud.vin"
+                    name="vin"
+                >
+                </div>
+            </div>
+
+            <div class="row mt-3">
+
+                <!-- DESDE -->
+                <div class="col-md-4">
+                <label>Desde</label>
+                <input type="date"
+                    class="form-control"
+                    [(ngModel)]="filtroSolicitudes.fecha.desde"
+                    name="desde"
+                >
+                </div>
+
+                <!-- HASTA -->
+                <div class="col-md-4">
+                <label>Hasta</label>
+                <input type="date"
+                    class="form-control"
+                    [(ngModel)]="filtroSolicitudes.fecha.hasta"
+                    name="hasta"
+                >
+                </div>
+
+                <!-- ESTADO -->
+                <div class="col-md-4">
+                <label>Estado</label>
+                <select
+                    class="form-select"
+                    [(ngModel)]="filtroSolicitudes.estado"
+                    name="estado"
+                >
+                    @for (e of estadoSolicitudesListaOpciones; track e.value) {
+                        <option [value]="e.value">{{ e.text }}</option>
+                    }
+                </select>
+                </div>
+
+            </div>
+
+            <div class="mt-3">
+                <button 
+                    class="btn boton-secondary-kia"
+                    (click)="consulta()"
+                >
+                    Buscar
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+  <!-- TABLA -->
+  <div class="table-responsive mt-3 mb-3">
+
+    <table class="table table-sm table-bordered text-center align-middle">
+
+      <thead class="table-light">
+        <tr>
+          <th>Creado</th>
+          <th>Última actualización</th>
+          <th>Número de solicitud</th>
+          <th>Distribuidor</th>
+          <th>VIN</th>
+          <th>Tipo ID cliente</th>
+          <th>ID cliente</th>
+          <th>Estado</th>
+          <th>Ver</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        @for (item of solicitudes; track $index) {
+            <tr>
+                <td> {{item.creado | date: 'dd-MM-yyyy hh:mm a'}} </td>
+                <td> {{item.actualizado | date: 'dd-MM-yyyy hh:mm a'}} </td>
+                <td> {{item.solicitud.numero}} </td>
+                <td> {{item.concesionario.cl}} </td>
+                <td> {{item.solicitud.vin}} </td>
+                <td> {{item.detallesCliente.identificacion.tipo}} </td>
+                <td> {{item.detallesCliente.identificacion.numero}} </td>
+                <td> {{item.estado}} </td>
+                <td class="text-center">
+                    @if (rol === 'ADMINISTRADOR SISTEMA') {
+                        <div class="d-flex justify-content-center gap-3">
+                                <button
+                                    class="btn btn-outline-dark rounded-pill px-3 d-inline-flex align-items-center gap-2"
+                                    [routerLink]="['/admin/nueva-solicitud', item._id]"
+                                >
+                                    Ver
+                                </button>
+                                <button
+                                    class="btn btn-outline-dark rounded-pill px-3 d-inline-flex align-items-center gap-2"
+                                    (click)="eliminar(item)"
+                                >
+                                    Eliminar
+                                </button>
+                        </div>
+                    } @else {
+                        <button
+                            class="btn btn-outline-dark rounded-pill px-3 d-inline-flex align-items-center gap-2"
+                        >
+                            Ver
+                        </button>
+                    }
+                </td>
+            </tr>
+        } @empty {
+            <tr>
+                <td colspan="9" class="text-center py-4 text-muted">
+                    No hay solicitudes registrados actualmente.
+                </td>
+            </tr>
+        }
+      </tbody>
+
+    </table>
+  </div>
+
+
+  <!-- PAGINACIÓN -->
+  <ngb-pagination
+    [collectionSize]="total"
+    [pageSize]="10"
+    [(page)]="pagina"
+    (pageChange)="cambiarPagina($event)">
+  </ngb-pagination>
+</div>

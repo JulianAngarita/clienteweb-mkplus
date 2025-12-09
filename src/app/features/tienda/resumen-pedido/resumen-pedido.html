@@ -1,0 +1,229 @@
+<app-loading-screen [messageInput]="'Cargando...'" [loading]="cargando"></app-loading-screen>
+<div class="container py-5 my-5">
+
+  <!-- ======== ENCABEZADO ======== -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <button 
+        (click)="atras()" 
+        ngbTooltip="Volver a detalles del paquete"
+        class="btn btn-link text-dark p-0 mb-2 fw-semibold text-decoration-none text-start"
+      >
+        <i class="fas fa-arrow-left me-2"></i> Volver
+      </button>
+      <h2 class="fw-bold text-dark mb-1">Prepagado Kia</h2>
+      <p class="text-muted">Confirma tus datos antes de continuar.</p>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+      <button 
+        class="btn btn-outline-dark btn-sm"
+        ngbTooltip="Descargar PDF"
+        (click)="openModal('Descargar')"
+      >
+        <i class="fa-solid fa-file-arrow-down me-1"></i> PDF
+      </button>
+      <button 
+        class="btn btn-outline-dark btn-sm"
+        ngbTooltip="Enviar PDF por correo"
+        (click)="openModal('Enviar')"
+      >
+        <i class="fa-solid fa-envelope me-1"></i> Correo
+      </button>
+      <button 
+        class="btn btn-dark btn-sm fw-semibold"
+        ngbTooltip="Crear pedido"
+        (click)="crearSolicitud()"
+      >
+        Crear Pedido
+      </button>
+    </div>
+  </div>
+
+  <!-- ======== INFORMACIÓN GENERAL ======== -->
+  <div class="row g-4">
+    <!-- Cliente -->
+    <div class="col-lg-6">
+      <div class="card shadow  border-0 h-100 p-4">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h5 class="fw-semibold mb-0">Cliente</h5>
+          <button 
+            routerLink="/tienda/formulario-cliente"
+            class="btn btn-outline-secondary btn-sm rounded-pill"
+            ngbTooltip="Editar datos del cliente"
+          >
+            <i class="fas fa-edit"></i>
+          </button>
+        </div>
+        <p class="mb-1"><small class="text-muted">Nombres y apellidos</small><br><strong>{{ cliente.nombre?.nombres }} {{ cliente.nombre?.apellidos }}</strong></p>
+        <p class="mb-1"><small class="text-muted">Identificación</small><br>{{ cliente.identificacion?.tipo }} {{ cliente.identificacion?.numero }}</p>
+        <p class="mb-1"><small class="text-muted">Celular</small><br>{{ cliente.telefonos?.celular }}</p>
+        <p><small class="text-muted">Correo electrónico</small><br>{{ cliente.email }}</p>
+      </div>
+    </div>
+
+    <!-- Envío -->
+    <div class="col-lg-3 col-sm-6">
+      <div class="card shadow  border-0 h-100 p-4">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h5 class="fw-semibold mb-0">Datos de Envío</h5>
+          <button 
+            routerLink="/tienda/formulario-envio"
+            class="btn btn-outline-secondary btn-sm rounded-pill"
+            ngbTooltip="Editar datos de envío"
+          >
+            <i class="fas fa-edit"></i>
+          </button>
+        </div>
+        <p class="mb-1"><small class="text-muted">Dirección</small><br>{{ cliente.direccion?.callePrincipal }} {{ cliente.direccion?.calleSecundaria }} {{ cliente.direccion?.numero }}<br>{{ cliente.direccion?.otros }} {{ cliente.direccion?.barrio }}</p>
+        <p><small class="text-muted">Ciudad / Departamento</small><br>{{ cliente.direccion?.ciudad }} - {{ cliente.direccion?.departamento }}</p>
+      </div>
+    </div>
+
+    <!-- Vehículo -->
+    <div class="col-lg-3 col-sm-6">
+      <div class="card shadow  border-0 h-100 p-4">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h5 class="fw-semibold mb-0">Vehículo</h5>
+          <button 
+            routerLink="/tienda/formulario-vehiculo"
+            class="btn btn-outline-secondary btn-sm rounded-pill"
+            ngbTooltip="Editar datos del vehículo"
+          >
+            <i class="fas fa-edit"></i>
+          </button>
+        </div>
+        <p class="mb-1"><small class="text-muted">Modelo</small><br>{{ vehiculo.descripcionVersion }} {{ vehiculo.modelo?.codigo }} {{ vehiculo.modelo?.anoModelo }} {{ vehiculo.modelo?.color }}</p>
+        <p class="mb-1"><small class="text-muted">Placa / VIN</small><br>{{ vehiculo.placa || "No definida" }} / {{ vehiculo.vin }}</p>
+        <p><small class="text-muted">Código</small><br>{{ vehiculo.version }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== RUTINAS Y SERVICIOS ======== -->
+  <div class="card shadow border-0 mt-5 p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="fw-semibold mb-0">Rutinas y Servicios Incluidos</h5>
+      <button
+        class="btn btn-outline-secondary btn-sm rounded-pill"
+        ngbTooltip="Editar selección"
+      >
+        <i class="fas fa-edit"></i>
+      </button>
+    </div>
+    <div class="servicios-section">
+    <h5 class="section-title mb-4">Servicios Incluidos</h5>
+    <div class="servicios-grid">
+        @for (servicio of servicios; track $index) {
+            <div class="servicio-card">
+                <!-- Header -->
+                <div class="servicio-header">
+                    <div class="servicio-info">
+                        <h6 class="servicio-nombre">{{ servicio.nombre }}</h6>
+                        <span class="servicio-kilometraje">{{ servicio.frecuencia?.kilometraje | number }} km</span>
+                    </div>
+                </div>
+
+                <!-- Descripción -->
+                <p class="servicio-descripcion">{{ servicio.descripcion }}</p>
+
+                <!-- Operaciones -->
+                <div class="operaciones-section">
+                    <h6 class="operaciones-title">Operaciones</h6>
+                    <div class="operaciones-list">
+                        @for (operacion of servicio.operaciones; track $index) {
+                            <div class="operacion-item">
+                                <span class="operacion-nombre">{{ operacion.nombre }}</span>
+                                <div class="repuestos-tags">
+                                    @for (repuesto of operacion.repuestos; track $index) {
+                                        <span class="repuesto-tag">
+                                            {{ repuesto.precioVenta.publico | currency:'$ ':'symbol':'0.0' }}
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Precios -->
+                <div class="precios-section">
+                    <div class="precio-col">
+                        <span class="precio-label">Ordinario</span>
+                        @for (precio of servicio.precios?.ordinario?.valoresFuturos; track $index) {
+                            <span class="precio-valor ordinario">
+                                {{precio.valor| currency:'$ ':'symbol':'0.0'}}
+                            </span>
+                        }
+                    </div>
+                    <div class="precio-col">
+                        <span class="precio-label">Prepagado</span>
+                        @for (precio of servicio.precios?.prepagado?.valoresFuturos; track $index) {
+                            <span class="precio-valor prepagado">
+                                {{precio.valor| currency:'$ ':'symbol':'0.0'}}
+                            </span>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+  </div>
+
+  <!-- ======== DETALLES DE PAGO ======== -->
+  <div class="row g-4 mt-5">
+    <div class="col-lg-6">
+      <div class="card shadow  border-0 p-4">
+        <h6 class="text-muted mb-1">Ordinario</h6>
+        <p class="mb-2 text-decoration-line-through">
+          {{ valoresPaquete.ordinario.valorFuturo | currency:'$ ':'symbol':'0.0' }}
+        </p>
+
+        <h5 class="fw-bold mb-0">
+          {{ valoresPaquete.prepagado.valorFuturo | currency:'$ ':'symbol':'0.0' }}
+          <span class="badge bg-success rounded-pill ms-2">
+            Ahorro {{ calcularAhorro(valoresPaquete.prepagado.valorFuturo, valoresPaquete.ordinario.valorFuturo) }}
+          </span>
+        </h5>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card shadow  border-0 p-4 table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr class="text-muted small text-uppercase border-bottom">
+              <th>Concepto</th>
+              <th class="text-center">Ordinario</th>
+              <th class="text-center">Prepagado</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (c of [
+              {nombre:'Mano de Obra', pre: valoresPaquete.prepagado.manoObra_futuro, ord: valoresPaquete.ordinario.manoObra_futuro},
+              {nombre:'Repuestos', pre: valoresPaquete.prepagado.repuesto_futuro, ord: valoresPaquete.ordinario.repuesto_futuro},
+              {nombre:'Insumos', pre: valoresPaquete.prepagado.insumo_futuro, ord: valoresPaquete.ordinario.insumo_futuro},
+              {nombre:'Comisión', pre: valoresPaquete.prepagado.comision_futuro, ord: valoresPaquete.ordinario.comision_futuro},
+              {nombre:'Valor Total', pre: valoresPaquete.prepagado.valorFuturo, ord: valoresPaquete.ordinario.valorFuturo}
+            ]; track $index) {
+                <tr>
+                    <td class="fw-medium">{{ c.nombre }}</td>
+                    <td class="text-center text-muted">{{ c.ord | number }}</td>
+                    <td class="text-center fw-semibold">{{ c.pre | number }}</td>
+                </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== OPCIONES ======== -->
+  <div class="text-end mt-5">
+    <button class="btn btn-outline-dark btn-lg px-4 fw-semibold" (click)="crearSolicitud()">
+        Crear Pedido
+    </button>
+  </div>
+
+</div>

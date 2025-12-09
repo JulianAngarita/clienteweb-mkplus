@@ -1,0 +1,201 @@
+<app-loading-screen [loading]="cargando" [messageInput]="'Cargando...'"></app-loading-screen>
+
+<div class="container-fluid min-vh-100 p-4 my-5">
+    <div class="row justify-content-center">
+        <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-10">
+            <div class="bg-white border-1 p-4">
+                <!-- Header -->
+                <div class="mb-4 pb-3 border-bottom">
+                    <button
+                        class="btn btn-link text-dark p-0 mb-3 fw-semibold text-decoration-none text-start"
+                        (click)="atras()"
+                    >
+                        <i class="fas fa-arrow-left me-2"></i> Volver
+                    </button>
+                    <h1 class="h2 fw-bold text-dark mb-2">Prepagado Kia</h1>
+                    <p class="text-muted mb-0">Formulario Vehículo Mantenimiento Prepagado</p>
+                </div>
+
+                <!-- Formulario -->
+                <div class="row g-4">
+                    <!-- VIN -->
+                    <div class="col-12">
+                        <label class="input-kia-label d-flex align-items-center gap-2">
+                            VIN
+                        </label>
+                        <div class="d-flex gap-2">
+                            <div class="input-kia flex-grow-1">
+                                <input 
+                                    [(ngModel)]="vehiculo.vin" 
+                                    type="text" 
+                                    class="input-kia-field" 
+                                    placeholder=" "
+                                >
+                            </div>
+                            <button (click)="consultaVehiculo()" class="btn btn-outline-default border-0 rounded-pill pb-3" type="button" id="button-addon2">
+                                <i class="fas fa-search"></i>
+                            </button>   
+                        </div>
+                    </div>
+
+                    <!-- Versión -->
+                    <div class="col-md-6">
+                        <div class="input-kia">
+                            <label class="input-kia-label d-flex align-items-center gap-2">
+                                Versión
+                                <span ngbTooltip="Código de la versión de equipamiento" class="text-muted">
+                                    <i class="fas fa-circle-info small"></i>
+                                </span>
+                            </label>
+                            <input [(ngModel)]="vehiculo.version" 
+                                   type="text" 
+                                   class="input-kia-field" 
+                                   placeholder=" ">
+                        </div>
+                    </div>
+
+                    <!-- Descripción Versión -->
+                    <div class="col-md-6">
+                        <div class="input-kia">
+                            <label class="input-kia-label d-flex align-items-center gap-2">
+                                Descripción versión
+                                <span ngbTooltip="Nombre de la versión" class="text-muted">
+                                    <i class="fas fa-circle-info small"></i>
+                                </span>
+                            </label>
+                            <input [(ngModel)]="vehiculo.descripcionVersion" 
+                                   type="text" 
+                                   class="input-kia-field" 
+                                   placeholder=" ">
+                        </div>
+                    </div>
+
+                    <!-- Modelo -->
+                    @if (vehiculo.modelo) {
+                        <div class="col-md-4">
+                            <div class="input-kia">
+                                <label class="input-kia-label d-flex align-items-center gap-2">
+                                    Modelo
+                                    <span ngbTooltip="Nombre del modelo" class="text-muted">
+                                        <i class="fas fa-circle-info small"></i>
+                                    </span>
+                                </label>
+                                <input [(ngModel)]="vehiculo.modelo.nombre" 
+                                       type="text" 
+                                       class="input-kia-field" 
+                                       placeholder=" ">
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Código -->
+                    @if (vehiculo.modelo) {
+                        <div class="col-md-4">
+                            <div class="input-kia">
+                                <label class="input-kia-label d-flex align-items-center gap-2">
+                                    Código
+                                    <span ngbTooltip="Código de modelo posventa" class="text-muted">
+                                        <i class="fas fa-circle-info small"></i>
+                                    </span>
+                                </label>
+                                <input [(ngModel)]="vehiculo.modelo.codigo" 
+                                       type="text" 
+                                       class="input-kia-field" 
+                                       placeholder=" ">
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Año Modelo -->
+                    @if (vehiculo.modelo) {
+                        <div class="col-md-4">
+                            <div class="input-kia">
+                                <label class="input-kia-label d-flex align-items-center gap-2">
+                                    Año Modelo
+                                    <span ngbTooltip="Año modelo del vehículo" class="text-muted">
+                                        <i class="fas fa-circle-info small"></i>
+                                    </span>
+                                </label>
+                                <input [(ngModel)]="vehiculo.modelo.anoModelo" 
+                                       type="text" 
+                                       class="input-kia-field" 
+                                       placeholder=" ">
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Placa -->
+                    @if (vehiculo.modelo) {
+                        <div class="col-md-4">
+                            <div class="input-kia">
+                                <label class="input-kia-label d-flex align-items-center gap-2">
+                                    Placa
+                                    <span ngbTooltip="Placa del vehículo" class="text-muted">
+                                        <i class="fas fa-circle-info small"></i>
+                                    </span>
+                                </label>
+                                <input [(ngModel)]="vehiculo.placa" 
+                                       type="text" 
+                                       class="input-kia-field" 
+                                       placeholder=" ">
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Origen -->
+                    @if (vehiculo.modelo) {
+                        <div class="col-md-4">
+                            <div class="input-kia">
+                                <label class="input-kia-label d-flex align-items-center gap-2">
+                                    Origen
+                                    <span ngbTooltip="País de orígen" class="text-muted">
+                                        <i class="fas fa-circle-info small"></i>
+                                    </span>
+                                </label>
+                                <input [(ngModel)]="vehiculo.modelo.origen" 
+                                       type="text" 
+                                       class="input-kia-field" 
+                                       placeholder=" ">
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Color -->
+                    @if (vehiculo.modelo) {
+                        <div class="col-md-4">
+                            <div class="input-kia">
+                                <label class="input-kia-label d-flex align-items-center gap-2">
+                                    Color
+                                    <span ngbTooltip="Nombre del color" class="text-muted">
+                                        <i class="fas fa-circle-info small"></i>
+                                    </span>
+                                </label>
+                                <input [(ngModel)]="vehiculo.modelo.color" 
+                                       type="text" 
+                                       class="input-kia-field" 
+                                       placeholder=" ">
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Botones -->
+                <div class="d-flex justify-content-between mt-5 pt-3 border-top">
+                    <button
+                        class="boton-secondary-kia d-flex align-items-center gap-3"
+                        ngbTooltip="Es posible que aún no tenga la información sobre el vehículo, puede registrarla más tarde."
+                    >
+                        <span>Completar más tarde</span>
+                    </button>
+                    <button 
+                        class="boton-principal-kia d-flex align-items-center gap-3"
+                        (click)="siguiente()"
+                    >
+                        <span>Siguiente</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

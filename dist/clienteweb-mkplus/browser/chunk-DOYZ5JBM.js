@@ -1,0 +1,1 @@
+import{Ob as a,Va as o,pb as m,qb as n}from"./chunk-XFJKNVDY.js";import"./chunk-FJYW2LMB.js";var i=class t{static \u0275fac=function(e){return new(e||t)};static \u0275cmp=o({type:t,selectors:[["app-complementarios"]],decls:2,vars:0,template:function(e,r){e&1&&(m(0,"p"),a(1,"complementarios works!"),n())},encapsulation:2})};export{i as Complementarios};

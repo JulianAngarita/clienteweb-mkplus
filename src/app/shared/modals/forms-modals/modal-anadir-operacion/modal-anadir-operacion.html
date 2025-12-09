@@ -1,0 +1,156 @@
+<div class="modal-header">
+    <h5 class="modal-title">
+        Elegir Operaciones
+    </h5>
+    <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+    <app-loading-screen [messageInput]="'Cargando...'" [loading]="cargando"></app-loading-screen>
+    <form class="p-3">
+
+        <!-- Grupo 1 -->
+        <div class="row mb-3">
+
+            <div class="col-md-4">
+            <label class="form-label">Código</label>
+            <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="filtroOperaciones.codigo"
+                name="codigo"
+            />
+            </div>
+
+            <div class="col-md-4">
+            <label class="form-label">Nombre</label>
+            <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="filtroOperaciones.nombre"
+                name="nombre"
+            />
+            </div>
+
+            <div class="col-md-4">
+            <label class="form-label">Cilindrada</label>
+            <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="filtroOperaciones.aplicaPara.cilindrada"
+                name="cilindrada"
+            />
+            </div>
+        </div>
+
+        <!-- Grupo 2 -->
+        <div class="row mb-3">
+
+            <div class="col-md-4">
+            <label class="form-label">Aire Acondicionado</label>
+            <select
+                class="form-select"
+                [(ngModel)]="filtroOperaciones.aplicaPara.aireAcondicionado"
+                name="aireAcondicionado"
+            >
+                <option value="">Seleccione</option>
+                @for (opt of tipoAireAcondicionadoOpciones; track opt.value) {
+                    <option [value]="opt.value">{{ opt.text }}</option>
+                }
+            </select>
+            </div>
+
+            <div class="col-md-4">
+            <label class="form-label">Tipo Combustible</label>
+            <select
+                class="form-select"
+                [(ngModel)]="filtroOperaciones.aplicaPara.tipoCombustible"
+                name="tipoCombustible"
+            >
+                <option value="">Seleccione</option>
+                @for (opt of tipoCombustibleOpciones; track opt.value) {
+                <option [value]="opt.value">{{ opt.text }}</option>
+                }
+            </select>
+            </div>
+
+            <div class="col-md-4">
+            <label class="form-label">Transmisión</label>
+            <select
+                class="form-select"
+                [(ngModel)]="filtroOperaciones.aplicaPara.transmision"
+                name="transmision"
+            >
+                <option value="">Seleccione</option>
+                @for (opt of tipoTransmisionOpciones; track opt.value) {
+                <option [value]="opt.value">{{ opt.text }}</option>
+                }
+            </select>
+            </div>
+        </div>
+
+        <!-- Botón -->
+        <button (click)="consultaOperaciones()" class="btn btn-outline-secondary mt-3">
+            Guardar
+        </button>
+
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered text-center align-middle">
+
+        <thead class="table-light">
+        <tr>
+            <th rowspan="2">NOMBRE</th>
+            <th rowspan="2">CÓDIGO</th>
+            <th rowspan="2">HORAS</th>
+            <th colspan="4">APLICA PARA</th>
+            <th rowspan="2">ACCIONES</th>
+        </tr>
+
+        <tr>
+            <th>AIRE</th>
+            <th>COMBUSTIBLE</th>
+            <th>TRANSMISIÓN</th>
+            <th>CILINDRADA</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        @if (operaciones.length > 0) {
+            @for (op of operaciones; track op._id) {
+                <tr>
+                    <td>{{ op.nombre }}</td>
+                    <td>{{ op.codigo }}</td>
+                    <td>{{ op.horas }}</td>
+                    <td>{{ op.aplicaPara.aireAcondicionado }}</td>
+                    <td>{{ op.aplicaPara.tipoCombustible }}</td>
+                    <td>{{ op.aplicaPara.transmision }}</td>
+                    <td>{{ op.aplicaPara.cilindrada }}</td>
+
+                    <td>
+                    <button
+                        class="btn btn-sm btn-outline-dark"
+                        (click)="elegirOperacion(op._id!)"
+                    >
+                        <i class="fa fa-check"></i>
+                    </button>
+                    </td>
+                </tr>
+                }
+
+            } @else {
+                <tr>
+                    <td colspan="8" class="text-center py-3">
+                        No hay operaciones registradas
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+        </table>
+    </div>
+    <ngb-pagination [collectionSize]="total" [pageSize]="filtroOperaciones.limite" [maxSize]="10"
+        (pageChange)="cambiarPagina( $event )" [(page)]="paginas" aria-label="Default pagination">
+    </ngb-pagination>
+</div>

@@ -1,0 +1,167 @@
+<app-loading-screen [messageInput]="'Cargando...'" [loading]="cargando"></app-loading-screen>
+
+<div class="container-fluid p-5 mt-5" style="min-height:70vh;">
+
+  <!-- HEADER -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h3 class="fw-bold text-dark mb-1">Paquetes</h3>
+      <p class="text-muted mb-0">
+        Gestión y administración de paquetes registrados en la plataforma.
+      </p>
+    </div>
+
+    <button class="btn boton-principal-kia" (click)="crear()">
+      Nuevo paquete
+    </button>
+  </div>
+
+  <!-- CARD FILTROS -->
+  <div class="card border-0 rounded-3 mb-4 shadow-sm">
+
+    <div class="card-body">
+
+      <h6 class="fw-semibold mb-3">Filtrar por</h6>
+
+      <div class="row g-3">
+
+        <div class="col-md-3">
+          <input class="form-control rounded-pill px-3"
+                 placeholder="Código del Paquete"
+                 [(ngModel)]="filtro.codigoPaquete">
+        </div>
+
+        <div class="col-md-3">
+          <input class="form-control rounded-pill px-3"
+                 placeholder="Nombre del Paquete"
+                 [(ngModel)]="filtro.nombre">
+        </div>
+
+        <div class="col-md-3">
+          <input class="form-control rounded-pill px-3"
+                 placeholder="Descripción del Paquete"
+                 [(ngModel)]="filtro.descripcion">
+        </div>
+
+        <div class="col-md-3">
+          <input class="form-control rounded-pill px-3"
+                 placeholder="Código del Modelo"
+                 [(ngModel)]="filtro.modelo.codigo">
+        </div>
+
+        <div class="col-md-6">
+          <input class="form-control rounded-pill px-3"
+                 placeholder="Descripción del Modelo"
+                 [(ngModel)]="filtro.descripcion">
+        </div>
+
+        <div class="col-md-3">
+          <input class="form-control rounded-pill px-3"
+                 placeholder="Versión"
+                 [(ngModel)]="filtro.modelo.version">
+        </div>
+
+        <div class="col-md-3 d-flex align-items-center">
+          <div class="form-check form-switch ms-auto">
+            <input class="form-check-input"
+                   type="checkbox"
+                   [(ngModel)]="filtro.activo"
+                   id="switchActivo">
+            <label class="form-check-label fw-medium" for="switchActivo">
+              Activos
+            </label>
+          </div>
+        </div>
+
+        <div class="col-12 text-end">
+          <button class="btn boton-secondary-kia px-4" (click)="consulta()">
+            Buscar
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA -->
+  <div class="card border-0 shadow-sm rounded-4">
+    <div class="table-responsive">
+
+      <table class="table table-striped table-bordered text-center align-middle mb-0">
+
+        <thead class="table-light">
+          <tr>
+            <th>NOMBRE</th>
+            <th>DESCRIPCIÓN</th>
+            <th>CÓDIGO DE PAQUETE</th>
+            <th>TIPO DE PAQUETE</th>
+            <th>ESTATUS</th>
+
+            <!-- MODELO -->
+            <th>CÓDIGO</th>
+            <th>VERSIÓN</th>
+            <th>DESCRIPCIÓN</th>
+
+            <th>ACCIONES</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          @for (item of paquetes; track item._id) {
+            <tr>
+              <td>{{ item.nombre }}</td>
+              <td>{{ item.descripcion }}</td>
+              <td>{{ item.codigoPaquete }}</td>
+              <td>{{ item.tipoPaquete }}</td>
+              <td>{{ item.estatus.nombre }}</td>
+
+              <td>{{ item.modelo.codigo }}</td>
+              <td>{{ item.modelo.version }}</td>
+              <td>{{ item.modelo.descripcion }}</td>
+
+              <td>
+                <button class="btn btn-outline-dark rounded-pill px-3 me-2" [routerLink]="['/admin/detalles', item._id ?? '']">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                  Editar
+                </button>
+
+                <button class="btn btn-outline-secondary rounded-pill px-3"
+                        (click)="eliminar(item)">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          }
+
+          @empty {
+            <tr>
+              <td colspan="9" class="py-4 text-muted">
+                No hay paquetes registrados.
+              </td>
+            </tr>
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <!-- FOOTER PAGINATION -->
+    <div class="card-footer d-flex justify-content-between align-items-center">
+      <div class="text-muted">
+        Mostrando {{ paquetes.length }} paquete(s)
+      </div>
+
+      <ngb-pagination
+        [collectionSize]="total"
+        [pageSize]="filtro.limite"
+        [maxSize]="10"
+        (pageChange)="cambiarPagina($event)"
+        [(page)]="pagina">
+      </ngb-pagination>
+    </div>
+
+  </div>
+</div>

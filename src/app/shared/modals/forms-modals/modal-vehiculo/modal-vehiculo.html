@@ -1,0 +1,99 @@
+<div class="modal-header">
+    <h3 class="modal-title">Formulario Vehículos</h3>
+    <button type="button" class="btn-close" (click)="modalActivo.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+
+    <!-- DATOS -->
+    <h5>Datos</h5>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label class="form-label">Vin</label>
+            <input type="text" class="form-control" placeholder="Ej. U5YPX81DBPL082165" [(ngModel)]="vehiculo.vin"
+                name="vin">
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Versión</label>
+            <input type="text" class="form-control" placeholder="Ej. NQ1A70__25G2000" [(ngModel)]="vehiculo.version"
+                name="version">
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Placa</label>
+            <input type="text" class="form-control" placeholder="Ej. ABC123" [(ngModel)]="vehiculo.placa" name="placa">
+        </div>
+    </div>
+
+    <div class="row g-3 mt-2">
+        <div class="col-12">
+            <label class="form-label">Descripción De Versión</label>
+            <input type="text" class="form-control" placeholder="Ej. Vibrant" [(ngModel)]="vehiculo.descripcionVersion"
+                name="descripcionVersion">
+        </div>
+    </div>
+
+    <!-- MODELO -->
+    <h5 class="mt-4">Modelo</h5>
+
+    <div class="row g-3">
+        <div class="col-md-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" placeholder="Ej. Sportage NQ" [(ngModel)]="vehiculo.modelo.nombre"
+                name="modeloNombre">
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Código</label>
+            <input type="text" class="form-control" placeholder="Ej. NQ" [(ngModel)]="vehiculo.modelo.codigo"
+                name="modeloCodigo">
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Origen</label>
+            <input type="text" class="form-control" placeholder="Ej. Eslovaquia" [(ngModel)]="vehiculo.modelo.origen"
+                name="modeloOrigen">
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Color</label>
+            <input type="text" class="form-control" placeholder="Ej. BLANCO" [(ngModel)]="vehiculo.modelo.color"
+                name="color">
+        </div>
+    </div>
+
+    <div class="row g-3 mt-2">
+        <div class="col-md-3">
+            <label class="form-label">Año Del Modelo</label>
+            <input type="text" class="form-control" placeholder="Ej. 2023" [(ngModel)]="vehiculo.modelo.anoModelo"
+                name="anioModelo">
+        </div>
+    </div>
+
+    <!-- INSTRUCCIONES -->
+    <div class="mt-4 p-3 border rounded bg-light small">
+        <p><strong>VIN:</strong> Tenga en cuenta que el vin debe contener 17 caracteres, todos en mayúsculas.</p>
+        <p><strong>VERSIÓN:</strong> Coloque el código de equipamiento. Ej, NQ1A70__25G2000 todos en mayúsculas.</p>
+        <p><strong>PLACA:</strong> Escriba la placa sin espacios ni separadores. Ej. ABC123 todos en mayúsculas.</p>
+        <p><strong>DESCRIPCIÓN DE LA VERSIÓN:</strong> Escriba el nombre de la versión. Ej. Vibrant.</p>
+        <p><strong>MODELO NOMBRE:</strong> Ej. Sportage NQ.</p>
+        <p><strong>MODELO CÓDIGO:</strong> Ej. NQ.</p>
+        <p><strong>MODELO ORIGEN:</strong> Ej. Eslovaquia.</p>
+        <p><strong>MODELO COLOR:</strong> Ej. BLANCO.</p>
+        <p><strong>MODELO AÑO:</strong> Ej. 2023.</p>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn boton-secondary-kia" (click)="modalActivo.dismiss()">Cancelar</button>
+    @if (evento === 'EVENTO_GUARDAR') {
+    <button type="button" class="btn boton-principal-kia" (click)="crearVehiculo()">Agregar vehículo</button>
+    }
+
+    @if (evento === 'EVENTO_ACTUALIZAR') {
+    <button type="button" class="btn boton-principal-kia" (click)="actualizarVehiculo()">Actualizar vehículo</button>
+    }
+</div>

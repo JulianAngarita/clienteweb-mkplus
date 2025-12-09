@@ -1,0 +1,383 @@
+<!-- Modal Operaciones -->
+<div class="modal fade show" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- HEADER -->
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Formulario Operaciones
+                </h5>
+                <button type="button" class="btn-close" (click)="modalActivo.close(false)"></button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+                <form>
+
+                    <!-- DESCRIPCIÓN -->
+                    <h6 class="mb-3">Descripción</h6>
+
+                    <div class="row g-3 mb-3">
+
+                        <div class="col-md-4">
+                            <label class="form-label">Nombre</label>
+                            <input 
+                                class="form-control"
+                                name="nombre"
+                                [(ngModel)]="datosOperacion.nombre"
+                            />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Horas</label>
+                            <input 
+                                type="number"
+                                class="form-control"
+                                name="horas"
+                                [(ngModel)]="datosOperacion.horas"
+                            />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Código</label>
+                            <input
+                                class="form-control"
+                                name="codigo"
+                                [(ngModel)]="datosOperacion.codigo"
+                            />
+                        </div>
+
+                    </div>
+
+                    <!-- APLICA PARA -->
+                    <h6 class="mb-3">Aplica Para</h6>
+
+                    <div class="row g-3 mb-3">
+
+                        <div class="col-md-3">
+                            <label class="form-label">Aire Acondicionado</label>
+                            <select 
+                                class="form-select"
+                                name="aireAcondicionado"
+                                [(ngModel)]="datosOperacion.aplicaPara.aireAcondicionado"
+                            >
+                                @for (item of tipoAireAcondicionadoOpciones; track $index) {
+                                    <option [value]="item.value">{{ item.text }}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Tipo Combustible</label>
+                            <select 
+                                class="form-select"
+                                name="tipoCombustible"
+                                [(ngModel)]="datosOperacion.aplicaPara.tipoCombustible"
+                            >
+                                @for (item of tipoCombustibleOpciones; track $index) {
+                                    <option [value]="item.value">{{ item.text }}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Transmisión</label>
+                            <select 
+                                class="form-select"
+                                name="transmision"
+                                [(ngModel)]="datosOperacion.aplicaPara.transmision"
+                            >
+                                @for (item of tipoTransmisionOpciones; track $index) {
+                                    <option [value]="item.value">{{ item.text }}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Cilindrada</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                name="cilindrada"
+                                [(ngModel)]="datosOperacion.aplicaPara.cilindrada"
+                            />
+                        </div>
+
+                    </div>
+
+                    <!-- REPUESTOS -->
+                    <h6 class="mb-3">Repuestos</h6>
+                    <button 
+                        type="button"
+                        class="btn boton-secondary-kia mb-3"
+                        (click)="abrirSlideRepuestos()"
+                    >
+                        <i class="bi bi-plus-lg"></i> Agregar Repuesto
+                    </button>
+
+                    @if (datosOperacion.repuestos.length > 0) {
+                    <div class="card border-0 shadow-sm rounded-4">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-striped table-bordered text-center align-middle mb-0">
+
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">Referencia</th>
+                                        <th rowspan="2">Descripción</th>
+                                        <th colspan="2">Precio venta</th>
+                                        <th rowspan="2">Cantidad</th>
+                                        <th rowspan="2">Acciones</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Publico</th>
+                                        <th>Concesionario</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @for (item of datosOperacion.repuestos; track $index) {
+                                    <tr>
+                                        <td>{{ item.referencia }}</td>
+                                        <td>{{ item.pnc }}</td>
+
+                                        <td>{{ item.precioVenta.publico }}</td>
+                                        <td>{{ item.precioVenta.concesionario }}</td>
+                                        <td>{{ item.cantidad }}</td>
+
+                                        <td>
+                                            <div class="d-flex justify-content-evenly">
+                                                <button 
+                                                    class="btn btn-outline-dark rounded-pill px-3 d-inline-flex align-items-center gap-2"
+                                                    (click)="restarCantidad($index)"
+                                                >
+                                                    <i class="fa-solid fa-minus"></i>
+                                                </button>
+                                                <button 
+                                                    class="btn btn-outline-dark rounded-pill px-3 d-inline-flex align-items-center gap-2"
+                                                    (click)="eliminarRepuesto(item)"
+                                                >
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                                <button 
+                                                    class="btn btn-outline-dark rounded-pill px-3 d-inline-flex align-items-center gap-2"
+                                                    (click)="sumarCantidad($index)"
+                                                >
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    } @empty {
+                                    <tr>
+                                        <td colspan="14" class="text-center py-4 text-muted">
+                                            No hay repuestos registrados actualmente.
+                                        </td>
+                                    </tr>
+                                    }
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between align-items-center">
+                            <div class="text-muted">
+                                Mostrando {{ datosOperacion.repuestos.length }} respuesto(s)
+                            </div>
+                        </div>
+                    </div>
+                    }
+
+                    <!-- ACTIVACIÓN -->
+                    <h6 class="mb-3 mt-3">Activación de Operación</h6>
+
+                    <div class="form-check form-switch">
+                        <input 
+                            type="checkbox"
+                            class="form-check-input"
+                            id="activoOpToggle"
+                            name="activo"
+                            [(ngModel)]="datosOperacion.activo"
+                        />
+                        <label class="form-check-label" for="activoOpToggle">
+                            Si la operación está desactivada no estará disponible
+                        </label>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+
+                <button 
+                    type="button"
+                    class="btn boton-secondary-kia"
+                    (click)="modalActivo.close(false)"
+                >
+                    Cancelar
+                </button>
+
+                @if(evento === 'EVENTO_ACTUALIZAR') {
+                    <button 
+                        type="button"
+                        class="btn boton-principal-kia"
+                        (click)="actualizar()"
+                    >
+                        {{ cargando ? 'Actualizando...' : 'Actualizar' }}
+                    </button>
+                }
+
+                @if(evento === 'EVENTO_GUARDAR') {
+                    <button 
+                        type="button"
+                        class="btn boton-principal-kia"
+                        (click)="guardar()"
+                    >
+                        {{ cargando ? 'Guardando...' : 'Guardar' }}
+                    </button>
+                }
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE-OVER DE REPUESTOS -->
+@if (isSlideRepuestosOpen) {
+    <div 
+        class="slide-overlay"
+        (click)="cerrarSlideRepuestos()">
+    </div>
+
+    <div 
+        class="slide-panel"
+        [class.open]="isSlideRepuestosOpen"
+        (click)="$event.stopPropagation()">
+
+        <div class="slide-header">
+            <h5>Buscar Repuestos</h5>
+            <button class="btn-close" (click)="cerrarSlideRepuestos()"></button>
+        </div>
+
+        <div class="slide-body">
+
+                <div class="card border-0 rounded-3 mb-4 shadow-sm">
+                    <div class="card-body d-flex flex-wrap align-items-center gap-3">
+
+                        <h6 class="fw-semibold mb-0">Filtrar por:</h6>
+                        <div class="flex-grow-1" style="min-width:220px;">
+                            <input
+                                class="form-control rounded-pill px-3"
+                                placeholder="Modelo"
+                                [(ngModel)]="filtroRepuesto.modelo"
+                            />
+                        </div>
+                        <div class="flex-grow-1" style="min-width:220px;">
+                            <input
+                                class="form-control rounded-pill px-3"
+                                placeholder="Referencia"
+                                [(ngModel)]="filtroRepuesto.referencia"
+                            />
+                        </div>
+                        <div class="flex-grow-1" style="min-width:220px;">
+                            <input
+                                class="form-control rounded-pill px-3"
+                                placeholder="Descripción"
+                                [(ngModel)]="filtroRepuesto.descripcion"
+                            />
+                        </div>
+                        <div class="flex-grow-1" style="min-width:220px;">
+                            <input
+                                class="form-control rounded-pill px-3"
+                                placeholder="PNC"
+                                [(ngModel)]="filtroRepuesto.pnc"
+                            />
+                        </div>
+                        <div class="flex-grow-1" style="min-width:220px;">
+                            <div class="form-check form-switch d-flex align-items-center gap-2">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    role="switch"
+                                    [(ngModel)]="filtroRepuesto.activo"
+                                    id="estadoModelo"
+                                />
+                                <label class="form-check-label fw-medium" for="estadoModelo">
+                                    Estado del Repuesto
+                                </label>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-dark rounded-pill px-4" (click)="consultarRepuestos()">
+                            Buscar
+                        </button>
+                    </div>
+                </div>
+
+            <h6 class="mt-4">Repuestos</h6>
+
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped table-bordered text-center align-middle mb-0">
+
+                        <thead>
+                            <tr>
+                                <th>Modelo</th>
+                                <th>Referencia</th>
+                                <th>Descripción</th>
+                                <th>PNC</th>
+                                <th>Cilindrada</th>
+                                <th>Agregar</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @for (item of repuestos; track item._id) {
+                            <tr>
+                                <td>{{ item.modelo }}</td>
+                                <td>{{ item.referencia }}</td>
+                                <td>{{ item.descripcion }}</td>
+                                <td>{{ item.pnc }}</td>
+                                <td>{{ item.caracteristicas.cilindrada }}</td>
+
+                                <td>
+                                    <button 
+                                        class="btn btn-outline-dark rounded-pill px-3 d-inline-flex align-items-center gap-2"
+                                        (click)="agregarRepuesto(item)"
+                                    >
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            } @empty {
+                            <tr>
+                                <td colspan="14" class="text-center py-4 text-muted">
+                                    No hay repuestos registrados actualmente.
+                                </td>
+                            </tr>
+                            }
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <div class="text-muted">
+                        Mostrando {{ repuestos.length }} respuesto(s)
+                    </div>
+
+                    <ngb-pagination
+                        [collectionSize]="totalRepuestos" 
+                        [pageSize]="filtroRepuesto.limite"
+                        [maxSize]="10"
+                        (pageChange)="cambiarPaginaRepuestos( $event )"
+                        [(page)]="paginaRepuestos" 
+                        aria-label="Default pagination">
+                    </ngb-pagination>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+

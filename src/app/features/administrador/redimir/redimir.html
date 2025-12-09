@@ -1,0 +1,120 @@
+<app-loading-screen [messageInput]="'Cargando...'" [loading]="cargando"></app-loading-screen>
+@if (consultaActiva) {
+<div class="container align-items-center d-flex justify-content-center mt-5 py-5" style="min-height: 80vh;">
+    <div class="col-12 col-md-6">
+
+        <h2 class="fw-bold">Bienvenido,</h2>
+        <h4 class="mb-4">Inicia una nueva solicitud</h4>
+
+
+        <!-- Número -->
+        <div class="mb-3">
+            <label class="form-label">Kilometraje</label>
+            <input type="text" class="input-kia-field"
+                [(ngModel)]="filtroRedencion.kilometraje">
+        </div>
+
+        <!-- Concesionario -->
+        <div class="mb-4">
+            <label class="form-label">VIN</label>
+            <input type="text" class="input-kia-field" placeholder="" [(ngModel)]="filtroRedencion.vin">
+        </div>
+
+        <!-- Botón -->
+        <button class="btn boton-principal-kia px-4" type="button" (click)="buscar()">
+            Buscar
+        </button>
+
+    </div>
+</div>
+} @else {
+<div class="container my-5 py-5">
+
+    <!-- Título -->
+    <h1 class="fw-bold display-4">Redención de servicios</h1>
+
+    <!-- Datos del vehículo -->
+    <div class="mt-3">
+        <p class="mb-0"><strong>Vehículo:</strong> {{ vehiculo.descripcionVersion }}</p>
+        <p class="mb-0"><strong>VIN:</strong> {{ vehiculo.vin }}</p>
+        <p class="mb-0"><strong>Placa:</strong> {{ vehiculo.placa }}</p>
+    </div>
+
+    <!-- Tabla con scroll -->
+    <div class="table-responsive mt-4">
+        <table class="table table-bordered align-middle text-center">
+            <thead class="table-light">
+                <tr>
+                    <th rowspan="2">Solicitud</th>
+                    <th colspan="2">Concesionario</th>
+                    <th colspan="2">Frecuencia</th>
+                    <th colspan="2">Vigencia</th>
+                    <th colspan="6">Valores</th>
+                    <th rowspan="2">Estado</th>
+                    <th rowspan="2">Acciones</th>
+                </tr>
+                <tr>
+                    <th>Grupo</th>
+                    <th>Nombre</th>
+                    <th>Km</th>
+                    <th>Meses</th>
+                    <th>Km</th>
+                    <th>Meses</th>
+                    <th>Insumos</th>
+                    <th>Repuestos</th>
+                    <th>Mano de Obra</th>
+                    <th>Administración</th>
+                    <th>IVA</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (item of servicios; track $index) {
+                <tr>
+                    <td>{{ item.solicitud.numero }}</td>
+
+                    <td>{{ item.concesionario.grupo }}</td>
+                    <td>{{ item.concesionario.nombre }}</td>
+
+                    <td>{{ item.frecuencia_kilometraje }}</td>
+                    <td>{{ item.frecuencia_meses }}</td>
+
+                    <td>{{ item.vigencia_kilometraje }}</td>
+                    <td>{{ item.vigencia_meses }}</td>
+
+                    <td> {{ item.precios_insumos | currency:'$ ':'symbol':'0.0'}}</td>
+                    <td> {{ item.precios_repuestos | currency:'$ ':'symbol':'0.0'}}</td>
+                    <td> {{ item.precios_mano_obra | currency:'$ ':'symbol':'0.0'}}</td>
+                    <td> {{ item.precios_comision | currency:'$ ':'symbol':'0.0'}}</td>
+                    <td> {{ item.precios_iva | currency:'$ ':'symbol':'0.0'}}</td>
+                    <td class="fw-bold"> {{ item.precios_valor_total | currency:'$ ':'symbol':'0.0'}}</td>
+                    <td class="fw-bold">
+                        <span [ngStyle]="{
+                            'background-color': color(item.redencion_estatus),
+                            color: 'white',
+                            padding: '4px 10px',
+                            'border-radius': '6px',
+                            'font-size': '0.85rem',
+                            'font-weight': '500'
+                        }">
+                            {{ item.redencion_estatus }}
+                        </span>
+                    </td>
+                    <td class="fw-bold">
+                        <button
+                            class="btn boton-secondary-kia"
+                            (click)="verServicioRedencion(item)"
+                        >
+                            Redimir
+                        </button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+}

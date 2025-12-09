@@ -1,0 +1,12 @@
+<div class="inicio-bg">
+  <div class="hero-content text-white">
+    <h1 class="display-4 fw-bold mb-4">Mantenimiento Prepagado</h1>
+
+    <div class="buttons d-flex flex-wrap gap-3">
+      <button routerLink="/tienda/home" class="btn btn-light rounded-0 btn-lg px-4 py-2">¡Cotizar!</button>
+      @if (rol === 'ADMINISTRADOR SISTEMA' || rol === 'IMPORTADORA') {
+        <button routerLink="/admin/home" class="btn btn-outline-light rounded-0 btn-lg px-4 py-2">Administrador</button>
+      }
+    </div>
+  </div>
+</div>

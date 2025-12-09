@@ -1,0 +1,71 @@
+<!-- Modal simple con Bootstrap y *ngIf -->
+<div class="modal fade show" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Formulario Temparios</h5>
+                <button type="button" class="btn-close" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    <h6 class="mb-3">Datos de la rutina</h6>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Rutina</label>
+                            <input class="form-control" name="nombre" [(ngModel)]="datosTempario.rutina"
+                                />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Horas</label>
+                            <input class="form-control" name="codigoModelo" [(ngModel)]="datosTempario.hora"
+                            />
+                        </div>
+                    </div>
+
+                    <h6 class="mb-3">Descuentos</h6>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Repuestos de importadora</label>
+                            <input type="number" class="form-control" name="insumos"
+                                [(ngModel)]="datosTempario.descuentos.repuestosImportadora" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Repuestos de concesionario</label>
+                            <input type="number" class="form-control" name="manoObra"
+                                [(ngModel)]="datosTempario.descuentos.repuestosConcesionario" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Total descuento</label>
+                            <input type="number" class="form-control" name="manoObra"
+                                [(ngModel)]="datosTempario.descuentos.totalDescuento" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn boton-secondary-kia" (click)="modalActivo.close(false)">
+                    CANCELAR
+                </button>
+
+                @if (evento === 'EVENTO_ACTUALIZAR') {
+                <button type="button" class="btn boton-principal-kia" (click)="actualizar()">
+                    ACTUALIZAR
+                </button>
+                }
+
+                @if (evento === 'EVENTO_GUARDAR') {
+                <button type="button" class="btn boton-principal-kia" (click)="crear()">
+                    GUARDAR
+                </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

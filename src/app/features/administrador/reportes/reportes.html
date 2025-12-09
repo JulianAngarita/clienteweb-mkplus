@@ -1,0 +1,113 @@
+<div class="container-fluid mt-5 mb-5 p-4" style="min-height:70vh;">
+  <h1 class="display-4 fw-bold mb-4 mt-4">Reportes</h1>
+
+    <div class="card border-dark mb-4">
+    <div class="card-header bg-dark text-white fs-4">Solicitudes</div>
+
+    <div class="card-body">
+
+        <form [formGroup]="filtroSolicitudes">
+
+        <div class="row">
+            <div class="col">
+            <label>Desde</label>
+            <input type="date" class="form-control" formControlName="desde">
+            </div>
+
+            <div class="col">
+            <label>Hasta</label>
+            <input type="date" class="form-control" formControlName="hasta">
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col">
+            <label>CL Concesionario</label>
+            <input type="text" class="form-control" formControlName="concesionario_cl">
+            </div>
+
+            <div class="col">
+            <label>Cédula asesor</label>
+            <input type="text" class="form-control" formControlName="asesor_cedula">
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col">
+            <label>Grupo</label>
+            <select class="form-select" formControlName="concesionario_grupo">
+                @for (g of listaGrupos; track g.key) {
+                <option [value]="g.value">{{ g.text }}</option>
+                }
+            </select>
+            </div>
+
+            <div class="col">
+            <label>Estado</label>
+            <select class="form-select" formControlName="estado">
+                @for (e of listaEstadoRedencion; track e.key) {
+                <option [value]="e.value">{{ e.text }}</option>
+                }
+            </select>
+            </div>
+        </div>
+
+        </form>
+
+        <button class="btn btn-dark mt-3" (click)="descargarReporteSolicitudes()">Descargar</button>
+
+    </div>
+    </div>
+
+
+  <!-- ========================= -->
+  <!--          SERVICIOS        -->
+  <!-- ========================= -->
+    <div class="card border-dark">
+    <div class="card-header bg-dark text-white fs-4">Servicios</div>
+
+    <div class="card-body">
+
+        <form [formGroup]="filtroServicios">
+
+        <div class="row">
+            <div class="col">
+            <label>Desde</label>
+            <input type="date" class="form-control" formControlName="desde">
+            </div>
+
+            <div class="col">
+            <label>Hasta</label>
+            <input type="date" class="form-control" formControlName="hasta">
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col">
+            <label>Grupo</label>
+            <select class="form-select" formControlName="concesionario_grupo">
+                @for (g of listaGrupos; track g.key) {
+                <option [value]="g.value">{{ g.text }}</option>
+                }
+            </select>
+            </div>
+
+            <div class="col">
+            <label>Estado</label>
+            <select class="form-select" formControlName="estado">
+                @for (e of listaEstadoRedencion; track e.key) {
+                <option [value]="e.value">{{ e.text }}</option>
+                }
+            </select>
+            </div>
+        </div>
+
+        </form>
+
+        <button class="btn btn-dark mt-3" (click)="descargarReporteServicios()">Descargar</button>
+
+    </div>
+    </div>
+
+</div>
+

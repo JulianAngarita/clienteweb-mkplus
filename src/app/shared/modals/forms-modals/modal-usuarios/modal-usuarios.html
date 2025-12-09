@@ -1,0 +1,254 @@
+<!-- formulario-usuarios.component.html -->
+<div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <!-- Header -->
+            <div class="modal-header px-4 py-3 d-flex align-items-center justify-content-between border-bottom">
+                <h4 class="fw-bold mb-0 text-dark">
+                    Formulario Usuarios
+                </h4>
+                <button (click)="modalActivo.close(false)" type="button" class="btn-close" aria-label="Cerrar"></button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body px-4 py-4" style="max-height: 70vh; overflow-y: auto;">
+                <!-- Sección: Identificación -->
+                <h5 class="fw-semibold mb-3 text-dark">Identificación</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <label class="form-label fw-medium">Nombres</label>
+                        <input type="text" class="form-control" [(ngModel)]="usuarioSeleccionado.nombre.nombres" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-medium">Apellidos</label>
+                        <input type="text" class="form-control" [(ngModel)]="usuarioSeleccionado.nombre.apellidos" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-medium">Correo Electrónico</label>
+                        <input type="email" class="form-control" [(ngModel)]="usuarioSeleccionado.email" />
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <label class="form-label fw-medium">Tipo de identificación</label>
+                        <select class="form-select" [(ngModel)]="usuarioSeleccionado.identificacion.tipo">
+                            @for (tipo of tiposIdentificacion; track $index) {
+                            <option [value]="tipo.value">
+                                {{tipo.text}}
+                            </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-medium">Número de identificación</label>
+                        <input type="text" class="form-control"
+                            [(ngModel)]="usuarioSeleccionado.identificacion.numero" />
+                    </div>
+                </div>
+
+                <!-- Sección: Contraseña -->
+                <h5 class="fw-semibold mb-3 text-dark">Contraseña</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-medium">Contraseña</label>
+                        <input type="password" class="form-control" [class.is-invalid]="errorContrasena.estatus"
+                            [(ngModel)]="contrasena.contrasena" (ngModelChange)="onContrasenaChange()"
+                            autocomplete="off" placeholder="Nueva contraseña" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-medium">Confirmar contraseña</label>
+                        <input type="password" class="form-control" [class.is-invalid]="errorContrasena.estatus"
+                            [(ngModel)]="contrasena.confirmarContrasena" (ngModelChange)="onContrasenaChange()"
+                            autocomplete="off" placeholder="Confirmar" />
+                    </div>
+                </div>
+
+                @if (errorContrasena.estatus) {
+                <div class="alert alert-danger mb-4">
+                    <i class="fa-solid fa-exclamation-triangle me-2"></i>
+                    {{ errorContrasena.mensaje }}
+                </div>
+                }
+
+                <!-- Sección: Rol -->
+                <h5 class="fw-semibold mb-3 text-dark">Rol</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-medium">Cargo</label>
+                        <input type="text" class="form-control" [(ngModel)]="usuarioSeleccionado.cargo" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-medium">Tipo de rol</label>
+                        <select class="form-select" [(ngModel)]="usuarioSeleccionado.rol"
+                            (change)="usuarioSeleccionado.concesiones = []">
+                            @for (rol of tiposRoles; track $index) {
+                            <option [value]="rol.value">
+                                {{rol.text}}
+                            </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Sección: Concesiones -->
+                <h5 class="fw-semibold mb-3 text-dark">Concesiones</h5>
+                <div class="row g-3 mb-4">
+                    <!-- Administrador Concesionario -->
+                    @if (seleccionarRol() === 'administrador_concesionario') {
+                    <div class="col-12">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium">Grupo</label>
+                                <select class="form-select" [(ngModel)]="usuarioSeleccionado.grupo"
+                                    (change)="seleccionaGrupo()">
+                                    <option value="">Seleccionar...</option>
+                                    @for (grupo of grupos; track $index) {
+                                    <option [value]="grupo.value"
+                                        [selected]="grupo.value === usuarioSeleccionado.grupo">
+                                        {{ grupo.text }}
+                                    </option>
+                                    }
+
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium">Concesiones</label>
+                                <div class="dropdown">
+                                    <button
+                                        class="btn border w-100 text-start px-3 d-flex justify-content-between align-items-center"
+                                        type="button" data-bs-toggle="dropdown" data-bs-auto-close="false">
+                                        <span>
+                                            {{ usuarioSeleccionado.concesiones.length }} seleccionadas
+                                        </span>
+                                        <i class="fa-solid fa-chevron-down"></i>
+                                    </button>
+
+                                    <ul class="dropdown-menu w-100 p-2" style="max-height: 250px; overflow-y: auto;">
+                                        @for (c of concesionesSeleccionada; track c) {
+                                        <li>
+                                            <label class="dropdown-item d-flex align-items-center gap-2"
+                                                (click)="$event.stopPropagation()">
+                                                <input type="checkbox" class="form-check-input"
+                                                    [checked]="usuarioSeleccionado.concesiones.includes(c.value)"
+                                                    (change)="toggleConcesion(c.value)" />
+
+                                                {{ c.text }}
+                                            </label>
+                                        </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+
+
+                    <!-- Administrador Sistema o Importadora -->
+                    @if (seleccionarRol() === 'administrador_sistema' || seleccionarRol() === 'importadora') {
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            <p class="mb-0">No es necesario, este usuario tendrá acceso a todos los concesionarios</p>
+                        </div>
+                    </div>
+                    }
+
+
+                    <!-- Otros roles (Asesor, etc.) -->
+                    @if (seleccionarRol() === 'otros') {
+                    <div class="col-12">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium">Grupo</label>
+                                <select class="form-select" [(ngModel)]="usuarioSeleccionado.grupo"
+                                    (change)="seleccionaGrupo()">
+                                    <option value="">Seleccionar...</option>
+                                    @for (grupo of grupos; track $index) {
+                                    <option [value]="grupo.value"
+                                        [selected]="grupo.value === usuarioSeleccionado.grupo">
+                                        {{ grupo.text }}
+                                    </option>
+                                    }
+
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium">Concesiones</label>
+                                <select class="form-select" [ngModel]="usuarioSeleccionado.concesiones[0]"
+                                    (ngModelChange)="usuarioSeleccionado.concesiones = [$event]">
+                                    @for (concesion of concesionesSeleccionada; track $index) {
+                                    <option [value]="concesion.value">
+                                        {{ concesion.text }}
+                                    </option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    }
+
+                </div>
+
+                <!-- Sección: Activación y Permisos -->
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <h5 class="fw-semibold mb-3 text-dark">Activación de Usuario</h5>
+                        <div class="border rounded p-3">
+                            <h6 class="fw-medium">Nota:</h6>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="usuarioActivo"
+                                    [(ngModel)]="usuarioSeleccionado.activo" />
+                                <label class="form-check-label" for="usuarioActivo">
+                                    Si el usuario está desactivado no estará disponible
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h5 class="fw-semibold mb-3 text-dark">Permisos</h5>
+                        <div class="border rounded p-3">
+                            <div class="form-check form-switch mb-2">
+                                <input class="form-check-input" type="checkbox" id="permisoLectura"
+                                    [(ngModel)]="usuarioSeleccionado.permisos.lectura" />
+                                <label class="form-check-label" for="permisoLectura">Lectura</label>
+                            </div>
+                            <div class="form-check form-switch mb-2">
+                                <input class="form-check-input" type="checkbox" id="permisoEscritura"
+                                    [(ngModel)]="usuarioSeleccionado.permisos.escritura" />
+                                <label class="form-check-label" for="permisoEscritura">Escritura</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="permisoEliminar"
+                                    [(ngModel)]="usuarioSeleccionado.permisos.eliminar" />
+                                <label class="form-check-label" for="permisoEliminar">Eliminar</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer border-0 px-4 pb-4">
+                <button class="btn boton-secondary-kia  px-4" (click)="modalActivo.close(false)">
+                    <i class="fa-solid fa-times me-1"></i>
+                    CANCELAR
+                </button>
+
+                @if (evento === 'EVENTO_GUARDAR') {
+                <button class="btn boton-principal-kia  px-4" (click)="guardarUsuario()">
+                    <i class="fa-solid fa-save me-1"></i>
+                    GUARDAR
+                </button>
+                }
+                @if(evento === 'EVENTO_ACTUALIZAR') {
+                <button class="btn boton-principal-kia  px-4" (click)="actualizarUsuario()">
+                    <i class="fa-solid fa-save me-1"></i>
+                    ACTUALIZAR
+                </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

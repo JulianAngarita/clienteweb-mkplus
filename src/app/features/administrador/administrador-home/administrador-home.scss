@@ -1,0 +1,7 @@
+.hover-shadow {
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+  }
+}

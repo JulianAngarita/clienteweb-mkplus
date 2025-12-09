@@ -1,0 +1,166 @@
+/* You can add global styles to this file, and also import other style files */
+/* src/styles.css */
+/* src/styles.scss */
+@use "bootstrap/scss/bootstrap";
+
+$kia-red: #c8102e;
+$kia-gray: #6c757d;
+$kia-light-gray: #f8f9fa;
+$kia-border: #dee2e6;
+
+@font-face {
+  font-family: 'kia-bold';
+  src: url('assets/fonts/KiaSignatureBold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'kia-regular';
+  src: url('assets/fonts/KiaSignatureRegular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'kia-light';
+  src: url('assets/fonts/KiaSignatureLight.ttf') format('truetype');
+  font-weight: lighter;
+  font-style: normal;
+}
+
+body {
+  font-family: 'kia-regular';
+}
+
+.input-kia {
+  position: relative;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.input-kia-danger {
+  .input-kia-field {
+    border: 1px solid #bc1526 !important;
+  }
+
+  .input-kia-label {
+    color: #bc1526;
+  }
+}
+
+.input-kia-field {
+  width: 100%;
+  padding: 14px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 1px;
+  background-color: transparent;
+  font-size: 16px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    border-color: #000;
+    outline: none;
+    box-shadow: 0 0 0 0.1rem rgba(0, 0, 0, 0.15);
+  }
+}
+
+.input-kia-field:focus ~ .input-kia-label,
+.input-kia-field:not(:placeholder-shown) ~ .input-kia-label {
+  color: #000;
+  font-weight: 600;
+}
+
+.input-kia-field:hover {
+  border: 1px solid #05141F;
+}
+
+.input-kia-helper {
+  margin-top: 0.4rem;
+  margin-left: 0.6rem;
+  font-size: 11px;
+  color: #bc1526;
+}
+
+.boton-principal-kia {
+  background-color: #05141F;
+  font-size: 14px;
+  padding: 15px;
+  border-radius: 0;
+  color: white;
+}
+
+.boton-principal-rounded-kia {
+  background-color: #05141F;
+  font-size: 14px;
+  padding: 15px 15px;
+  border-radius: 50%;
+  color: white;
+}
+
+.boton-principal-kia:disabled {
+  background-color: #dcdcdc;
+  border-radius: 0;
+  font-size: 14px;
+  color: #808080;
+  border: none;
+}
+
+
+.boton-principal-kia:hover {
+  background-color: #05141F;
+  border-radius: 0;
+  font-size: 14px;
+  color: white;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.boton-secondary-kia {
+  background-color: #FFFFFF;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 15px;
+  border-radius: 0;
+  border: 1px solid #05141F;
+  color: #05141F;
+}
+
+.boton-secondary-rounded-kia {
+  background-color: #FFFFFF;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 13px 15px;
+  border-radius: 50%;
+  border: 1px solid #05141F;
+  color: #05141F;
+}
+
+.boton-secondary-rounded-kia:hover {
+  background-color: #05141F;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 13px 15px;
+  border-radius: 50%;
+  border: 1px solid #05141F;
+  color: white;
+}
+
+.boton-secondary-kia:hover {
+  background-color: #FFFFFF;
+  border-radius: 0;
+  font-weight: bold;
+  font-size: 14px;
+  color: #05141F;
+  border: 1px solid #05141F;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+a {
+  align-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+  color: #05141F;
+}

@@ -1,0 +1,128 @@
+
+<div class="modal-header">
+    <h5 class="modal-title">
+        Elegir Paquetes
+    </h5>
+    <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+    <app-loading-screen [messageInput]="'Cargando...'" [loading]="cargando"></app-loading-screen>
+
+    <!-- FORMULARIO FILTROS -->
+  <div class="card border-0 rounded-3 mb-4 shadow-sm">
+
+    <div class="card-body">
+
+      <h6 class="fw-semibold mb-3">Filtrar por</h6>
+
+      <div class="row g-3">
+
+        <div class="col-md-3">
+          <input class="form-control rounded-pill px-3"
+                 placeholder="Código del Paquete"
+                 [(ngModel)]="filtro.codigoPaquete">
+        </div>
+
+        <div class="col-md-3">
+          <input class="form-control rounded-pill px-3"
+                 placeholder="Nombre del Paquete"
+                 [(ngModel)]="filtro.nombre">
+        </div>
+
+        <div class="col-md-3">
+          <input class="form-control rounded-pill px-3"
+                 placeholder="Descripción del Paquete"
+                 [(ngModel)]="filtro.descripcion">
+        </div>
+
+        <div class="col-md-3">
+          <input class="form-control rounded-pill px-3"
+                 placeholder="Código del Modelo"
+                 [(ngModel)]="filtro.modelo.codigo">
+        </div>
+
+        <div class="col-md-3">
+          <input class="form-control rounded-pill px-3"
+                 placeholder="Descripción del Modelo"
+                 [(ngModel)]="filtro.descripcion">
+        </div>
+
+        <div class="col-md-3">
+          <input class="form-control rounded-pill px-3"
+                 placeholder="Versión Modelo"
+                 [(ngModel)]="filtro.modelo.version">
+        </div>
+
+        <div class="col-12 text-end">
+          <button class="btn boton-secondary-kia px-4" (click)="consulta()">
+            Buscar
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+    <!-- TABLA -->
+    @if (paquetes.length > 0) {
+          <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+              <thead class="table-light">
+                <tr class="text-center">
+                  <th>Nombre</th>
+                  <th>Descripción</th>
+                  <th>Código de paquete</th>
+                  <th>Tipo de paquete</th>
+                  <th>Estatus Int.</th>
+                  <th>Código modelo</th>
+                  <th>Versión modelo</th>
+                  <th>Descripción modelo</th>
+                  <th class="text-center">Detalles</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                @for (item of paquetes; track $index) {
+                  <tr class="text-center text-sm">
+                    <td>{{ item.nombre }}</td>
+                    <td>{{ item.descripcion }}</td>
+                    <td>{{ item.codigoPaquete }}</td>
+                    <td>{{ item.tipoPaquete }}</td>
+                    <td>{{ item.activo ? 'Activo' : 'Inactivo' }}</td>
+                    <td>{{ item.modelo.codigo }}</td>
+                    <td>{{ item.modelo.version }}</td>
+                    <td>{{ item.modelo.descripcion }}</td>
+
+                    <td class="text-center">
+                        <button class="btn btn-light me-2" (click)="agregarPaquete(item)">
+                          <i class="fa fa-check"></i>
+                        </button>
+                    </td>
+
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        } @else {
+          <div class="card shadow-sm p-4 text-center mb-4">
+            <h4 class="mb-2">No se han encontrado paquetes</h4>
+            <p class="text-muted mb-4">
+                Intenta cambiar la opciones del filtro
+            </p>
+          </div>
+        }
+
+    <!-- PAGINACIÓN -->
+    <ngb-pagination [collectionSize]="total" [pageSize]="filtro.limite" [maxSize]="10"
+        (pageChange)="cambiarPagina( $event )" [(page)]="pagina" aria-label="Default pagination">
+    </ngb-pagination>
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn boton-secondary-kia" (click)="activeModal.close(false)">
+        Cancelar
+    </button>
+</div>

@@ -1,0 +1,87 @@
+<!-- Modal simple con Bootstrap y *ngIf -->
+<div class="modal fade show" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Formulario Paquetes</h5>
+                <button type="button" class="btn-close" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    <h6 class="mb-3">Información del paquete</h6>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Nombre</label>
+                            <input 
+                                class="form-control"
+                                [(ngModel)]="paquete.nombre"
+                                name="nombre"
+                            />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Descripción</label>
+                            <input class="form-control" [(ngModel)]="paquete.descripcion" name="descripcion"
+                            />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Código</label>
+                            <input class="form-control" [(ngModel)]="paquete.codigoPaquete" name="codigoPaquete"
+                            />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Tipo</label>
+                            <select 
+                                class="form-select"
+                                [(ngModel)]="paquete.tipoPaquete"
+                                name="tipoPaquete"
+                            >
+                                @for (item of tipoPaqueteOpciones; track $index) {
+                                    <option [value]="item.value">{{ item.text }}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <h6 class="mb-3">Modelo al que aplica</h6>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Código</label>
+                            <input class="form-control"
+                                [(ngModel)]="paquete.modelo.codigo" name="codigoModelo" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Descripción</label>
+                            <input class="form-control"
+                                [(ngModel)]="paquete.modelo.descripcion" name="descripcionModelo" />
+                        </div>
+
+                        <div class="col-md-5">
+                            <label class="form-label">Versión</label>
+                            <input class="form-control"
+                                [(ngModel)]="paquete.modelo.version" name="versionModelo"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn boton-secondary-kia" (click)="modalActivo.close(false)">
+                    CANCELAR
+                </button>
+
+                @if (evento === 'EVENTO_GUARDAR') {
+                    <button type="button" class="btn boton-principal-kia" (click)="crear()">
+                        GUARDAR
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

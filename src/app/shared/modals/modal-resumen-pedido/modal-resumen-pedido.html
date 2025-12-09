@@ -1,0 +1,68 @@
+<!-- © 2025 KIA COLOMBIA - CUSTOMER EXPERIENCE - TODOS LOS DERECHOS RESERVADOS -->
+
+<div class="modal-header animate__animated animate__fadeIn">
+  <h4 class="modal-title fw-semibold mb-0">Información del asesor</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Cerrar"
+    (click)="activeModal.dismiss('Cross click')"
+  ></button>
+</div>
+
+<div class="modal-body animate__animated animate__fadeIn">
+  <form #emailForm="ngForm" class="needs-validation" novalidate>
+    <!-- Grupo -->
+    <div class="form-floating mb-3">
+      <input
+        type="text"
+        class="form-control bg-light"
+        id="grupoInput"
+        name="grupo"
+        readonly
+        [value]="grupo"
+        [(ngModel)]="grupo"
+      />
+      <label for="grupoInput">Grupo</label>
+    </div>
+
+    <!-- Concesión -->
+    <div class="form-floating mb-3">
+      <select
+        [(ngModel)]="concesion"
+        name="concesion"
+        id="concesionSelect"
+        class="form-select"
+        aria-label="Concesión"
+        required
+      >
+        <option value="">Seleccione una concesión</option>
+        <option *ngFor="let item of concesionDropdown" [value]="item">
+          {{ item }}
+        </option>
+      </select>
+      <label for="concesionSelect">Concesión</label>
+      <div *ngIf="emailForm.submitted && !concesion" class="invalid-feedback d-block">
+        Debe seleccionar una concesión.
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer animate__animated animate__fadeIn d-flex justify-content-between">
+  <button 
+    type="button" 
+    class="btn btn-outline-dark px-4" 
+    (click)="cancelar()"
+  >
+    <i class="fa-solid fa-xmark me-1"></i> Cerrar
+  </button>
+
+  <button 
+    class="btn btn-dark px-4 fw-semibold" 
+    (click)="submit()" 
+    [disabled]="!concesion"
+  >
+    <i class="fa-solid fa-paper-plane me-1"></i> {{action}}
+  </button>
+</div>

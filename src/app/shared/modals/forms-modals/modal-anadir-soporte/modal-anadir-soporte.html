@@ -1,0 +1,61 @@
+<div class="modal fade show" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar soporte</h5>
+                <button type="button" class="btn-close" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Tipo</label>
+                    <select class="form-select py-3" [(ngModel)]="soporte.tipo" name="tipo">
+                        @for (item of tipoSoporteOpciones; track $index) {
+                            <option [value]="item.value">{{ item.text }}</option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Comentarios -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Comentarios</label>
+                    <textarea class="form-control" rows="4" placeholder="Comentarios sobre el soporte."
+                        [(ngModel)]="soporte.comentarios" name="comentarios">
+                    </textarea>
+                </div>
+
+                <!-- Selector de archivo -->
+                <div class="mb-5">
+                    <label class="form-label fw-semibold">Archivo</label>
+
+                    <div class="d-flex align-items-center">
+
+                        <label class="btn btn-light border d-flex align-items-center gap-2 px-3">
+                            <i class="bi bi-upload"></i>
+                            Seleccionar archivo
+                            <input type="file" hidden (change)="onFileSelected($event)">
+                        </label>
+
+                        @if (fileName) {
+                        <span class="ms-3 text-muted">{{ fileName }}</span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn boton-secondary-kia">
+                    Cancelar
+                </button>
+
+                    <button 
+                        class="btn boton-principal-kia"
+                        (click)="cargarSoporte()"
+                    >
+                        Cargar soporte
+                    </button>
+            </div>
+        </div>
+    </div>
+</div>

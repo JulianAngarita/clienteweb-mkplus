@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+  <div
+    class="container d-flex align-items-center"
+    [ngClass]="{ 'justify-content-center': !menu().length, 'justify-content-between': menu().length }"
+  >
+    <!-- Logo -->
+    <a
+      class="navbar-brand d-flex align-items-center"
+      routerLink="/"
+      (click)="closeMenu()"
+    >
+      <app-logo-kia [width]="110" [height]="55"></app-logo-kia>
+    </a>
+
+    <!-- Botón menú -->
+    @if (menu().length) {
+      <button
+        class="navbar-toggler border-0"
+        type="button"
+        (click)="toggleMenu()"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    }
+
+    <!-- Menú -->
+    @if (menu().length) {
+      <div
+        class="collapse navbar-collapse"
+        [class.show]="menuOpen"
+        id="navbarNav"
+      >
+        <ul class="navbar-nav ms-auto">
+          @for (item of menu(); track item.path) {
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [routerLink]="item.path"
+                routerLinkActive="active"
+                role="button"
+              >
+                {{ item.label }}
+              </a>
+            </li>
+          }
+          <li class="nav-item">
+              <a
+                class="nav-link"
+                (click)="cerrarSesion()"
+                routerLinkActive="active"
+                role="button"
+              >
+                Cerrar sesión
+              </a>
+            </li>
+        </ul>
+      </div>
+    }
+  </div>
+</nav>

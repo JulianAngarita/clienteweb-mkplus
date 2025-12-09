@@ -1,0 +1,51 @@
+<div
+  class="login-bg d-flex align-items-center justify-content-center min-vh-100"
+>
+  <div class="card shadow-lg border-0 rounded-1 p-4" style="max-width: 400px; width: 100%;">
+    <div class="text-center mb-4">
+      <!-- <app-logo-kia></app-logo-kia> -->
+       <h5>Mantenimiento Prepagado</h5>
+       <h6>Iniciar Sesión</h6>
+    </div>
+    <form [formGroup]="form" class="form-container" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <div class="input-kia">
+          <label for="email">Correo électronico</label>
+          <input
+            id="email"
+            type="email"
+            class="input-kia-field"
+            formControlName="email"
+            [class.is-invalid]="form.get('email')?.invalid && form.get('email')?.touched"
+          />
+          <div class="invalid-feedback input-kia-helper">Ingresa un correo válido.</div>
+        </div>
+
+      </div>
+
+      <div class="mb-3">
+        <label for="password">Contraseña</label>
+        <input
+          id="password"
+          type="password"
+          class="input-kia-field"
+          formControlName="password"
+          [class.is-invalid]="form.get('password')?.invalid && form.get('password')?.touched"
+        />
+        <div class="invalid-feedback">La contraseña es obligatoria.</div>
+      </div>
+
+      @if (error) {
+        <div class="alert alert-danger py-2">{{ error }}</div>
+      }
+      
+      <button
+        type="submit"
+        class="btn boton-principal-kia w-100 py-2 fw-semibold"
+        [disabled]="loading"
+      >
+        {{ loading ? 'Accediendo...' : 'Acceder' }}
+      </button>
+    </form>
+  </div>
+</div>

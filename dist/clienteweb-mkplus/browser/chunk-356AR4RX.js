@@ -1,0 +1,1 @@
+import{Ob as i,Va as t,pb as n,qb as c}from"./chunk-XFJKNVDY.js";import"./chunk-FJYW2LMB.js";var l=class o{static \u0275fac=function(e){return new(e||o)};static \u0275cmp=t({type:o,selectors:[["app-seleccion-modelo"]],decls:2,vars:0,template:function(e,a){e&1&&(n(0,"p"),i(1,"seleccion-modelo works!"),c())},encapsulation:2})};export{l as SeleccionModelo};

@@ -1,0 +1,60 @@
+<!-- © 2020 KIA COLOMBIA - CUSTOMER EXPERIENCE - TODOS LOS DERECHOS RESERVADOS -->
+
+<div class="modal-header border-0 pb-0 animate__animated animate__fadeIn">
+  <h4 class="modal-title fw-semibold text-dark">
+    Consulta Vines
+  </h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  ></button>
+</div>
+
+<div class="modal-body animate__animated animate__fadeIn">
+  <div class="row g-3">
+    @for (vin of vines; track $index) {
+    <div class="col-lg-6 col-md-12">
+      <div class="vine-card border p-3 h-100 shadow-sm hover-shadow">
+        <p class="mb-2 body-14 text-secondary">
+          <small class="text-muted">Línea</small><br />
+          <span class="fw-semibold text-dark">
+            {{ vin.des_modelo_imp }} {{ vin.cod_modelo_pos }} {{ vin.cod_modelo_imp }}
+          </span>
+        </p>
+        <p class="mb-2 body-14 text-secondary">
+          <small class="text-muted">Versión</small><br />
+          <span class="fw-semibold text-dark">
+            {{ vin.cod_version }} {{ vin.des_version }} {{ vin.des_ano_modelo }}
+          </span>
+        </p>
+        <p class="mb-3 body-14 text-secondary">
+          <small class="text-muted">VIN</small><br />
+          <span class="fw-semibold text-dark">
+            {{ vin.vin_completo }}
+          </span>
+        </p>
+        <div class="d-flex justify-content-end">
+          <button
+            (click)="seleccionarVehiculo(vin)"
+            class="btn btn-outline-dark btn-sm px-3"
+          >
+            Seleccionar
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+
+<div class="modal-footer border-0 pt-0 animate__animated animate__fadeIn">
+  <button
+    type="button"
+    class="btn boton-principal-kia"
+    (click)="activeModal.close(true)"
+  >
+    Cerrar
+  </button>
+</div>

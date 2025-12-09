@@ -1,0 +1,30 @@
+<div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden bg-white">
+  <div class="modal-header border-0 px-4 py-3 bg-white">
+    <h5 class="modal-title fw-bold fs-4">{{ title }}</h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="activeModal.dismiss()"
+    ></button>
+  </div>
+
+  <div class="modal-body px-4 py-3 text-secondary fs-6">
+    <p class="mb-0">{{ information }}</p>
+  </div>
+
+  <div class="modal-footer border-0 px-4 pb-4 pt-2">
+    <button
+      class="btn boton-secondary-kia"
+      (click)="activeModal.close(false)"
+    >
+      {{ buttonCancel }}
+    </button>
+    <button
+      class="btn boton-principal-kia"
+      (click)="activeModal.close(true)"
+    >
+      {{ buttonText }}
+    </button>
+  </div>
+</div>

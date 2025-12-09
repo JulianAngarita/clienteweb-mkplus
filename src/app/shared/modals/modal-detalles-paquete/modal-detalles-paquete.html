@@ -1,0 +1,170 @@
+<!-- © 2020 KIA COLOMBIA - CUSTOMER EXPERIENCE - TODOS LOS DERECHOS RESERVADOS -->
+
+<div class="modal-header border-0 pb-0 animate__animated animate__fadeIn">
+  <h4 class="modal-title fw-semibold text-dark">
+    {{paquete.nombre}}
+  </h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  ></button>
+</div>
+
+<div class="modal-body animate__animated animate__fadeIn">
+  @if (paquete.servicios.length > 0) {
+    <div class="row">
+      @for (i of paquete.detallesServicios; track i._id; let idx = $index) {
+        <div class="col-md-12 mb-4">
+
+          <!-- CARD COLLAPSABLE -->
+          <div class="card shadow-sm border">
+
+            <!-- HEADER -->
+            <div class="card-header bg-light d-flex justify-content-between align-items-center"
+                role="button"
+                data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#servicio-' + idx">
+
+              <div>
+                <h5 class="m-0">{{ i.nombre }}</h5>
+                <div class="text-muted small mt-1">
+                  {{ i.descripcion }}
+                  <span class="badge bg-secondary ms-1">{{ i.tipo }}</span>
+                </div>
+              </div>
+
+              <i class="bi bi-chevron-down fs-4"></i>
+            </div>
+
+            <!-- CONTENIDO COLAPSABLE -->
+            <div [id]="'servicio-' + idx" class="collapse">
+
+              <div class="card-body">
+
+                <hr>
+                <div class="row">
+                  <div class="col-6">
+                    <h5>Frecuencia</h5>
+                    <div class="small">
+                      <strong>Kilometraje: </strong> {{ formatCurrency(i.frecuencia.kilometraje || 0) }} <br>
+                      <strong>Meses: </strong> {{ i.frecuencia.meses }}
+                    </div>
+                  </div>
+
+                  <div class="col-6">
+                    <h5>Vigencia</h5>
+                    <div class="small">
+                      <strong>Kilometraje: </strong> {{ formatCurrency(i.vigencia.kilometraje || 0) }} <br>
+                      <strong>Meses: </strong> {{ i.vigencia.meses }}
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                  <div class="col-6">
+                    <h5>Precio Repuestos</h5>
+                    <div class="small">
+                      <strong>Publico: </strong> {{ formatCurrency(i.preciosRepuestos.publico || 0) }} <br>
+                      <strong>Concesionario: </strong> {{ formatCurrency(i.preciosRepuestos.concesionario || 0) }} <br>
+                      <strong>Descuentos: </strong> {{ i.preciosRepuestos.descuento }}% <br>
+                      <strong>Publico después descuento: </strong> {{ formatCurrency(i.preciosRepuestos.publicoDespuesDescuento || 0) }} <br>
+                      <strong>Concesionario después descuento: </strong> {{ formatCurrency(i.preciosRepuestos.concesionarioDespuesDescuento || 0) }}
+                    </div>
+                  </div>
+
+                  <div class="col-6">
+                    <h5>Mano de Obra</h5>
+                    <div class="small">
+                      <strong>Horas: </strong> {{ i.preciosManoObra.horas }} <br>
+                      <strong>Valor horas: </strong> {{ i.preciosManoObra.valorHoras }} <br>
+                      <strong>Valor después factor: </strong> {{ i.preciosManoObra.valorHorasDespuesFactor }}
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+
+                <h5>Detalle operaciones</h5>
+
+                @for (op of i.detalleOperaciones; track op._id; let opIdx = $index) {
+                  <div class="p-2 border rounded mb-2 mt-3">
+
+                    <strong>{{ op.nombre }}</strong>
+                    <div class="small d-flex gap-3">
+                      <span>Código: {{ op.codigo }}</span>
+                      <span>Horas: {{ op.horas }}</span>
+                    </div>
+
+                    @if (op.repuestos.length > 0) {
+                      <div class="table-responsive mt-3">
+                        <table class="table table-striped table-bordered text-center align-middle mb-0">
+                          <thead>
+                            <tr>
+                              <th rowspan="2">Referencia</th>
+                              <th rowspan="2">PNC</th>
+                              <th rowspan="2">Cantidad</th>
+                              <th colspan="2">Margen</th>
+                              <th colspan="2">Precio venta</th>
+                            </tr>
+                            <tr>
+                              <th>Concesionario</th>
+                              <th>Público</th>
+                              <th>Concesionario</th>
+                              <th>Público</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @for (item of op.repuestos; track item._id) {
+                              <tr>
+                                <td>{{ item.referencia }}</td>
+                                <td>{{ item.pnc }}</td>
+                                <td>{{ item.cantidad }}</td>
+                                <td>{{ item.margen.precioVentaConcesionario }}</td>
+                                <td>{{ item.margen.precioVentaPublico }}</td>
+                                <td>$ {{ item.precioVenta.concesionario }}</td>
+                                <td>$ {{ item.precioVenta.publico }}</td>
+                              </tr>
+                            } @empty {
+                              <tr>
+                                <td colspan="14" class="text-center py-4 text-muted">
+                                  No hay repuestos registrados actualmente.
+                                </td>
+                              </tr>
+                            }
+                          </tbody>
+                        </table>
+                      </div>
+                    }
+                  </div>
+                } @empty {
+                  <div class="text-muted small">Sin operaciones registradas</div>
+                }
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      } @empty {
+        <div class="text-center text-muted py-5">
+          <strong>No hay elementos</strong>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+<div class="modal-footer border-0 pt-0 animate__animated animate__fadeIn">
+  <button
+    type="button"
+    class="btn boton-principal-kia"
+    (click)="activeModal.close(true)"
+  >
+    Cerrar
+  </button>
+</div>

@@ -1,0 +1,1 @@
+var e={activo:!1,versionControl:"",campos:[],codigoModelo:[],aireAcondicionado:[],cilindraje:[],codigoEquipamiento:[],espacioLibre:[],generacionVehiculo:[],motor:[],numeroPuertas:[],prefijoFabrica:[],traccion:[],transmision:[],uso:[],versionCodigoEquipamiento:[]};export{e as a};

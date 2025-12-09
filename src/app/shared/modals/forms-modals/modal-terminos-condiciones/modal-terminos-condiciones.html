@@ -1,0 +1,119 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    <i class="bi bi-pencil-square me-2"></i>
+    Formulario Terminos & Condiciones
+  </h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="modalActivo.close(false)"></button>
+</div>
+
+<div class="modal-body">
+
+  <!-- ====================== DATOS ====================== -->
+  <h6 class="fw-bold mb-3">Datos</h6>
+
+  <div class="row g-3">
+    <div class="col-md-3">
+      <label class="form-label">Versión</label>
+      <input type="text" class="form-control" [(ngModel)]="datosTerminosCondiciones.version">
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Vigencia</label>
+      <input type="text" class="form-control text-uppercase" [(ngModel)]="datosTerminosCondiciones.vigencia">
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Título</label>
+      <input type="text" class="form-control" [(ngModel)]="datosTerminosCondiciones.titulo">
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Subtítulo</label>
+      <input type="text" class="form-control" [(ngModel)]="datosTerminosCondiciones.subtitulo">
+    </div>
+  </div>
+
+  <!-- ====================== ARTÍCULOS ====================== -->
+  <h6 class="fw-bold mt-4">Artículos</h6>
+
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Título</label>
+      <input type="text" class="form-control" [(ngModel)]="nuevoArticulo.titulo">
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Subtítulo</label>
+      <input type="text" class="form-control" [(ngModel)]="nuevoArticulo.subtitulo">
+    </div>
+
+    <div class="col-12">
+      <label class="form-label">Contenido…</label>
+      <textarea
+        rows="3"
+        class="form-control"
+        [(ngModel)]="nuevoArticulo.contenido">
+      </textarea>
+    </div>
+
+    <div class="col-12 text-end">
+      <button class="btn btn-outline-dark rounded-pill px-3 d-inline-flex align-items-center gap-2" (click)="agregarArticulo()">
+        <i class="fa-solid fa-plus"></i>
+        Agregar Artículo
+      </button>
+    </div>
+  </div>
+
+  <!-- LISTA DE ARTÍCULOS -->
+  <div class="mt-3">
+    @for (articulo of datosTerminosCondiciones.articulos; track $index) {
+      <div class="border rounded p-3 mb-2 bg-light">
+        <div class="d-flex justify-content-between">
+          <div>
+            <strong>{{ articulo.titulo }}</strong>
+            <br>
+            <small class="text-muted">{{ articulo.subtitulo }}</small>
+          </div>
+
+            <button 
+                class="btn btn-outline-dark btn-sm rounded-circle p-3 d-inline-flex align-items-center gap-2" 
+                (click)="eliminarArticulo($index)"
+            >
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        </div>
+
+        <p class="mb-0 mt-2" style="white-space: pre-wrap;">{{ articulo.contenido }}</p>
+      </div>
+    }
+  </div>
+
+  <div class="mt-4 d-flex align-items-center gap-2">
+    <div class="form-check form-switch">
+      <input type="checkbox" class="form-check-input" [(ngModel)]="datosTerminosCondiciones.activo">
+    </div>
+    <span class="text-muted">
+      Si está desactivado, no estará disponible en la oferta comercial
+    </span>
+  </div>
+
+</div>
+
+<div class="modal-footer">
+  <button class="btn boton-secondary-kia" (click)="modalActivo.close(false)">
+    Cancelar
+  </button>
+
+  @if (evento === 'EVENTO_GUARDAR') {
+    <button class="btn boton-principal-kia" (click)="guardar()">
+      {{cargando ? 'Guardando...' : 'Guardar'}}
+    </button>
+  }
+
+  @if (evento === 'EVENTO_ACTUALIZAR') {
+    <button class="btn boton-principal-kia" (click)="actualizar()">
+      {{cargando ? 'Actualizando...' : 'Actualizar'}}
+    </button>
+  }
+
+</div>

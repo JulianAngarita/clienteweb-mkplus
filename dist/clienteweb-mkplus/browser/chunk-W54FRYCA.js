@@ -1,0 +1,1 @@
+import{Ob as n,Va as o,pb as i,qb as s}from"./chunk-XFJKNVDY.js";import"./chunk-FJYW2LMB.js";var a=class t{static \u0275fac=function(e){return new(e||t)};static \u0275cmp=o({type:t,selectors:[["app-vehiculos"]],decls:2,vars:0,template:function(e,l){e&1&&(i(0,"p"),n(1,"vehiculos works!"),s())},encapsulation:2})};export{a as Vehiculos};

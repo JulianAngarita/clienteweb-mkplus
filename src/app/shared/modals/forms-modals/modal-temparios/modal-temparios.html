@@ -1,0 +1,93 @@
+<!-- Modal simple con Bootstrap y *ngIf -->
+<div class="modal fade show" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Formulario Temparios</h5>
+                <button type="button" class="btn-close" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    <h6 class="mb-3">Nombre del Tempario</h6>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Nombre</label>
+                            <input class="form-control" name="nombre" [(ngModel)]="datosTempario.nombre"
+                                />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Código de Modelo</label>
+                            <input class="form-control" name="codigoModelo" [(ngModel)]="datosTempario.codigoModelo"
+                            />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Código Concesionario (cl)</label>
+                            <input class="form-control" name="cl" maxlength="5" minlength="5"
+                                [(ngModel)]="datosTempario.cl" />
+                        </div>
+                    </div>
+
+                    <h6 class="mb-3">Valores</h6>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Valor de los Insumos</label>
+                            <input type="number" class="form-control" name="insumos"
+                                [(ngModel)]="datosTempario.insumos" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Tarifa Mano de Obra</label>
+                            <input type="number" class="form-control" name="manoObra"
+                                [(ngModel)]="datosTempario.manoObra" />
+                        </div>
+                    </div>
+
+                    <h6 class="mb-3">Rutina de Mantenimiento</h6>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Kilómetros</label>
+                            <input type="number" class="form-control" name="kilometros"
+                                [(ngModel)]="datosTempario.rutinaMantenimiento.kilometros" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Horas</label>
+                            <input type="number" class="form-control" name="horas"
+                                [(ngModel)]="datosTempario.rutinaMantenimiento.horas" />
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Mensaje de campos obligatorios (usa tu componente de mensaje si lo tienes) -->
+                @if (mensaje) {
+                    <div class="alert alert-warning">
+                        Por favor completa todos los campos obligatorios.
+                    </div>
+                }
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn boton-secondary-kia">
+                    CANCELAR
+                </button>
+
+                @if (evento === 'EVENTO_ACTUALIZAR') {
+                <button type="button" class="btn boton-principal-kia" (click)="actualizarTempario()">
+                    ACTUALIZAR
+                </button>
+                }
+
+                @if (evento === 'EVENTO_GUARDAR') {
+                <button type="button" class="btn boton-principal-kia" (click)="guardarTempario()">
+                    GUARDAR
+                </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

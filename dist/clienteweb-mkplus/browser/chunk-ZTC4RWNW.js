@@ -1,0 +1,1 @@
+import{Ob as o,Va as n,pb as i,qb as s}from"./chunk-XFJKNVDY.js";import"./chunk-FJYW2LMB.js";var a=class t{static \u0275fac=function(e){return new(e||t)};static \u0275cmp=n({type:t,selectors:[["app-clientes"]],decls:2,vars:0,template:function(e,c){e&1&&(i(0,"p"),o(1,"clientes works!"),s())},encapsulation:2})};export{a as Clientes};

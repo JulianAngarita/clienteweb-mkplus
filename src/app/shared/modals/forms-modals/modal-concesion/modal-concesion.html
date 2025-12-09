@@ -1,0 +1,254 @@
+<div class="modal fade show" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- HEADER -->
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Formulario concesiones
+                </h5>
+                <button (click)="modalActivo.close(false)" type="button" class="btn-close"></button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+                <!-- IDENTIFICACIÓN -->
+                <h6 class="mb-3">Identificación</h6>
+
+                <div class="row g-3 mb-3">
+
+                    <div class="col-md-3">
+                        <label class="form-label">Código de Concesionario (cl)</label>
+                        <input 
+                            class="form-control"
+                            minlength="5"
+                            maxlength="5"
+                            name="cl"
+                            [(ngModel)]="datosConcesion.cl"
+                        />
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Nombre</label>
+                        <input 
+                            class="form-control"
+                            name="nombre"
+                            [(ngModel)]="datosConcesion.nombre"
+                        />
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Abreviatura</label>
+                        <input 
+                            class="form-control"
+                            name="abreviatura"
+                            [(ngModel)]="datosConcesion.abreviatura"
+                        />
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Grupo</label>
+                        <input 
+                            class="form-control"
+                            name="grupo"
+                            [(ngModel)]="datosConcesion.grupo"
+                        />
+                    </div>
+
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Tipo</label>
+                        <input 
+                            class="form-control"
+                            name="tipo"
+                            [(ngModel)]="datosConcesion.tipo"
+                        />
+                    </div>
+                </div>
+
+                <!-- DIRECCIÓN -->
+                <h6 class="mb-3">Dirección</h6>
+
+                <div class="row g-3 mb-3">
+
+                    <div class="col-md-3">
+                        <label class="form-label">Calle Principal</label>
+                        <select
+                            class="form-select"
+                            [(ngModel)]="datosConcesion.direccion.callePrincipal"
+                            name="callePrincipal"
+                        >
+                            @for (item of tipoCallePrincipalOpciones; track $index) {
+                                <option [value]="item.value">{{ item.text }}</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Calle Secundaria</label>
+                        <input 
+                            class="form-control"
+                            name="calleSecundaria"
+                            [(ngModel)]="datosConcesion.direccion.calleSecundaria"
+                        />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Número</label>
+                        <input 
+                            class="form-control"
+                            name="numero"
+                            [(ngModel)]="datosConcesion.direccion.numero"
+                        />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Otros</label>
+                        <input 
+                            class="form-control"
+                            name="otros"
+                            [(ngModel)]="datosConcesion.direccion.otros"
+                        />
+                    </div>
+
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Barrio</label>
+                        <input 
+                            class="form-control"
+                            name="barrio"
+                            [(ngModel)]="datosConcesion.direccion.barrio"
+                        />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Ciudad</label>
+                        <input 
+                            class="form-control"
+                            name="ciudad"
+                            [(ngModel)]="datosConcesion.direccion.ciudad"
+                        />
+                    </div>
+                </div>
+
+                <!-- CONTACTO -->
+                <h6 class="mb-3">Datos de Contacto</h6>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Indicativo de Ciudad</label>
+                        <input 
+                            class="form-control"
+                            name="indicativoCiudad"
+                            [(ngModel)]="datosConcesion.telefonos.indicativoCiudad"
+                        />
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Número</label>
+                        <input 
+                            class="form-control"
+                            name="numeroTel"
+                            [(ngModel)]="datosConcesion.telefonos.numero"
+                        />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Correo Electrónico</label>
+                        <input 
+                            class="form-control"
+                            name="email"
+                            [(ngModel)]="datosConcesion.email"
+                        />
+                    </div>
+                </div>
+
+                <!-- MANO DE OBRA -->
+                <h6 class="mb-3">Mano de Obra</h6>
+
+                <div class="row g-3 mb-3">
+
+                    <div class="col-md-3">
+                        <label class="form-label">Ordinaria</label>
+                        <input 
+                            type="number"
+                            class="form-control"
+                            name="ordinaria"
+                            [(ngModel)]="datosConcesion.manoObra.ordinaria"
+                        />
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Tmog</label>
+                        <input 
+                            type="number"
+                            class="form-control"
+                            name="tmog"
+                            [(ngModel)]="datosConcesion.manoObra.tmog"
+                        />
+                    </div>
+
+                </div>
+
+                <!-- ACTIVACIÓN -->
+                <h6 class="mb-3">Activación del Concesionario</h6>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-12 form-check form-switch d-flex align-items-center gap-2 ms-2">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            id="estadoConcesionario"
+                            [(ngModel)]="datosConcesion.activo"
+                        />
+                        <label class="form-check-label fw-medium">
+                            Si el concesionario está desactivado, no estará disponible
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+
+                <button 
+                    type="button"
+                    class="btn boton-secondary-kia"
+                    (click)="modalActivo.close(false)"
+                >
+                    Cancelar
+                </button>
+
+                @if (evento === 'EVENTO_ACTUALIZAR') {
+                    <button 
+                        type="button"
+                        class="btn boton-principal-kia"
+                        (click)="actualizar()"
+                    >
+                        {{cargando ? 'Actualizando...' : 'Actualizar'}}
+                    </button>
+                }
+
+                @if (evento === 'EVENTO_GUARDAR') {
+                    <button 
+                        type="button"
+                        class="btn boton-principal-kia"
+                        (click)="guardar()"
+                    >
+                        {{cargando ? 'Guardando...' : 'Guardar'}}
+                    </button>
+                }
+
+            </div>
+
+        </div>
+    </div>
+</div>

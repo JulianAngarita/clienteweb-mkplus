@@ -1,0 +1,160 @@
+<!-- Modal simple con Bootstrap y *ngIf -->
+<div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true" tabindex="-1" aria-modal="true"
+    role="dialog">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Formulario Paquetes</h5>
+                <button type="button" class="btn-close" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="formulario-servicio">
+
+                    <!-- DATOS DEL SERVICIO -->
+                    <h3 class="mb-3">Datos del Servicio</h3>
+
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" class="form-control" [(ngModel)]="servicio.nombre">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Descripción</label>
+                            <input type="text" class="form-control" [(ngModel)]="servicio.descripcion">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Cantidad</label>
+                            <input type="number" class="form-control" [(ngModel)]="servicio.cantidad">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Tipo</label>
+                            <select class="form-select" [(ngModel)]="servicio.tipo">
+                                @for (item of tipoOperacionesOpciones; track $index) {
+                                    <option [value]="item.value"> {{item.text}} </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-check form-switch mb-4">
+                        <input class="form-check-input" type="checkbox" [(ngModel)]="servicio.tarifaManoObraUnificada">
+                        <label class="form-check-label">Tarifa Mano de Obra Unificada</label>
+                    </div>
+
+                    <hr>
+
+                    <!-- MODELO AL QUE APLICA -->
+                    <h3 class="mb-3">Modelo al que Aplica</h3>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Código del Modelo</label>
+                            <input type="text" class="form-control" [(ngModel)]="servicio.modelo.codigo">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Descripción</label>
+                            <input type="text" class="form-control" [(ngModel)]="servicio.modelo.descripcion">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Agregar Versión</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" [(ngModel)]="versionTemporal">
+                                <button class="btn btn-outline-dark" (click)="agregarVersion()">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="mb-2">Versiones</h4>
+
+                    <ul class="list-group mb-4">
+                        @for (v of servicio.modelo.version; track $index) {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ v }}
+                            <button class="btn btn-sm btn-danger" (click)="eliminarVersion($index)">x</button>
+                        </li>
+                        }
+                    </ul>
+
+                    <hr>
+
+                    <!-- VIGENCIA -->
+                    <h3 class="mb-3">Vigencia</h3>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Kilometraje</label>
+                            <input type="number" class="form-control" [(ngModel)]="servicio.vigencia.kilometraje">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Meses</label>
+                            <input type="number" class="form-control" [(ngModel)]="servicio.vigencia.meses">
+                        </div>
+
+                        <div class="col-md-4 d-flex align-items-center">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox"
+                                    [(ngModel)]="servicio.vigencia.autorizadoPorImportadora">
+                                <label class="form-check-label">Autorización</label>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <small class="text-muted">
+                                Si está activada, las vigencias no serán tenidas en cuenta
+                            </small>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- FRECUENCIA -->
+                    <h3 class="mb-3">Frecuencia</h3>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Kilometraje</label>
+                            <input type="number" class="form-control" [(ngModel)]="servicio.frecuencia.kilometraje">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Meses</label>
+                            <input type="number" class="form-control" [(ngModel)]="servicio.frecuencia.meses">
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- ACTIVACIÓN -->
+                    <h3 class="mb-3">Activación del Servicio</h3>
+
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" [(ngModel)]="servicio.activo">
+                        <label class="form-check-label">
+                            Si el servicio no está activo, no estará disponible en la oferta comercial
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn boton-secondary-kia" (click)="modalActivo.close(false)">
+                    CANCELAR
+                </button>
+
+                @if (evento === 'EVENTO_GUARDAR') {
+                <button type="button" class="btn boton-principal-kia" (click)="crear()">
+                    GUARDAR
+                </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

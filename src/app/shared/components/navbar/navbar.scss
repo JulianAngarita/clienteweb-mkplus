@@ -1,0 +1,48 @@
+.navbar {
+  background-color: #000 !important;
+  color: #fff;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  padding: 0.1rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-link {
+    color: #fff !important;
+    font-weight: 500;
+    margin-right: 1.2rem;
+    transition: color 0.3s ease;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .navbar-toggler {
+    border: none;
+    background: none;
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+  }
+}
+
+/* Ajustes para móviles */
+@media (max-width: 992px) {
+  .navbar {
+    background-color: #000;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 0.75rem 0;
+  }
+
+  .navbar-collapse.show {
+    background-color: #000;
+  }
+}

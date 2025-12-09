@@ -1,0 +1,260 @@
+<app-loading-screen [messageInput]="'Cargando...'" [loading]="cargando"></app-loading-screen>
+
+<div class="container py-5 my-5">
+
+    <!-- ======== FORMULARIO ======== -->
+    @if (estado() === 'form') {
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7 text-center">
+                <div class="p-4 rounded-4 shadow-sm bg-light">
+                    <img class="img-fluid" [src]="detalleModelo.imagenes.primera.url" alt="" />
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="card rounded-4 shadow-sm py-5 px-4">
+                    <button routerLink="/tienda/home" ngbTooltip="Volver a todos los modelos"
+                        class="btn btn-link text-dark p-0 mb-3 fw-semibold text-decoration-none text-start">
+                        <i class="fas fa-arrow-left me-2"></i> Volver
+                    </button>
+
+                    <h1 class="fw-bold mb-0 fs-2">
+                        {{ detalleModelo.modelo.nombre }}
+                    </h1>
+                    <p class="text-muted fs-5 mb-4">
+                        {{ version ? version.descripcion : '' }}
+                    </p>
+
+                    <p class="text-secondary mb-4 small">
+                        Configura tu <strong>Paquete de Mantenimiento Prepagado Kia</strong> y
+                        recibe un valor personalizado al instante.
+                    </p>
+
+                    <!-- Dropdown de versiones -->
+                    <div ngbDropdown class="mb-4">
+                        <label class="fw-semibold mb-2 d-block">Selecciona una versión</label>
+                        <button id="dropdownVersion" ngbDropdownToggle type="button"
+                            class="btn w-100 text-start rounded-0 py-3 d-flex justify-content-between align-items-center px-4 input-kia-field">
+                            {{ version ? version.descripcion : 'Elige una versión' }}
+                        </button>
+
+                        <div ngbDropdownMenu aria-labelledby="dropdownVersion" class="border-0 w-100 mt-2 p-2 bg-light">
+                            <div class="version-scroll">
+                                @for (version of detalleModelo.versiones; track $index) {
+                                    <button 
+                                        ngbDropdownItem
+                                        class="dropdown-item d-flex flex-column align-items-start py-2 px-3 rounded-2"
+                                        (click)="seleccionarVersion(version)"
+                                    >
+                                        <span class="fw-semibold">{{ version.descripcion }}</span>
+                                        <small class="text-muted">{{ version.codigo }}</small>
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Frecuencia de mantenimiento -->
+                    <div class="mb-4">
+                        <label class="fw-semibold mb-2 d-block">Frecuencia mantenimiento</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            @for (kilometraje of kilometrajes; track $index) {
+                                <button
+                                    class="btn px-4 py-2 rounded-pill fw-semibold"
+                                    [class.active]="kilometraje === kilometrajeSeleccionado"
+                                    [class.btn-outline-dark]="kilometraje !== kilometrajeSeleccionado"
+                                    [class.btn-dark]="kilometraje === kilometrajeSeleccionado"
+                                    (click)="seleccionarKilometraje(kilometraje)"
+                                >
+                                {{ kilometraje.frecKm}} km
+                                </button>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Inputs -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Kilometraje actual</label>
+                        <input 
+                            (change)="actualizarKilometraje()" 
+                            [(ngModel)]="kilometrajeInicial" 
+                            type="number"
+                            class="input-kia-field text-center"
+                        />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Kilometraje final</label>
+                        <input 
+                            (change)="actualizarKilometraje()"
+                            [(ngModel)]="kilometrajeFinal"
+                            type="number"
+                            class="input-kia-field text-center"
+                        />
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-3">
+                        <button class="btn boton-principal-kia py-3 fw-semibold" (click)="cotizar()">
+                            ¡Cotizar ahora!
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- ======== RESULTADO ======== -->
+    @if (estado() === 'resultado') {
+    <div class="px-3 py-5">
+        <button class="btn btn-link text-dark p-0 mb-3 fw-semibold text-decoration-none text-start" (click)="volverFormulario()">
+            <i class="fas fa-arrow-left me-2"></i> Volver
+        </button>
+
+        <div class="card shadow-sm rounded-0 p-4 border-1">
+            <h4 class="fw-bold mb-4 text-dark">Detalles del Paquete</h4>
+
+            <!-- Información del modelo -->
+            <div class="d-flex justify-content-between align-items-start flex-wrap mb-4 border-bottom pb-3">
+                <div>
+                    <p class="mb-1 fs-5 fw-semibold">{{ detalleModelo.modelo.nombre }}</p>
+                    <p class="mb-1 text-muted">Versión: {{ version?.descripcion }}</p>
+                    <p class="mb-1 text-muted">Código: {{ version?.codigo }}</p>
+                    <p class="text-muted small">
+                        Rutinas incluidas:
+                        @for (rutina of rutinas; track $index) {
+                            <span class="badge bg-light text-dark me-1 shadow-sm">
+                                {{ rutina.kilometraje | number }} km
+                            </span>
+                        }
+                        @if (rutinas.length !== servicios.length) {
+                            <span class="badge bg-danger text-white me-1 shadow-sm">
+                                No se han encontrado todos los servicios para estas rutinas.
+                            </span>
+                        }
+                    </p>
+                </div>
+
+                <div class="text-end">
+                    <small class="text-muted text-decoration-line-through d-block">
+                        {{ valoresPaquete.ordinario.valorFuturo | currency:'$ ':'symbol':'0.0' }}
+                    </small>
+                    <h4 class="fw-bold text-dark mb-0">
+                        {{ valoresPaquete.prepagado.valorFuturo | currency:'$ ':'symbol':'0.0' }}
+                    </h4>
+                    <span class="badge bg-success rounded-pill mt-1 px-3 py-2">
+                        Ahorro {{ calcularAhorro(valoresPaquete.prepagado.valorFuturo, valoresPaquete.ordinario.valorFuturo) }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Tabla de comparación -->
+            <div class="table-responsive mb-5">
+                <table class="table table-sm align-middle">
+                    <thead>
+                        <tr class="border-bottom">
+                            <th class="text-start ps-4 fw-semibold text-muted small text-uppercase letter-spacing-1">Concepto</th>
+                            <th class="text-center fw-semibold text-muted small text-uppercase letter-spacing-1">Prepagado</th>
+                            <th class="text-center fw-semibold text-muted small text-uppercase letter-spacing-1">Ordinario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-bottom-hover">
+                            <td class="text-start ps-4 fw-medium py-3">Mano de Obra</td>
+                            <td class="text-center fw-bold py-3">{{ valoresPaquete.prepagado.manoObra | number:'1.0-0' }}</td>
+                            <td class="text-center fw-bold py-3">{{ valoresPaquete.ordinario.manoObra | number:'1.0-0' }}</td>
+                        </tr>
+                        <tr class="border-bottom-hover">
+                            <td class="text-start ps-4 fw-medium py-3">Repuestos</td>
+                            <td class="text-center fw-bold py-3">{{ valoresPaquete.prepagado.repuestos | number:'1.0-0' }}</td>
+                            <td class="text-center fw-bold py-3">{{ valoresPaquete.ordinario.repuestos | number:'1.0-0' }}</td>
+                        </tr>
+                        <tr class="border-bottom-hover">
+                            <td class="text-start ps-4 fw-medium py-3">Insumos</td>
+                            <td class="text-center fw-bold py-3">{{ valoresPaquete.prepagado.insumos | number:'1.0-0' }}</td>
+                            <td class="text-center fw-bold py-3">{{ valoresPaquete.ordinario.insumos | number:'1.0-0' }}</td>
+                        </tr>
+                        <tr class="border-bottom-hover">
+                            <td class="text-start ps-4 fw-medium py-3">Comisión</td>
+                            <td class="text-center fw-bold py-3">{{ valoresPaquete.prepagado.comision | number:'1.0-0' }}</td>
+                            <td class="text-center fw-bold py-3">{{ valoresPaquete.ordinario.comision | number:'1.0-0' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Rutinas incluidas -->
+            <div class="servicios-section">
+                <h5 class="section-title mb-4">Servicios Incluidos</h5>
+                <div class="servicios-grid">
+                    @for (servicio of servicios; track $index) {
+                        <div class="servicio-card">
+                            <!-- Header -->
+                            <div class="servicio-header">
+                                <div class="servicio-info">
+                                    <h6 class="servicio-nombre">{{ servicio.nombre }}</h6>
+                                    <span class="servicio-kilometraje">{{ servicio.frecuencia?.kilometraje | number }} km</span>
+                                </div>
+                            </div>
+
+                            <!-- Descripción -->
+                            <p class="servicio-descripcion">{{ servicio.descripcion }}</p>
+
+                            <!-- Operaciones -->
+                            <div class="operaciones-section">
+                                <h6 class="operaciones-title">Operaciones</h6>
+                                <div class="operaciones-list">
+                                    @for (operacion of servicio.operaciones; track $index) {
+                                        <div class="operacion-item">
+                                            <span class="operacion-nombre">{{ operacion.nombre }}</span>
+                                            <div class="repuestos-tags">
+                                                @for (repuesto of operacion.repuestos; track $index) {
+                                                    <span class="repuesto-tag">
+                                                        {{ repuesto.precioVenta.publico | currency:'$ ':'symbol':'0.0' }}
+                                                    </span>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Precios -->
+                            <div class="precios-section">
+                                <div class="precio-col">
+                                    <span class="precio-label">Ordinario</span>
+                                    @for (precio of servicio.precios?.ordinario?.valoresFuturos; track $index) {
+                                        <span class="precio-valor ordinario">
+                                            {{precio.valor| currency:'$ ':'symbol':'0.0'}}
+                                        </span>
+                                    }
+                                </div>
+                                <div class="precio-col">
+                                    <span class="precio-label">Prepagado</span>
+                                    @for (precio of servicio.precios?.prepagado?.valoresFuturos; track $index) {
+                                        <span class="precio-valor prepagado">
+                                            {{precio.valor| currency:'$ ':'symbol':'0.0'}}
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Botón -->
+            <div class="text-end mt-5">
+                <button 
+                    class="me-3 btn boton-secondary-kia"
+                    (click)="openModalEmail()"
+                >
+                    Obtener PDF
+                </button>
+                <button class="btn boton-principal-kia py-3 px-4 fw-semibold" (click)="irFormulario()">
+                    ¡Lo quiero!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    }
+</div>

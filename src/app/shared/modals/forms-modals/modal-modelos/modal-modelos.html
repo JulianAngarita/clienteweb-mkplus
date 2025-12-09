@@ -1,0 +1,309 @@
+<div
+  class="modal fade show d-block"
+  tabindex="-1"
+  role="dialog"
+  aria-modal="true"
+>
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+      <!-- Header -->
+      <div
+        class="modal-header px-4 py-3 d-flex align-items-center justify-content-between"
+      >
+        <h4 class="fw-bold mb-0 text-dark">
+          Formulario de Modelos
+        </h4>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="modalActive.close()"
+          aria-label="Cerrar"
+        ></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body px-4 py-4">
+        <!-- Sección: Información del modelo -->
+        <h5 class="fw-semibold mb-3">Información del modelo</h5>
+
+        <div class="row g-3">
+            @if (modelo.modelo) {
+                <div class="col-md-6">
+                    <label class="form-label fw-medium">Nombre</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="modelo.modelo.nombre"
+                    />
+                </div>
+            }
+
+            @if (modelo.modelo) {
+                <div class="col-md-6">
+                    <label class="form-label fw-medium">Código del Modelo</label>
+                      <input
+                        type="text"
+                        class="form-control text-uppercase"
+                        [(ngModel)]="modelo.modelo.codigo"
+                      />
+                </div>
+            }
+
+            @if (modelo.modelo) {
+                <div class="col-md-4">
+                    <label class="form-label fw-medium">Color</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="modelo.modelo.color"
+                    />
+                </div>
+            }
+
+            @if (modelo.modelo) {
+                <div class="col-md-4">
+                    <label class="form-label fw-medium">Año Modelo</label>
+                    <input
+                      class="form-control"
+                      [(ngModel)]="modelo.modelo.anoModelo"
+                    />
+                </div>
+            }
+
+          <div class="col-md-4">
+            <label class="form-label fw-medium">Factor Mano de Obra</label>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="modelo.factorAjusteManoObra"
+            />
+          </div>
+          @if (modelo.modelo) {
+            <div class="col-12">
+                <label class="form-label fw-medium">Origen (País)</label>
+                <div class="input-group">
+                <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="origen"
+                    name="origen"
+                />
+                <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    (click)="guardarPaises()"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+                </div>
+            </div>
+          }
+
+
+          @if (modelo.modelo.origen!.length > 0) {
+            <div class="col-12 mt-2">
+              @for (p of modelo.modelo.origen; track p; let i = $index) {
+                <span
+                  class="badge bg-light text-dark border rounded-pill px-3 py-2 me-2"
+                >
+                  {{ p }}
+                  <i
+                    class="fa-solid fa-xmark ms-2 text-danger"
+                    style="cursor: pointer"
+                    (click)="eliminarPaises(p)"
+                  ></i>
+                </span>
+              }
+            </div>
+          }
+        </div>
+
+        <hr class="my-4" />
+
+        <!-- Sección: Versiones -->
+        <h5 class="fw-semibold mb-3">Versiones</h5>
+
+        <div class="row g-3 align-items-end">
+          <div class="col-md-6">
+            <label class="form-label fw-medium">Código de Versión</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="version.codigo"
+              name="codigoVersion"
+            />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-medium">Descripción de Versión</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="version.descripcion"
+              name="descripcionVersion"
+            />
+          </div>
+          <div class="col-auto">
+            <button
+              class="btn boton-secondary-kia"
+              (click)="guardarVersiones()"
+            >
+              <i class="fa-solid fa-plus me-1"></i> Agregar Versión
+            </button>
+          </div>
+        </div>
+
+        @if (modelo.versiones.length > 0) {
+          <div class="row mt-3 g-3">
+            @for (ver of modelo.versiones; track i; let i = $index) {
+              <div class="col-md-6">
+                <div class="card border-0 shadow-sm rounded-3 p-3">
+                  <div class="mb-2">
+                    <label class="form-label fw-medium">Código</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="ver.codigo"
+                      (ngModelChange)="onChangeVersionesEditar($event, i, 'codigo')"
+                    />
+                  </div>
+                  <div>
+                    <label class="form-label fw-medium">Descripción</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="ver.descripcion"
+                      (ngModelChange)="onChangeVersionesEditar($event, i, 'descripcion')"
+                    />
+                  </div>
+
+                  <div class="text-end mt-3">
+                    <button
+                      class="btn btn-outline-danger btn-sm rounded-pill"
+                      (click)="eliminarVersion(ver)"
+                    >
+                      <i class="fa-solid fa-trash me-1"></i> Eliminar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+
+        <hr class="my-4" />
+
+       <!-- Sección: Imágenes -->
+        <h5 class="fw-semibold mb-3">Presentación del Modelo</h5>
+        <p class="text-muted small">
+          Tamaño recomendado: <strong>600 x 800 px</strong> — Relación de
+          aspecto <strong>4:3</strong>
+        </p>
+
+        <div class="row g-4">
+
+          @for (tipo of tiposImagen; track tipo) {
+          <div class="col-md-6 mb-4">
+            <h5 class="fw-semibold text-dark text-capitalize">
+              Imagen {{ tipo }}
+            </h5>
+
+            <div class="border rounded-3 p-3 text-center">
+
+              <p class="text-muted mb-2">Vista previa</p>
+
+              @if (evento === 'EVENTO_ACTUALIZAR') {
+                @if (modelo.imagenes[tipo].url && esUrlFirmada(modelo.imagenes[tipo].url)) {
+                  <img
+                    [src]="modelo.imagenes[tipo].url"
+                    class="img-fluid rounded shadow-sm mb-2"
+                    alt="Vista previa imagen {{ modelo.imagenes[tipo].nombre }}"
+                  />
+                } @else if (vistaPrevia[tipo]) {
+                  <img
+                    [src]="vistaPrevia[tipo]"
+                    class="img-fluid rounded shadow-sm mb-2"
+                    alt="Vista previa imagen {{ modelo.imagenes[tipo].nombre }}"
+                  />
+                } @else {
+                  <p class="text-muted">Aún no se ha cargado una imagen</p>
+                }
+              }
+
+              @if (evento === 'EVENTO_GUARDAR') {
+                @if (vistaPrevia[tipo]) {
+                  <img
+                    [src]="vistaPrevia[tipo]"
+                    class="img-fluid rounded shadow-sm mb-2"
+                    alt="Vista previa imagen {{ modelo.imagenes[tipo].nombre }}"
+                  />
+                } @else {
+                  <p class="text-muted">Aún no se ha cargado una imagen</p>
+                }
+              }
+              <div class="mt-2">
+                <input
+                  type="file"
+                  class="form-control"
+                  (change)="onSubirImagen($event)"
+                />
+
+                <button
+                  class="btn btn-success rounded-pill mt-2 px-3"
+                  (click)="guardarImagen(tipo)"
+                >
+                  <i class="fa-solid fa-check me-1"></i>
+                  Cargar imagen
+                </button>
+              </div>
+
+            </div>
+          </div>
+          }
+        </div>
+
+        <hr class="my-4" />
+
+        <!-- Activación -->
+        <div class="form-check form-switch">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="modeloActivo"
+            [(ngModel)]="modelo.activo"
+          />
+          <label class="form-check-label" for="modeloActivo">
+            Si el modelo está desactivado, no estará disponible en la oferta
+            comercial.
+          </label>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer border-0 px-4 pb-4">
+        <button
+          class="btn boton-secondary-kia"
+          (click)="modalActive.close()"
+        >
+          Cancelar
+        </button>
+
+        @if (evento === 'EVENTO_ACTUALIZAR') {
+          <button
+            class="btn boton-principal-kia"
+            (click)="actualizarModelo()"
+          >
+            {{cargando ? 'Actualizando...' : 'Actualizar'}}
+          </button>
+        } @else {
+          <button
+            class="btn boton-principal-kia"
+            (click)="guardarModelo()"
+          >
+           {{cargando ? 'Guardando...' : 'Guardar'}}
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+

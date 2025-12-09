@@ -1,0 +1,1 @@
+import{Ob as n,Va as i,pb as s,qb as t}from"./chunk-XFJKNVDY.js";import"./chunk-FJYW2LMB.js";var m=class o{static \u0275fac=function(e){return new(e||o)};static \u0275cmp=i({type:o,selectors:[["app-comisiones"]],decls:2,vars:0,template:function(e,c){e&1&&(s(0,"p"),n(1,"comisiones works!"),t())},encapsulation:2})};export{m as Comisiones};

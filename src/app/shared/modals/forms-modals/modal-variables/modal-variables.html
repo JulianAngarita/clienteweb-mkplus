@@ -1,0 +1,139 @@
+<div class="modal fade show" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- HEADER -->
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Formulario variables
+                </h5>
+                <button (click)="modalActivo.close(false)" type="button" class="btn-close"></button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+
+                    <!-- DATOS -->
+                    <h6 class="mb-3">Descripción</h6>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre</label>
+                            <input 
+                                class="form-control"
+                                [(ngModel)]="datosVariable.nombre" 
+                            />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Descripción</label>
+                            <input class="form-control"
+                                   [(ngModel)]="datosVariable.descripcion" />
+                        </div>
+                    </div>
+
+                    <!-- CARACTERISTICAS -->
+                    <h6 class="mb-3">Datos</h6>
+
+                    <div class="row g-3 mb-3">
+
+                        <div class="col-md-3">
+                            <label class="form-label">Valor</label>
+                            <input 
+                                type="number"
+                                class="form-control"
+                                [(ngModel)]="datosVariable.valor.numero"
+                            />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Tipo</label>
+                            <select 
+                                class="form-select"
+                                [(ngModel)]="datosVariable.valor.tipo"
+                            >
+                                @for (item of tipoValor; track $index) {
+                                    <option [value]="item.value">{{ item.text }}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Aplica para</label>
+                            <select 
+                                class="form-select"
+                                [(ngModel)]="datosVariable.aplicaPara"
+                            >
+                                @for (item of tipoAplicaPara; track $index) {
+                                    <option [value]="item.value">{{ item.text }}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Precedencia</label>
+                            <input 
+                                type="number"
+                                class="form-control"
+                                [(ngModel)]="datosVariable.precedencia" 
+                            />
+                        </div>
+
+                    </div>
+
+                    <!-- PRECIO VENTA -->
+                    <h6 class="mb-3">Activacion De Variable</h6>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-8 form-check form-switch d-flex align-items-center gap-2 ms-2">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                role="switch"
+                                [(ngModel)]="datosVariable.activo"
+                                id="estadoModelo"
+                            />
+                            <label class="form-check-label fw-medium">
+                                Si la variable esta desactivada, no estará disponible en la oferta comercial
+                            </label>
+                        </div>
+                    </div>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+
+                <button 
+                    type="button"
+                    class="btn boton-secondary-kia"
+                    (click)="modalActivo.close(false)"
+                >
+                    CANCELAR
+                </button>
+
+                @if (evento === 'EVENTO_ACTUALIZAR') {
+                    <button 
+                        type="button"
+                        class="btn boton-principal-kia"
+                        (click)="actualizar()"
+                    >
+                        {{cargando ? 'Actualizando...' : 'Actualizar'}}
+                    </button>
+                }
+
+                @if (evento === 'EVENTO_GUARDAR') {
+                    <button 
+                        type="button"
+                        class="btn boton-principal-kia"
+                        (click)="guardar()"
+                    >
+                        {{cargando ? 'Guardando...' : 'Guardar'}}
+                    </button>
+                }
+
+            </div>
+
+        </div>
+    </div>
+</div>

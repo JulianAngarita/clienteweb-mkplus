@@ -1,0 +1,73 @@
+.kia-logo {
+  margin-left: 60px;
+  margin-right: 60px;
+  margin-bottom: 30px;
+  width: 120px;
+}
+
+/* Estilos para impresión */
+@media print {
+  /* Ocultar todo excepto el área a imprimir */
+  body * {
+    visibility: hidden;
+  }
+  
+  #areaImprimir, #areaImprimir * {
+    visibility: visible;
+  }
+  
+  /* Posicionar el área de impresión */
+  #areaImprimir {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 15px;
+    background: white;
+    box-shadow: none;
+  }
+  
+  /* Eliminar elementos no deseados */
+  .modal-header, .modal-footer, .btn-close, 
+  .modal-footer button, .modal-header button {
+    display: none !important;
+  }
+  
+  /* Ajustar márgenes de página */
+  @page {
+    margin: 1.5cm;
+  }
+  
+  /* Mejorar apariencia de tablas */
+  table {
+    page-break-inside: auto;
+    border-collapse: collapse;
+  }
+  
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+  
+  /* Mejorar tipografía para impresión */
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  
+  /* Evitar que elementos se corten */
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+  
+  /* Mantener juntos los bloques de contenido */
+  .card {
+    page-break-inside: avoid;
+  }
+}

@@ -1,0 +1,1 @@
+import{Ob as p,Va as t,pb as n,qb as a}from"./chunk-XFJKNVDY.js";import"./chunk-FJYW2LMB.js";var r=class i{static \u0275fac=function(e){return new(e||i)};static \u0275cmp=t({type:i,selectors:[["app-principal"]],decls:2,vars:0,template:function(e,c){e&1&&(n(0,"p"),p(1,"principal works!"),a())},encapsulation:2})};export{r as Principal};

@@ -1,0 +1,106 @@
+<app-loading-screen [messageInput]="'Cargando...'" [loading]="cargando"></app-loading-screen>
+<div class="container py-5 mt-5">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+    <div>
+      <h3 class="fw-bold text-dark mb-1">Modelos</h3>
+      <p class="text-muted mb-0">
+        Gestión y control de modelos registrados en la plataforma.
+      </p>
+    </div>
+
+    <button
+      class="btn boton-principal-kia mt-3"
+      (click)="nuevoModelo()"
+    >
+        Nuevo modelo
+    </button>
+  </div>
+
+  <div class="card border-0 rounded-3 mb-4">
+    <div class="card-body d-flex flex-wrap align-items-center gap-3">
+      <h6 class="fw-semibold mb-0">Filtrar por:</h6>
+      <div class="form-check form-switch d-flex align-items-center gap-2">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          role="switch"
+          (change)="modificarFiltroActivo()"
+          [checked]="this.filtroActivo"
+          id="estadoModelo"
+        />
+        <label class="form-check-label fw-medium" for="estadoModelo">
+          Estado del Modelo
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm rounded-4">
+    <div class="table-responsive">
+      <table class="table align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th class="fw-semibold">Nombre</th>
+            <th class="fw-semibold">Código</th>
+            <th class="fw-semibold">Origen</th>
+            <th class="fw-semibold">Año del Modelo</th>
+            <th class="fw-semibold text-center">Versiones</th>
+            <th class="fw-semibold">Factor Mano de Obra</th>
+            <th class="fw-semibold text-center">Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (modelo of modelos; track modelo.modelo?.codigo) {
+            <tr>
+              <td>{{ modelo.modelo.nombre }}</td>
+              <td class="text-uppercase">{{ modelo.modelo.codigo }}</td>
+              <td>
+                <span
+                  class="badge bg-light text-dark border rounded-pill px-3 py-2"
+                >
+                  {{ modelo.modelo.origen }}
+                </span>
+              </td>
+              <td>{{ modelo.modelo.anoModelo }}</td>
+              <td>
+                <div class="row g-2">
+                        @for (v of modelo.versiones; track v) {
+                        <div class="col-12 col-md-6">
+                            <span class="badge bg-light text-dark border rounded-pill px-3 py-2 w-100">
+                            {{ v.codigo }}
+                            </span>
+                        </div>
+                        }
+                    </div>
+                </td>   
+              <td>{{ modelo.factorAjusteManoObra }}</td>
+              <td class="text-center">
+                <div class="d-flex justify-content-between">
+                    <button
+                      class="btn btn-outline-dark rounded-pill px-3 me-2 d-inline-flex align-items-center gap-1"
+                      (click)="editar(modelo)"
+                    >
+                        <i class="fa-solid fa-pen-to-square"></i> Editar
+                    </button>
+                    <button
+                      class="btn btn-outline-secondary rounded-pill px-3 me-2 d-inline-flex align-items-center gap-1"
+                      (click)="eliminarModelo(modelo)"
+                    >
+                        <i class="fa-solid fa-trash"></i> Eliminar
+                    </button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="7" class="text-center py-4 text-muted">
+                No hay modelos registrados actualmente.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

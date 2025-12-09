@@ -1,0 +1,41 @@
+<div class="modal-header animate__animated animate__fadeIn">
+  <h4 class="modal-title">Enviar correo</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="modalActivo.dismiss('Cross click')"
+  ></button>
+</div>
+<div class="modal-body animate__animated animate__fadeIn">
+  <form #emailForm="ngForm">
+    <div class="form-floating mb-3">
+      <input
+        [(ngModel)]="correo"
+        name="correo"
+        type="email"
+        class="form-control"
+        id="floatingInput"
+        placeholder="Correo electrónico"
+        required
+      />
+      <label for="floatingInput">Correo electrónico</label>
+    </div>
+  </form>
+</div>
+<div class="modal-footer animate__animated animate__fadeIn">
+  <button
+    type="button"
+    class="btn boton-secondary-kia"
+    (click)="cancel()"
+  >
+    Cerrar
+  </button>
+  <button
+    class="btn boton-principal-kia"
+    [disabled]="!emailForm.form.valid"
+    (click)="enviarEmail()"
+  >
+    Enviar
+  </button>
+</div>

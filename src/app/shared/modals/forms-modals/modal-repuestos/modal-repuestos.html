@@ -1,0 +1,195 @@
+<!-- Modal Repuestos -->
+<div class="modal fade show" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- HEADER -->
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Formulario Repuestos
+                </h5>
+                <button (click)="modalActivo.close(false)" type="button" class="btn-close"></button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+                <form>
+
+                    <!-- DATOS -->
+                    <h6 class="mb-3">Datos</h6>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Referencia</label>
+                            <input 
+                                class="form-control"
+                                name="referencia"
+                                [(ngModel)]="datosRepuestos.referencia" 
+                            />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Descripción</label>
+                            <input class="form-control"
+                                   name="descripcion"
+                                   [(ngModel)]="datosRepuestos.descripcion" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">PNC</label>
+                            <input class="form-control"
+                                   name="pnc"
+                                   [(ngModel)]="datosRepuestos.pnc" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Modelo</label>
+                            <input class="form-control"
+                                   maxlength="3"
+                                   name="modelo"
+                                   [(ngModel)]="datosRepuestos.modelo" />
+                        </div>
+                    </div>
+
+                    <!-- CARACTERISTICAS -->
+                    <h6 class="mb-3">Características</h6>
+
+                    <div class="row g-3 mb-3">
+
+                        <div class="col-md-3">
+                            <label class="form-label">Aire Acondicionado</label>
+                            <select 
+                                class="form-select"
+                                name="aireAcondicionado"
+                                [(ngModel)]="datosRepuestos.caracteristicas.aireAcondicionado"
+                            >
+                                @for (item of tipoAireAcondicionado; track $index) {
+                                    <option [value]="item.value">{{ item.text }}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Tipo Combustible</label>
+                            <select class="form-select"
+                                    name="tipoCombustible"
+                                    [(ngModel)]="datosRepuestos.caracteristicas.tipoCombustible">
+                                @for (item of tipoCombustible; track $index) {
+                                    <option [value]="item.value">{{ item.text }}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Transmisión</label>
+                            <select class="form-select"
+                                    name="transmision"
+                                    [(ngModel)]="datosRepuestos.caracteristicas.transmision">
+                                @for (item of tipoTransmision; track $index) {
+                                    <option [value]="item.value">{{ item.text }}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Cilindrada</label>
+                            <input type="number"
+                                   class="form-control"
+                                   name="cilindrada"
+                                   [(ngModel)]="datosRepuestos.caracteristicas.cilindrada" />
+                        </div>
+
+                    </div>
+
+                    <!-- PRECIO VENTA -->
+                    <h6 class="mb-3">Precio Venta</h6>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Público</label>
+                            <input type="number" class="form-control"
+                                   name="publico"
+                                   [(ngModel)]="datosRepuestos.precioVenta.publico" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Concesionario</label>
+                            <input type="number" class="form-control"
+                                   name="concesionario"
+                                   [(ngModel)]="datosRepuestos.precioVenta.concesionario" />
+                        </div>
+                    </div>
+
+                    <!-- MARGEN -->
+                    <h6 class="mb-3">Margen</h6>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Precio Venta Concesionario</label>
+                            <input class="form-control"
+                                   name="precioVentaConcesionario"
+                                   [(ngModel)]="datosRepuestos.margen.precioVentaConcesionario" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Precio Venta Público</label>
+                            <input class="form-control"
+                                   name="precioVentaPublico"
+                                   [(ngModel)]="datosRepuestos.margen.precioVentaPublico" />
+                        </div>
+                    </div>
+
+                    <!-- ACTIVACION -->
+                    <h6 class="mb-3">Activación del Repuesto</h6>
+
+                    <div class="form-check form-switch">
+                        <input type="checkbox"
+                               class="form-check-input"
+                               id="activoToggle"
+                               [(ngModel)]="datosRepuestos.activo"
+                               name="activo" />
+                        <label class="form-check-label" for="activoToggle">
+                            Si está desactivado no estará disponible
+                        </label>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+
+                <button 
+                    type="button"
+                    class="btn boton-secondary-kia"
+                    (click)="modalActivo.close(false)"
+                >
+                    CANCELAR
+                </button>
+
+                @if (evento === 'EVENTO_ACTUALIZAR') {
+                    <button 
+                        type="button"
+                        class="btn boton-principal-kia"
+                        (click)="actualizar()"
+                    >
+                        {{cargando ? 'Actualizando...' : 'Actualizar'}}
+                    </button>
+                }
+
+                @if (evento === 'EVENTO_GUARDAR') {
+                    <button 
+                        type="button"
+                        class="btn boton-principal-kia"
+                        (click)="guardar()"
+                    >
+                        {{cargando ? 'Guardando...' : 'Guardar'}}
+                    </button>
+                }
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,219 @@
+<div class="modal fade show" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- HEADER -->
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Formulario versiones
+                </h5>
+                <button (click)="modalActivo.close(false)" type="button" class="btn-close"></button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+                <!-- ===================== CONTROL GENERAL ======================= -->
+                <h3>Control</h3>
+                <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Versión control</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="datosVersion.versionControl"
+                    />
+                </div>
+
+                <div class="col-md-6 d-flex align-items-center mt-4">
+                    <div class="form-check form-switch">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        [(ngModel)]="datosVersion.activo"
+                    />
+                    <label class="form-check-label ms-2">Estatus de versión</label>
+                    </div>
+                </div>
+                </div>
+
+                <!-- ===================== CAMPOS ======================= -->
+                <h3 class="mt-4">Campos</h3>
+
+                <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Contenido</label>
+                    <select
+                        class="form-select"
+                        name="contenido"
+                        [(ngModel)]="tempCampo.contenido"
+                    >
+                    <option value="">Seleccione</option>
+
+                    @for (item of listadoContenidoVersionOpciones; track $index) {
+                        <option [value]="item.value">{{ item.text }}</option>
+                    }
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Cantidad caracteres (Máximo 10)</label>
+                    <input
+                        type="number"
+                        name="caracteres"
+                        placeholder="Maximo 10"
+                        class="form-control"
+                        [(ngModel)]="tempCampo.caracteres"
+                    />
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Posición (Máximo 20)</label>
+                    <input
+                        type="number"
+                        name="posicion"
+                        placeholder="Maximo 20"
+                        class="form-control"
+                        [(ngModel)]="tempCampo.posicion"
+                    />
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+                    <button (click)="agregarCampo()" class="btn btn-outline-dark rounded-pill px-3 d-inline-flex align-items-center gap-2">
+                        Agregar
+                    </button>
+                </div>
+                </div>
+
+                <!-- Tabla de campos -->
+                <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                    <th>Posición</th>
+                    <th>Contenido</th>
+                    <th>Caracteres</th>
+                    <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (i of datosVersion.campos; track $index) {
+                    <tr>
+                        <td>{{ i.posicion }}</td>
+                        <td>{{ i.contenido }}</td>
+                        <td>{{ i.caracteres }}</td>
+                        <td>
+                        <button
+                            (click)="eliminarCampo($index)"
+                            class="btn btn-danger btn-sm"
+                        >
+                            <i class="fa fa-trash"></i>
+                        </button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+                </table>
+
+                <!-- ============================================================== -->
+                <!-- ===================== SECCIONES DINÁMICAS ===================== -->
+                <!-- ============================================================== -->
+
+                @for (seccion of listaSecciones; track $index) {
+                    <h4 class="mt-4">{{ seccion.titulo }}</h4>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Nombre"
+                            [(ngModel)]="tempClaves[seccion.key].nombre"
+                        />
+                        </div>
+                        <div class="col-md-6">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Valor"
+                            [(ngModel)]="tempClaves[seccion.key].valor"
+                        />
+                        </div>
+
+                        <div class="col-12">
+                            <button
+                                class="btn btn-outline-dark rounded-pill px-3 d-inline-flex align-items-center gap-2"
+                                (click)="agregarClave(seccion.key)"
+                            >
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+
+                    @for (item of getDatosVersionArray(seccion.key); track $index) {
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-3">
+                                <input
+                                    class="form-control"
+                                    [value]="item.nombre"
+                                    readonly
+                                />
+                            </div>
+
+                            <div class="col-md-3">
+                                <input
+                                    class="form-control"
+                                    [value]="item.valor"
+                                    readonly
+                                />
+                            </div>
+
+                            <div class="col-md-3">
+                                <button
+                                    (click)="eliminarClave(seccion.key, $index)"
+                                    class="btn btn-danger btn-sm"
+                                >
+                                Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    }
+                }
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+
+                <button 
+                    type="button"
+                    class="btn boton-secondary-kia"
+                    (click)="modalActivo.close(false)"
+                >
+                    CANCELAR
+                </button>
+
+                @if (evento === 'EVENTO_ACTUALIZAR') {
+                    <button 
+                        type="button"
+                        class="btn boton-principal-kia"
+                        (click)="actualizar()"
+                    >
+                        {{cargando ? 'Actualizando...' : 'Actualizar'}}
+                    </button>
+                }
+
+                @if (evento === 'EVENTO_GUARDAR') {
+                    <button 
+                        type="button"
+                        class="btn boton-principal-kia"
+                        (click)="guardar()"
+                    >
+                        {{cargando ? 'Guardando...' : 'Guardar'}}
+                    </button>
+                }
+
+            </div>
+
+        </div>
+    </div>
+</div>
